@@ -1,22 +1,33 @@
 
 skillMetadata:
   sections:
-    - name: Options << Name of section
-      fields:
-        - name: internal_python_variable_name
-          type: text
-          label: Setting Friendly Display Name
-          value: ""
-          placeholder: demo prompt in the input box
-    - name: Login << Name of another section
+    - name: Kuki account
       fields:
         - type: label
-          label: Just a little bit of extra info for the user to understand following settings
+          value: ""
+          label: you must have a Kuki account to access IPTV services. Provide your Kuki ID username/password and then Pair with the button below.
         - name: username
           type: text
           label: Username
           value: ""
+          placeholder: Kuki ID for example e-mail address
         - name: password
           type: password
           label: Password
           value: ""
+    - type: label
+      value: ""
+      label: click the Save button, then use the Pair button to authorize with Kuki.
+    - name: Kuki
+         type: oauth
+          value: "1"
+    - name: Kuki remote control
+      fields:
+        - type: label
+          value: ""
+          label: You can prefer Kuki device for playing TV and remotely control it using Mycroft.
+        - name: default_device
+          type: text
+          label: Kuki device
+          value: ""
+          placeholder: Kuki default device 
