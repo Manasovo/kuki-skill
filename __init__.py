@@ -1,6 +1,8 @@
 from adapt.intent import IntentBuilder
 from mycroft import MycroftSkill, intent_handler
 
+from mycroft.skills.common_play_skill import CommonPlaySkill
+
 from enum import Enum
 
 class DeviceType(Enum):
