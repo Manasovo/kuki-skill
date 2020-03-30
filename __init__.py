@@ -34,7 +34,7 @@ class KukiSkill(CommonPlaySkill):
         self.device_name = None
       
 
-def get_default_device(self):
+    def get_default_device(self):
         """Get preferred playback device."""
        
             # No playing device found, use the default Kuki device
