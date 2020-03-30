@@ -76,3 +76,6 @@ class KukiSkill(CommonPlaySkill):
 
 def create_skill():
     return KukiSkill()
+
+
+    
