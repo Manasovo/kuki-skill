@@ -1,0 +1,57 @@
+{
+    "skillMetadata": {
+        "sections": [
+            {
+                "name": "Kuki Account",
+                "fields": [
+                    {
+                        "type": "label",
+                        "value": "",
+                        "label": "You must have a Kuki account to access IPTV services. Provide your Kuki ID username/password and then Pair with the button below.<p/>"
+                    },
+                    {
+                        "name": "user",
+                        "type": "text",
+                        "label": "Username",
+                        "value": "",
+                        "placeholder": "Kuki ID for example e-mail address, etc."
+                    },
+                    {
+                        "name": "password",
+                        "type": "password",
+                        "label": "Password",
+                        "value": ""
+                    },
+          {
+            "type": "label",
+            "value": "",
+            "label": "Click the Save button, then use the Pair button to authorize with Kuki.<p/>"
+          },
+          {
+            "name": "Kuki",
+            "type": "oauth",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Kuki Defaul Device",
+        "fields": [
+          {
+            "type": "label",
+            "value": "",
+            "label": "You can prefer Kuki device for playing TV and remotely control it using Mycroft.<p/>"
+          },
+          {
+            "name": "default_device",
+            "type": "text",
+            "label": "Kuki device",
+            "value": "",
+            "placeholder": "Kuki default device."
+          },
+        ]
+      }
+    ]
+  }
+}
+
