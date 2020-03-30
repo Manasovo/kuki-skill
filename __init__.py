@@ -33,6 +33,15 @@ class KukiSkill(CommonPlaySkill):
 
     def get_default_device(self):
         """Get preferred playback device."""
+        if self.kuki:
+            # When there is an active Kuki device somewhere, use it
+            if (self.devices and len(self.devices) > 0 and
+                    self.kuki.is_playing()):
+                for dev in self.devices:
+                    if dev['is_active']:
+                        self.log.info('Playing on an active device '
+                                      '[{}]'.format(dev['name']))
+                        return dev  # Use this device
        
             # No playing device found, use the default Kuki device
             default_device = self.settings.get('default_device', '')
