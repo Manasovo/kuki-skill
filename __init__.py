@@ -8,18 +8,17 @@ class DeviceType(Enum):
     FIRSTBEST = 2
     NOTFOUND = 3
 
+
+"""
 class KukiSkill(MycroftSkill):
     def __init__(self):
         super().__init__()
         self.learning = True
 
-"""
+
     def initialize(self):
         my_setting = self.settings.get('default_device')
 """
-
-
-
 
 class KukiSkill(CommonPlaySkill):
     """Kuki control through the Kuki API."""
