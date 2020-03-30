@@ -1,6 +1,12 @@
 from adapt.intent import IntentBuilder
 from mycroft import MycroftSkill, intent_handler
 
+class DeviceType(Enum):
+    DEFAULT = 1
+    FIRSTBEST = 2
+    NOTFOUND = 3
+
+
 class KukiSkill(MycroftSkill):
     def __init__(self):
         super().__init__()
