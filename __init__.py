@@ -18,10 +18,7 @@ class KukiSkill(MycroftSkill):
         my_setting = self.settings.get('default_device')
 """
 
-    @intent_handler(IntentBuilder('')
-                    .require('play'))
-    def handle_hello_world_intent(self, message):
-        self.speak_dialog("play")
+
 
 
 class KukiSkill(CommonPlaySkill):
@@ -59,8 +56,10 @@ class KukiSkill(CommonPlaySkill):
 
         return None
 
-
-
+    @intent_handler(IntentBuilder('')
+                    .require('play'))
+    def handle_hello_world_intent(self, message):
+        self.speak_dialog("play")
   
     def stop(self):
         pass
