@@ -13,9 +13,10 @@ class KukiSkill(MycroftSkill):
         super().__init__()
         self.learning = True
 
+"""
     def initialize(self):
         my_setting = self.settings.get('default_device')
-
+"""
 
     @intent_handler(IntentBuilder('')
                     .require('play'))
