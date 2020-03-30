@@ -1,15 +1,25 @@
-from mycroft import MycroftSkill, intent_file_handler
+from adapt.intent import IntentBuilder
+from mycroft import MycroftSkill, intent_handler
 
 
-class Kuki(MycroftSkill):
+class KukiSkill(MycroftSkill):
     def __init__(self):
-        MycroftSkill.__init__(self)
+        super().__init__()
+        self.learning = True
 
-    @intent_file_handler('kuki.intent')
-    def handle_kuki(self, message):
-        self.speak_dialog('kuki')
+    def initialize(self):
+        my_setting = self.settings.get('my_setting')
 
+  
+   @intent_handler(IntentBuilder('')
+                    .require('HelloWorldKeyword'))
+    def handle_hello_world_intent(self, message):
+ 
+        self.speak_dialog("hello.world")
+
+  
+    def stop(self):
+        pass
 
 def create_skill():
-    return Kuki()
-
+    return KukiSkill()
