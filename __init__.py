@@ -1,6 +1,8 @@
 from adapt.intent import IntentBuilder
 from mycroft import MycroftSkill, intent_handler
 
+from enum import Enum
+
 class DeviceType(Enum):
     DEFAULT = 1
     FIRSTBEST = 2
