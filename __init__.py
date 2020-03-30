@@ -6,20 +6,6 @@ class DeviceType(Enum):
     FIRSTBEST = 2
     NOTFOUND = 3
 
-class KukiSkill(MycroftSkill):
-    def __init__(self):
-        super().__init__()
-        self.learning = True
-
-    def initialize(self):
-        my_setting = self.settings.get('default_device')
-
-
-    @intent_handler(IntentBuilder('')
-                    .require('play'))
-    def handle_hello_world_intent(self, message):
-        self.speak_dialog("play")
-
 
 class KukiSkill(CommonPlaySkill):
     """Kuki control through the Kuki API."""
@@ -55,6 +41,24 @@ def get_default_device(self):
             return dev
 
         return None
+    
+
+class KukiSkill(MycroftSkill):
+    def __init__(self):
+        super().__init__()
+        self.learning = True
+
+    def initialize(self):
+        my_setting = self.settings.get('default_device')
+
+
+    @intent_handler(IntentBuilder('')
+                    .require('play'))
+    def handle_hello_world_intent(self, message):
+        self.speak_dialog("play")
+
+
+
 
 
 
