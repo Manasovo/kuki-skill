@@ -14,6 +14,9 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('')
                     .require('play'))
     def handle_hello_world_intent(self, message):
+
+        self.settings.get('default_device')
+        
         self.speak_dialog("play")
 
   
