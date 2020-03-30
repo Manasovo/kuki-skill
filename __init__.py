@@ -8,15 +8,12 @@ class KukiSkill(MycroftSkill):
         self.learning = True
 
     def initialize(self):
-        my_setting = self.settings.get('my_setting')
+        my_setting = self.settings.get('default_device')
 
 
     @intent_handler(IntentBuilder('')
                     .require('play'))
     def handle_hello_world_intent(self, message):
-
-        self.settings.get('default_device')
-        
         self.speak_dialog("play")
 
   
