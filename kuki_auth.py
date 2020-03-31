@@ -12,10 +12,6 @@ from mycroft.api import DeviceApi     # testing
 from mycroft.util.log import LOG      # testing
 import time                           # testing
 
-from mycroft.skills.core import intent_handler
-from mycroft.util.parse import match_one, fuzzy_match
-from mycroft.api import DeviceApi
-from mycroft.messagebus import Message
 
 # defining the api-endpoint  
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
@@ -38,8 +34,7 @@ def get_token(dev_cred):
     return d
 
 
-#class MycroftKukiAuth(KukiClientAuth):
-class MycroftKukiAuth(MycroftSkill):
+class MycroftKukiAuth(KukiClientAuth):
     """ Credentials object renewing through the Mycroft backend."""
     def __init__(self, dev_cred):
         self.dev_cred = dev_cred
