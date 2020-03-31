@@ -52,7 +52,7 @@ class MycroftKukiAuth(object):
         return self.access_token
 
 
-class KukiConnect(MycroftSkill):
+class KukiConnect(MycroftKukiAuth):
     """ Implement the Kuki Connect API """
 
     @refresh_auth
