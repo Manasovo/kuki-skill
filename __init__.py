@@ -25,6 +25,13 @@ class KukiSkill(MycroftSkill):
 
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""
+    
+    def __init__(self):
+        super(KukiSkill, self).__init__()
+        self.kuki = None
+        self.__device_list = None
+        self.__devices_fetched = 0
+
 
 
     def devices(self):
