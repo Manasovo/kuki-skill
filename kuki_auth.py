@@ -20,7 +20,8 @@ def get_token(dev_cred):
     retry = False
     try:
  #       d = DeviceApi().get_oauth_token(dev_cred)
-         d = requests.get(url = API_URL, params = PARAMS) 
+         d = requests.get(url = API_URL, params = PARAMS)
+         print(d)
 
     except HTTPError as e:
         if e.response.status_code == 404:  # Token doesn't exist
