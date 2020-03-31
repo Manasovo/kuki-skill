@@ -16,6 +16,11 @@ skillMetadata:
             label: Password
             value:
        
+          - type: label
+            value:
+            label: Click the Save button, then use the Connect button to authorize with Kuki
+
+
       - name: Kuki Default Device
         fields:
           - type: label
