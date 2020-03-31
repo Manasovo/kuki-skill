@@ -36,6 +36,7 @@ class KukiSkill(CommonPlaySkill):
 
 
 
+
     @intent_handler(IntentBuilder('')
                     .require('play'))
     def handle_hello_world_intent(self, message):
