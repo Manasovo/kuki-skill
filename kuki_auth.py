@@ -4,17 +4,29 @@
 # importing the requests library 
 import requests
 import json
+import uuid #mac
+import socket #hostname
+import random #generate serial
+import string #generate serial
+
+def GenerateSerial(StringLength=56):
+    """Generate a random string of letters and digits """
+    LettersAndDigits = string.ascii_letters + string.digits
+    return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
 # defining the api-endpoint  
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
+# api call
+#serial = GenerateSerial(56)
 serial = "Manas_test_12345678"
 deviceType = "mobile"
-deviceModel = "PiCroft"
+deviceModel = (socket.gethostname())
 product_name = "MyCroft"
-mac = "aa:bb:cc:dd:ee:ff"
-versionVw = "1.0"
-versionPortal = "2.0.14"
+mac = (':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) 
+        for ele in range(0,8*6,8)][::-1])) 
+#versionVw = "1.0"
+#versionPortal = "2.0.14"
 bootMode = "unknown"
 
 # data to be sent to api 
@@ -27,29 +39,21 @@ api_post = {'sn':serial,
 #        'version_portal':versionPortal,
         'boot_mode':bootMode,
         'claimed_device_id':serial}
-  
+
 # sending post request and saving response as response object 
 api_response = requests.post(url = API_URL + 'register' , data = api_post) 
 
 if json.loads(api_response.text)['state'] == 'NOT_REGISTERED':
-   print("BAD")
+    print("NOT REGISTERED")
+    result = api_response.json()
+    print("Registracni odkaz pro parovani:",result ['registration_url_web'])
+    print("Parovaci kod:",result['reg_token'])
 
-	#   console.log('Parovaci kod: ', response.reg_token);
-	#   console.log('Registracni odkaz pro parovani: ', response.registration_url_web);
 else:
-	if json.loads(api_response.text)['state'] == 'REGISTERED':
-   	   print("OK")
+ 
+    if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
+      print("REGISTERED")
+      result = api_response.json()
+      print("Session key:",result['session_key'])
 
-#   console.log('session_key', response.session_key);
 
-
-
-#    private generateSerial(): string {
-#        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-#        let serial = 'kuki2.0_';
-#        for (let i = 0; i < 56; i++) {
-#            serial += possible.charAt(Math.floor(Math.random() * possible.length));
-#        }
-#        return serial;
-#    }
-#}
