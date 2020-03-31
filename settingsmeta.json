@@ -25,7 +25,7 @@
           {
             "type": "label",
             "value": "",
-            "label": "Click the Connect button, then use the Pair button to authorize with Kuki.<p/>"
+            "label": "Click the Save button, then use the Connect button to authorize with Kuki.<p/>"
           },
           {
             "name": "Kuki",
