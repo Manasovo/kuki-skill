@@ -12,6 +12,10 @@ from mycroft.api import DeviceApi     # testing
 from mycroft.util.log import LOG      # testing
 import time                           # testing
 
+from mycroft.skills.core import intent_handler
+from mycroft.util.parse import match_one, fuzzy_match
+
+
 # defining the api-endpoint  
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
