@@ -1,13 +1,12 @@
 """ A simple Python library for the Kuki Web API """
 
-
 # importing the requests library 
-import requests
-import json
-import uuid #mac
-import socket #hostname
-import random #generate serial
-import string #generate serial
+import requests   # http post & get
+import json       # json :-)
+import uuid       # mac
+import socket     # hostname
+import random     # generate serial
+import string     # generate serial
 
 def GenerateSerial(StringLength=56):
     """Generate a random string of letters and digits """
@@ -55,5 +54,3 @@ else:
       print("REGISTERED")
       result = api_response.json()
       print("Session key:",result['session_key'])
-
-

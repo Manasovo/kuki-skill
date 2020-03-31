@@ -26,64 +26,24 @@ class KukiSkill(MycroftSkill):
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""
 
-    def __init__(self):
-        super(KukiSkill, self).__init__()
-        self.learning = True
-        self.index = 0
-        self.kuki = None
-        self.process = None
-        self.device_name = None
-      
+     @intent_handler(IntentBuilder('').require('Spotify').require('Device'))
+        def list_devices(self, message):
+        """ List available devices. """
+        if self.spotify:
+            devices = [d['name'] for d in self.spotify.get_devices()]
+            if len(devices) == 1:
+                self.speak(devices[0])
+            elif len(devices) > 1:
+                self.speak_dialog('AvailableDevices',
+                                  {'devices': ' '.join(devices[:-1]) + ' ' +
+                                              self.translate('And') + ' ' +
+                                              devices[-1]})
+            else:
+                self.speak_dialog('NoDevicesAvailable')
+        else:
+            self.failed_auth()
 
-    def get_default_device(self):
-        """Get preferred playback device."""
-        if self.kuki:
-            # When there is an active Kuki device somewhere, use it
-            if (self.devices and len(self.devices) > 0 and
-                    self.kuki.is_playing()):
-                for dev in self.devices:
-                    if dev['is_active']:
-                        self.log.info('Playing on an active device '
-                                      '[{}]'.format(dev['name']))
-                        return dev  # Use this device
-       
-            # No playing device found, use the default Kuki device
-            default_device = self.settings.get('default_device', '')
-            dev = None
-            device_type = DeviceType.NOTFOUND
-            if default_device:
-                dev = self.device_by_name(default_device)
-                self.is_player_remote = True
-                device_type = DeviceType.DEFAULT
-              # use first best device if none of the prioritized works
-            if not dev and len(self.devices) > 0:
-                dev = self.devices[0]
-                self.is_player_remote = True  # ?? Guessing it is remote
-                device_type = DeviceType.FIRSTBEST
 
-            if dev and not dev['is_active']:
-                self.kuki.transfer_playback(dev['id'], False)
-            self.log.info('Device detected: {}'.format(device_type))
-            return dev
-
-        return None
-
-   # @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
-   #     def list_devices(self, message):
-   #     """ List available devices. """
-   #     if self.kuki:
-   #         devices = [d['name'] for d in self.kuki.get_devices()]
-   #         if len(devices) == 1:
-   #             self.speak(devices[0])
-   #         elif len(devices) > 1:
-   #             self.speak_dialog('AvailableDevices',
-   #                               {'devices': ' '.join(devices[:-1]) + ' ' +
-   #                                           self.translate('And') + ' ' +
-   #                                           devices[-1]})
-   #         else:
-   #             self.speak_dialog('NoDevicesAvailable')
-   #     else:
-   #         self.failed_auth()
 
     @intent_handler(IntentBuilder('')
                     .require('Play'))
