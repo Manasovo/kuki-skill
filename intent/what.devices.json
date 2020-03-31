@@ -1,0 +1,10 @@
+{
+  "utterance": "what Kuki devices are available",
+  "intent_type": "list_devices",
+  "intent": {
+    "Kuki": "kuki",
+    "Device": "devices"
+  },
+  "expected_response": "TESTING"
+}
+
