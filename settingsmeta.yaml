@@ -16,7 +16,7 @@ skillMetadata:
             label: Password
             value:
        
-      - name": Kuki Default Device
+      - name: Kuki Default Device
         fields:
           - type: label
             value:
@@ -25,5 +25,5 @@ skillMetadata:
           - name: default_device
             type: text
             label: Your prefered Kuki device
-            value":
+            value:
             placeholder: Name of your prefered Kuki device
