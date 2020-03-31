@@ -1,27 +1,29 @@
+import re
+from mycroft.skills.core import intent_handler
+from mycroft.util.parse import match_one, fuzzy_match
+from mycroft.api import DeviceApi
+from mycroft.messagebus import Message
+from requests import HTTPError
 from adapt.intent import IntentBuilder
-from mycroft import MycroftSkill, intent_handler
+
+import time
+from os.path import abspath, dirname, join
+from subprocess import call, Popen, DEVNULL
+import signal
+from socket import gethostname
+
+import random
 
 from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 
 from enum import Enum
 
+
+
 class DeviceType(Enum):
     DEFAULT = 1
     FIRSTBEST = 2
     NOTFOUND = 3
-
-
-"""
-class KukiSkill(MycroftSkill):
-    def __init__(self):
-        super().__init__()
-        self.learning = True
-
-
-    def initialize(self):
-        my_setting = self.settings.get('default_device')
-"""
-
 
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""
@@ -43,6 +45,7 @@ class KukiSkill(MycroftSkill):
             self.__device_list = self.kuki.get_devices()
             self.__devices_fetched = now
         return self.__device_list
+
 
     def device_by_name(self, name):
         """Get a kuki devices from the API.
