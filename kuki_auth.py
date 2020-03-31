@@ -1,17 +1,60 @@
 """ A simple Python library for the Kuki Web API """
 
 # importing the requests library 
-import requests   # http post & get
-import json       # json :-)
-import uuid       # mac
-import socket     # hostname
-import random     # generate serial
-import string     # generate serial
+import requests                       # http post & get
+import json                           # json :-)
+import uuid                           # mac
+import socket                         # hostname
+import random                         # generate serial
+import string                         # generate serial
+
+from mycroft.api import DeviceApi     # testing
+from mycroft.util.log import LOG      # testing
+
+
+
+def get_token(dev_cred):
+    """ Get token with a single retry.
+    Args:
+        dev_cred: OAuth Credentials to fetch
+     """
+    retry = False
+    try:
+        d = DeviceApi().get_oauth_token(dev_cred)
+    except HTTPError as e:
+        if e.response.status_code == 404:  # Token doesn't exist
+            raise
+        if e.response.status_code == 401:  # Device isn't paired
+            raise
+        else:
+            retry = True
+    if retry:
+        d = DeviceApi().get_oauth_token(dev_cred)
+    return d
+
+
+
+
 
 def GenerateSerial(StringLength=56):
     """Generate a random string of letters and digits """
     LettersAndDigits = string.ascii_letters + string.digits
     return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # defining the api-endpoint  
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
