@@ -15,3 +15,17 @@ skillMetadata:
             type: password
             label: Password
             value:
+       
+    sections:
+      - name": Kuki Default Device
+        fields:
+          - type: label
+            value:
+            label: You can prefer Kuki device for playing TV and remotely control it using Mycroft.
+                   
+          - name: default_device
+            type: text
+            label: Your prefered Kuki device
+            value":
+            placeholder: Name of your prefered Kuki device
+            
