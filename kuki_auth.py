@@ -17,8 +17,8 @@ def GenerateSerial(StringLength=56):
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
 # api call
-#serial = GenerateSerial(56)
-serial = "Manas_test_12345678"
+serial = GenerateSerial(56)
+#serial = "Manas_test_12345678"
 deviceType = "mobile"
 deviceModel = (socket.gethostname())
 product_name = "MyCroft"
