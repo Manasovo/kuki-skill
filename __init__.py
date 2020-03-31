@@ -69,10 +69,29 @@ class KukiSkill(MycroftSkill):
         return None
 
 
+
+    @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
+        def list_devices(self, message):
+        """ List available devices. """
+        if self.kuki:
+            devices = [d['name'] for d in self.kuki.get_devices()]
+            if len(devices) == 1:
+                self.speak(devices[0])
+            elif len(devices) > 1:
+                self.speak_dialog('AvailableDevices',
+                                  {'devices': ' '.join(devices[:-1]) + ' ' +
+                                              self.translate('And') + ' ' +
+                                              devices[-1]})
+            else:
+                self.speak_dialog('NoDevicesAvailable')
+        else:
+            self.failed_auth()
+
+
     @intent_handler(IntentBuilder('')
-                    .require('play'))
+                    .require('Play'))
     def play_intent(self, message):
-        self.speak_dialog("play")
+        self.speak_dialog("Play")
   
     def stop(self):
         pass
