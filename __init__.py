@@ -39,7 +39,6 @@ class KukiSkill(MycroftSkill):
         if 'user' not in self.settings:
             self.log.error('Settings hasn\'t been received yet')
             self.speak_dialog('NoSettingsReceived')
-            print(user)
         elif not self.settings.get("user"):
             self.log.error('User info has not been set.')
             # Assume this is initial setup
