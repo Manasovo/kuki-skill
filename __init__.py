@@ -26,7 +26,7 @@ class KukiSkill(MycroftSkill):
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""
 
-     @intent_handler(IntentBuilder('').require('Spotify').require('Device'))
+     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
         def list_devices(self, message):
         """ List available devices. """
         if self.spotify:
