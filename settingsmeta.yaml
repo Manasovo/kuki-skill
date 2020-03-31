@@ -20,6 +20,9 @@ skillMetadata:
             value:
             label: Click the Save button, then use the Connect button to authorize with Kuki
 
+          - name: Kuki
+            type: oauth
+            value: 1
 
       - name: Kuki Default Device
         fields:
