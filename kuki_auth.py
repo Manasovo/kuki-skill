@@ -33,8 +33,8 @@ def get_token(dev_cred):
     return d
 
 
-
-class MycroftKukiAuth(KukiClientAuth):
+#class MycroftKukiAuth(KukiClientAuth):
+class MycroftKukiAuth(MycroftSkill):
     """ Credentials object renewing through the Mycroft backend."""
     def __init__(self, dev_cred):
         self.dev_cred = dev_cred
