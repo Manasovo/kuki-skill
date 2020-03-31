@@ -55,7 +55,7 @@ class MycroftKukiAuth(object):
 class KukiConnect(MycroftKukiAuth):
     """ Implement the Kuki Connect API """
 
-    @refresh_auth
+#    @refresh_auth
     def get_devices(self):
         """ Get a list of Kuki devices from the API.
 
