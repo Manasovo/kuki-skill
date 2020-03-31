@@ -35,6 +35,20 @@ class KukiSkill(MycroftSkill):
         self.__devices_fetched = 0
 
 
+    def failed_auth(self):
+        if 'user' not in self.settings:
+            self.log.error('Settings hasn\'t been received yet')
+            self.speak_dialog('NoSettingsReceived')
+            print(user)
+        elif not self.settings.get("user"):
+            self.log.error('User info has not been set.')
+            # Assume this is initial setup
+            self.speak_dialog('NotConfigured')
+        else:
+            # Assume password changed or there is a typo
+            self.log.error('User info has been set but Auth failed.')
+            self.speak_dialog('NotAuthorized')
+
 
     def devices(self):
         """Devices, cached for 60 seconds."""
