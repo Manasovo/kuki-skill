@@ -12,15 +12,15 @@ from mycroft.api import DeviceApi     # testing
 from mycroft.util.log import LOG      # testing
 import time                           # testing
 
+# defining the api-endpoint  
+API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
 def get_token(dev_cred):
-    """ Get token with a single retry.
-    Args:
-        dev_cred: OAuth Credentials to fetch
-     """
     retry = False
     try:
-        d = DeviceApi().get_oauth_token(dev_cred)
+ #       d = DeviceApi().get_oauth_token(dev_cred)
+         d = requests.get(url = API_URL, params = PARAMS) 
+
     except HTTPError as e:
         if e.response.status_code == 404:  # Token doesn't exist
             raise
@@ -52,7 +52,22 @@ class MycroftKukiAuth(MycroftSkill):
         return self.access_token
 
 
+class KukiConnect(MycroftSkill):
+    """ Implement the Kuki Connect API """
 
+    @refresh_auth
+    def get_devices(self):
+        """ Get a list of Kuki devices from the API.
+
+        Returns:
+            list of Kuki devices connected to the user.
+        """
+        try:
+            # TODO: Cache for a brief time
+            devices = self._get('me/player/devices')['devices']
+            return devices
+        except Exception as e:
+            LOG.error(e)
 
 
 def GenerateSerial(StringLength=56):
@@ -75,8 +90,7 @@ def GenerateSerial(StringLength=56):
 
 
 
-# defining the api-endpoint  
-API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+
 
 # api call
 #serial = GenerateSerial(56)
