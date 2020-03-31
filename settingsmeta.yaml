@@ -5,14 +5,12 @@ skillMetadata:
           - type: label
             label: You must have a Kuki account to access IPTV services. Provide your Kuki ID username (for example e-mail) and password.
 
-        fields:
           - name: user
             type: text
             label: Username
             value:
             placeholder: Kuki ID for example e-mail address, etc.
 
-        fields:
           - name: password
             type: password
             label: Password
