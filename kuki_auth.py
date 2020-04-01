@@ -12,4 +12,8 @@ from mycroft.api import DeviceApi     # testing
 from mycroft.util.log import LOG      # testing
 import time                           # testing
 
+def get_token(dev_cred):
 
+class MycroftKukiAuth(object):
+
+class KukiConnect(MycroftKukiAuth):
