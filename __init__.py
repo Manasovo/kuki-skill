@@ -22,14 +22,14 @@ session = ''
 
 def kuki_session(self):
         self.log.error("DEBUG SESSION")
-        self.log.error(kuki_session)      
+  
         if len(session) == 0:
             self.log.error("SESSION not found generation new")
             kuki_reg(self)
         
         else:
             self.log.error("SESSION found using")
-            
+
 
 def failed_auth(self):
     if 'user' not in self.settings:
@@ -92,7 +92,7 @@ def kuki_reg(self):
                   self.log.info('Kuki device is REGISTERED')
                   session = json.loads(self.api_response.text)['session_key']
                   
-                  self.log.debug('SESSION')
+                  self.log.error('REGISTER')
                   self.log.debug(session)  
 
                   return session
