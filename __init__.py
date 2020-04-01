@@ -30,14 +30,23 @@ class KukiSkill(MycroftSkill):
         self.kuki = None
         self.__device_list = None
         self.__devices_fetched = 0
+        self.KukiSession = 1
+
+   def load_credentials(self):
+        """Retrieve credentials from the backend and connect to Spotify."""
+        try:
+            creds = MycroftKukiCredentials(self.KukiSession)
+            self.kuki = KukiConnect(get_session=creds)
+
+        except HTTPError:
+            self.log.info('Couldn\'t fetch credentials')
+            self.kuki = None
 
 
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
         
-        self.kuki = KukiConnect(get_devices)
-
         self.log.error(self.kuki)
         self.log.error("TEST")
 
