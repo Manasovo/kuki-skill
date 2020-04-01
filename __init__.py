@@ -105,14 +105,14 @@ class KukiSkill(MycroftSkill):
         else:
             self.log.error("Kuki is REGISTERED continue")
 
-            devices = kuki_devices(self)
-            self.log.error(devices)
+            self.devices = kuki_devices(self)
+            self.log.error(self.devices)
 
      
 
         
-        if kuki_devices(self):
-            devices = [d['alias'] for d in kuki_devices()]
+        #if self.devices(self):
+        #    devices = [d['alias'] for d in kuki_devices()]
             
             if len(devices) == 1:
                 self.speak(devices[0])
