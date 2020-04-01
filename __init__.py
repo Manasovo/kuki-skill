@@ -43,7 +43,7 @@ def generate_serial(StringLength=56):
 
 def kuki_reg(self):
         """ registration and session key """
-        self.log.error("DEBUG REGISTRATION")
+        self.log.error("DEBUG REGISTER")
 
         #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
@@ -104,7 +104,7 @@ def kuki_devices(self):
 #        if kuki_session(self) == 'NOT_REGISTERED':
 #            self.log.error("Kuki is NOT REGISTERED quit from kuki_devices")
 
- #       else:
+#        else:
             self.log.error("Kuki is REGISTERED continue")      
 
             self.session = kuki_session(self)
@@ -127,12 +127,13 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         self.log.error("DEBUG voice LIST DEVICES")
 
+        kuki_session(self)
 #        if kuki_session(self) == 'NOT_REGISTERED':
 #            self.log.error("Kuki is NOT REGISTERED quit")
 
 
- #       else:
-  #          self.log.error("Kuki is REGISTERED continue")
+#        else:
+            self.log.error("Kuki is REGISTERED continue")
 
             devices = kuki_devices(self)
             self.log.debug(devices)
