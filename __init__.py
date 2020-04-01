@@ -93,7 +93,7 @@ def kuki_reg(self):
                   self.log.info('Kuki device is REGISTERED')
                   token = json.loads(self.api_response.text)['session_key']
                   
-                  token(session)
+                  session = "1234564789"
 
                   self.log.error('REGISTER')
                   self.log.error(session)  
