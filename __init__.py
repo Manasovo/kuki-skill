@@ -74,7 +74,8 @@ def kuki_devices(self):
 
         self.result = json.loads(self.api_get.text)
         self.log.error(self.result)
-        return self.result               
+
+        return ([result_item['alias'] for result_item in result]) # all devices
 
 
 class KukiSkill(MycroftSkill):
