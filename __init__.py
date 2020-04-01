@@ -18,7 +18,7 @@ from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 
 from enum import Enum
 
-from .kuki_auth import (MycroftKukiAuth)
+from .kuki_auth import (MycroftKukiAuth, KukiConnect)
 
 
 class DeviceType(Enum):
