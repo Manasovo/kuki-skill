@@ -35,8 +35,8 @@ class KukiSkill(MycroftSkill):
    def load_credentials(self):
         """Retrieve credentials from the backend and connect to Spotify."""
         try:
-            creds = MycroftKukiCredentials(self.KukiSession)
-            self.kuki = KukiConnect(get_session=creds)
+#            creds = MycroftKukiCredentials(self.KukiSession)
+            self.kuki = KukiConnect(get_session)
 
         except HTTPError:
             self.log.info('Couldn\'t fetch credentials')
