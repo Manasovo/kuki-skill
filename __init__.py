@@ -95,7 +95,7 @@ def kuki_reg(self):
                   self.log.error('REGISTER')
                   self.log.debug(session)  
 
-                  return session
+ #                 return session
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
