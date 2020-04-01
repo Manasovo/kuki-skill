@@ -99,13 +99,8 @@ def kuki_session(self):
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
-        self.log.error("DEBUG DEVICES")
-        
-#        if kuki_session(self) == 'NOT_REGISTERED':
-#            self.log.error("Kuki is NOT REGISTERED quit from kuki_devices")
-
-#        else:
-            self.log.error("Kuki is REGISTERED continue")      
+            
+            self.log.error("DEBUG DEVICES")   
 
             self.session = kuki_session(self)
             self.log.debug(self.session)
