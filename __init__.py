@@ -15,8 +15,23 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-API_URL = "https://as.kuki.cz/api-v2/"
+API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+#API_URL = "https://as.kuki.cz/api-v2/"
+
+
+ def failed_auth(self):
+        if 'user' not in self.settings:
+            self.log.error('Settings hasn\'t been received yet')
+            self.speak_dialog('NoSettingsReceived')
+        elif not self.settings.get("user"):
+            self.log.error('User info has not been set.')
+            # Assume this is initial setup
+            self.speak_dialog('NotConfigured')
+        else:
+            # Assume password changed or there is a typo
+            self.log.error('User info has been set but Auth failed.')
+            self.speak_dialog('NotAuthorized')
+
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
@@ -30,7 +45,7 @@ def kuki_session(self):
         self.log.error("DEBUG SESSION")
 
         #serial = generate_serial(56)
-        self.serial = "Manas_test_12345678"
+        self.serial = "Manas_test_123456789"
         self.deviceType = "mobile"
         self.deviceModel = (socket.gethostname())
         self.product_name = "MyCroft"
@@ -52,22 +67,22 @@ def kuki_session(self):
         self.log.error("API POST")
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
-            self.log.info('Kuki device is NOT REGISTERED try URL and pair code bellow:')
             self.result = self.api_response.json()
-            self.log.info(self.result['registration_url_web'])
-            self.log.info(self.result['reg_token'])
-            return "NOT_REGISTERED"
+            self.log.error('Kuki device is NOT REGISTERED try URL and pair code bellow:')
+            self.log.error(self.result['registration_url_web'])
+            self.log.error(self.result['reg_token'])
+
+            #return "NOT_REGISTERED"
+            self.failed_auth()
 
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
                   self.log.info('Kuki device is REGISTERED')
                   self.session = json.loads(self.api_response.text)['session_key']
-                  
-                  self.log.info('SESSION')
-                  self.log.info(self.session)  
+                  self.log.debug('SESSION')
+                  self.log.debug(self.session)  
 
                   return self.session
-
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
@@ -120,8 +135,8 @@ class KukiSkill(MycroftSkill):
                self.log.debug("DEBUG NO DEVICE AVAILABLE")
                self.speak_dialog('NoDevicesAvailable')
         
-        self.log.debug("DEBUG KUKI AUTH FAILED")
-        # self.failed_auth()
+        #self.log.debug("DEBUG KUKI AUTH FAILED")
+        self.failed_auth()
 
 
     # testing playing tv intent
