@@ -22,7 +22,7 @@ class KukiConnect(object):
     self.log.error("DEBUG2")
 
 
-def GenerateSerial(StringLength=56):
+def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
     
     LettersAndDigits = string.ascii_letters + string.digits
@@ -33,7 +33,7 @@ def kuki_session(self):
         """ registration and session key """
         self.log.error("DEBUG3")
 
-        #serial = GenerateSerial(56)
+        #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
         self.deviceType = "mobile"
         self.deviceModel = (socket.gethostname())
