@@ -22,9 +22,10 @@ session = ''
 
 def kuki_session(self):
     if len(session) == 0:
-        self.log.error("SESSION = 0")
+        self.log.error("SESSION not found generation new")
+        kuki_reg(self)
     else:
-        self.log.error("SESSION = more")
+        self.log.error("SESSION found using")
 
 
 def failed_auth(self):
