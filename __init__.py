@@ -73,16 +73,22 @@ def kuki_devices(self):
         """ availabla device list from Kuki contract """
         self.log.debug("DEBUG DEVICES")
         
-        self.session = kuki_session(self)
-        self.log.error(self.session)
+        if kuki_session(self) == 'NOT_REGISTERED':
+            self.log.error("Kuki is NOT REGISTERED quit")
 
-        self.api_headers = {'X-SessionKey': self.session}
-        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+        else:
+            self.log.error("Kuki is REGISTERED continue")      
 
-        self.result = json.loads(self.api_get.text)
-        self.log.debug(self.result)
+            self.session = kuki_session(self)
+            self.log.error(self.session)
 
-        return ([result_item['alias'] for result_item in self.result]) # all devices
+            self.api_headers = {'X-SessionKey': self.session}
+            self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+
+            self.result = json.loads(self.api_get.text)
+            self.log.debug(self.result)
+
+            return ([result_item['alias'] for result_item in self.result]) # all devices
 
 
 class KukiSkill(MycroftSkill):
