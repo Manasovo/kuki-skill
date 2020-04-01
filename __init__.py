@@ -21,10 +21,6 @@ from enum import Enum
 from .kuki import (KukiConnect)
 
 
-class DeviceType(Enum):
-    DEFAULT = 1
-    FIRSTBEST = 2
-    NOTFOUND = 3
 
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""
@@ -40,7 +36,7 @@ class KukiSkill(MycroftSkill):
     def list_devices(self, message):
         """ List available devices. """
         if self.kuki:
-            devices = [d['name'] for d in self.kuki.get_devices()]
+            devices = [d['alias'] for d in self.kuki.get_devices()]
             if len(devices) == 1:
                 self.speak(devices[0])
             elif len(devices) > 1:
