@@ -88,9 +88,10 @@ def kuki_reg(self):
 
 
 def kuki_session(self):
-         if len(session) == 0:
+        if len(session) == 0:
             self.log.error("SESSION not found generation new")
             kuki_reg(self)
+        
         else:
             self.log.error("SESSION found using")
 
