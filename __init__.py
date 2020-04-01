@@ -82,8 +82,9 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         self.log.error("DEBUG voice LIST DEVICES")
 
-        serial = generate_serial(56)
-        self.log.error(serial)
+  
+        devices = list_devices
+        self.log.error(devices)
         
         self.log.error(kuki_devices)
         
