@@ -114,10 +114,8 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         self.log.error("DEBUG voice LIST DEVICES")
 
-        if kuki_session(self) == 'NOT_REGISTERED':
-            self.log.error("Kuki is NOT REGISTERED quit")
-
-        else:
+        if kuki_session(self) != 'NOT_REGISTERED':
+            
             self.log.error("Kuki is REGISTERED continue")
 
             devices = kuki_devices(self)
@@ -134,9 +132,7 @@ class KukiSkill(MycroftSkill):
             else:
                self.log.debug("DEBUG NO DEVICE AVAILABLE")
                self.speak_dialog('NoDevicesAvailable')
-        
-        #self.log.debug("DEBUG KUKI AUTH FAILED")
-        failed_auth(self)
+    
 
 
     # testing playing tv intent
