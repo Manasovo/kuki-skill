@@ -16,7 +16,7 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         
         self.log.error("DEBUG")
-        self.kuki = generate_serial(self)
+        self.kuki = kuki_session(self)
     
         self.log.error(self.kuki)
         self.log.error("TEST")
