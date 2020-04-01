@@ -47,8 +47,10 @@ def kuki_session(self):
                         'boot_mode':self.bootMode,
                         'claimed_device_id':self.serial}
 
-        # sending post request and saving response as response object 
-        self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
+        # sending post request and saving response as response object
+        self.api_response = requests.Session() 
+ #       self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
+        self.api_response.post(url = API_URL + 'register' , data = self.api_post)
         self.log.error("API POST")
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
