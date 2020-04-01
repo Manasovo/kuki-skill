@@ -17,7 +17,7 @@ import string                         # generate serial
 
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
-self.session = ''
+session = ''
 
 def failed_auth(self):
     if 'user' not in self.settings:
@@ -78,12 +78,12 @@ def kuki_session(self):
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
                   self.log.info('Kuki device is REGISTERED')
-                  self.session = json.loads(self.api_response.text)['session_key']
+                  session = json.loads(self.api_response.text)['session_key']
                   
                   self.log.debug('SESSION')
-                  self.log.debug(self.session)  
+                  self.log.debug(session)  
 
-                  return self.session
+                  return session
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
