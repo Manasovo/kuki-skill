@@ -36,7 +36,9 @@ class KukiSkill(MycroftSkill):
     def list_devices(self, message):
         """ List available devices. """
         
-        self.log.error(get_devices)
+        self.kuki = KukiConnect(get_devices)
+
+        self.log.error(self.kuki)
         self.log.error("TEST")
 
         if self.kuki:
