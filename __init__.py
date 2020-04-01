@@ -25,7 +25,7 @@ def generate_serial(StringLength=56):
 
 def kuki_session(self):
         """ registration and session key """
-        self.log.error("DEBUG3")
+        self.log.error("DEBUG SESSION")
 
         #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
@@ -49,13 +49,13 @@ def kuki_session(self):
         self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post) 
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
-            self.log.info('NOT REGISTERED')
+            self.log.info('DEBUG NOT REGISTERED')
             self.result = self.api_response.json()
             self.log.info(self.result['registration_url_web'])
             self.log.info(self.result['reg_token'])
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
-                  self.log.info('REGISTERED')
+                  self.log.info('DEBUG REGISTERED')
 
                   self.session = json.loads(api_response.text)['session_key']
                   return self.session
@@ -63,8 +63,9 @@ def kuki_session(self):
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
+        self.log.error(kuki_session)
         self.session = kuki_session
-        self.log.error("DEBUG4")
+        self.log.error("DEBUG DEVICES")
 
         self.api_headers = {'X-SessionKey': self.session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
@@ -79,7 +80,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
-
+        self.log.error("DEBUG voice LIST DEVICES")
         self.log.error(kuki_devices)
         
         if self.kuki:
@@ -94,10 +95,10 @@ class KukiSkill(MycroftSkill):
                                               self.translate('And') + ' ' +
                                               devices[-1]})
             else:
-               self.log.error("NO DEVICE AVAILABLE")
+               self.log.error("DEBUG NO DEVICE AVAILABLE")
                self.speak_dialog('NoDevicesAvailable')
         else:
-            self.log.error("KUKI AUTH FAILED")
+            self.log.error("DEBUG KUKI AUTH FAILED")
             # self.failed_auth()
 
 
