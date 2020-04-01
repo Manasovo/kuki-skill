@@ -76,7 +76,7 @@ def kuki_devices(self):
         if kuki_session(self) == 'NOT_REGISTERED':
             self.log.error("Kuki is NOT REGISTERED quit from kuki_devices")
             
-            return "NOT_REGISTERED from kuki_devices"
+           # return "NOT_REGISTERED from kuki_devices"
 
         else:
             self.log.error("Kuki is REGISTERED continue")      
