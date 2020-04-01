@@ -17,19 +17,19 @@ API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
 
 class KukiConnect(object):
-    """ Implement the Kuki Connect API """
+      """ Implement the Kuki Connect API """
 
 
     def GenerateSerial(StringLength=56):
         """Generate a random string of letters and digits """
+
         LettersAndDigits = string.ascii_letters + string.digits
         return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
 
-#    @refresh_auth
     def get_session(self):
+        """ registration and session key """
 
-        # api call
         #serial = GenerateSerial(56)
         self.serial = "Manas_test_12345678"
         self.deviceType = "mobile"
@@ -48,7 +48,7 @@ class KukiConnect(object):
                    		'boot_mode':self.bootMode,
                    		'claimed_device_id':self.serial}
 
-# sending post request and saving response as response object 
+        # sending post request and saving response as response object 
         self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post) 
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
@@ -65,13 +65,12 @@ class KukiConnect(object):
     
 
     def get_devices(self):
+        """ availabla device list from Kuki contract """
+
         self.api_headers = {'X-SessionKey': self.session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-
-        #print(result[0]['alias']) # only first device
-        #print([result_item['alias'] for result_item in result]) # all devices
         return self.result
 
 
