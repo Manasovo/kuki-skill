@@ -17,13 +17,14 @@ import string                         # generate serial
 
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
-session = "0"
+session = '123456'
 
 
 def kuki_session(self):
         self.log.error("DEBUG SESSION")
-  
-        if session == 0:
+        self.log.error(session )
+
+        if len(session) > 10:
             self.log.error("SESSION not found generation new")
             kuki_reg(self)
         
