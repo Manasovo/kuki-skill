@@ -8,6 +8,9 @@ from adapt.intent import IntentBuilder
 from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
+self.log.error("DEBUG 00")
+self.kuki = kuki_session(self)
+
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""    
 
