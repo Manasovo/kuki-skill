@@ -125,9 +125,9 @@ class KukiSkill(MycroftSkill):
             else:
                self.log.debug("DEBUG NO DEVICE AVAILABLE")
                self.speak_dialog('NoDevicesAvailable')
-        else:
-            self.log.debug("DEBUG KUKI AUTH FAILED")
-            # self.failed_auth()
+        
+        self.log.debug("DEBUG KUKI AUTH FAILED")
+        # self.failed_auth()
 
 
     # testing playing tv intent
