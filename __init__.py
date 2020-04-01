@@ -15,6 +15,8 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
+API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
