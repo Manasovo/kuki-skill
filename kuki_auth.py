@@ -57,10 +57,10 @@ class KukiConnect(MycroftKukiAuth):
     """ Implement the Kuki Connect API """
 
 
-    def GenerateSerial(StringLength=56):
-        """Generate a random string of letters and digits """
-        LettersAndDigits = string.ascii_letters + string.digits
-        return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+#    def GenerateSerial(StringLength=56):
+#        """Generate a random string of letters and digits """
+#        LettersAndDigits = string.ascii_letters + string.digits
+#        return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
 
 #    @refresh_auth
@@ -95,7 +95,7 @@ class KukiConnect(MycroftKukiAuth):
  #       if json.loads(api_response.text)['state'] == 'NOT_REGISTERED':
  #           self.log.info('NOT REGISTERED')
 #            print("NOT REGISTERED")
-  #          result = api_response.json()
+            result = api_response.json()
   #          self.log.info(result['registration_url_web'])
    #         self.log.info(result['reg_token'])
  #           print("Registracni odkaz pro parovani:",result ['registration_url_web'])
