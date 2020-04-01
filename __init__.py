@@ -86,7 +86,7 @@ def kuki_session(self):
                   self.log.debug('SESSION')
                   self.log.debug(kuki_session)  
 
-                  return kuki_session
+                  #return kuki_session
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
