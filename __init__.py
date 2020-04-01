@@ -93,9 +93,9 @@ def kuki_reg(self):
                   session = json.loads(self.api_response.text)['session_key']
                   
                   self.log.error('REGISTER')
-                  self.log.debug(session)  
+                  self.log.error(session)  
 
- #                 return session
+                  return session
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
