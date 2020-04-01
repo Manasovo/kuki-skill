@@ -47,7 +47,8 @@ class KukiSkill(MycroftSkill):
             else:
                 self.speak_dialog('NoDevicesAvailable')
         else:
-            self.failed_auth()
+            self.log.error("auth failed")
+            # self.failed_auth()
 
 
     @intent_handler(IntentBuilder('')
