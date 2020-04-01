@@ -30,7 +30,7 @@ def kuki_session(self):
         self.log.debug("DEBUG SESSION")
 
         #serial = generate_serial(56)
-        self.serial = "Manas_test_123456789"
+        self.serial = "Manas_test_12345678"
         self.deviceType = "mobile"
         self.deviceModel = (socket.gethostname())
         self.product_name = "MyCroft"
@@ -75,7 +75,6 @@ def kuki_devices(self):
         
         if kuki_session(self) == 'NOT_REGISTERED':
             self.log.error("Kuki is NOT REGISTERED quit from kuki_devices")
-            return "NOT_REGISTERED from kuki_devices"
 
         else:
             self.log.error("Kuki is REGISTERED continue")      
