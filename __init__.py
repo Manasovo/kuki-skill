@@ -47,7 +47,7 @@ class KukiSkill(MycroftSkill):
             else:
                 self.speak_dialog('NoDevicesAvailable')
         else:
-            self.log.error("auth failed")
+            self.log.error("Kuki AUTH failed")
             # self.failed_auth()
 
 
