@@ -99,7 +99,7 @@ def kuki_devices(self):
             self.log.error("Kuki is REGISTERED continue")      
 
             self.session = kuki_session(self)
-            self.log.error(self.session)
+            self.log.debug(self.session)
 
             self.api_headers = {'X-SessionKey': self.session}
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
@@ -126,7 +126,7 @@ class KukiSkill(MycroftSkill):
             self.log.error("Kuki is REGISTERED continue")
 
             devices = kuki_devices(self)
-            self.log.error(devices)
+            self.log.debug(devices)
            
             if len(devices) == 1:
                 self.speak(devices[0])
