@@ -68,40 +68,41 @@ class KukiConnect(MycroftKukiAuth):
 
         # api call
         #serial = GenerateSerial(56)
-        serial = "Manas_test_12345678"
-        deviceType = "mobile"
-        deviceModel = (socket.gethostname())
-        product_name = "MyCroft"
-        mac = (':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) 
-              for ele in range(0,8*6,8)][::-1])) 
+        self.get_session_token()
+        self.serial = "Manas_test_12345678"
+        self.deviceType = "mobile"
+        self.deviceModel = (socket.gethostname())
+        self.product_name = "MyCroft"
+        self.mac = (':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) 
+             	   for ele in range(0,8*6,8)][::-1])) 
         #versionVw = "1.0"
         #versionPortal = "2.0.14"
-        bootMode = "unknown"
+        self.bootMode = "unknown"
 
         # data to be sent to api 
-        api_post = {'sn':serial,
-                    'device_type':deviceType,
-                    'device_model':deviceModel, 
-                    'product_name':product_name,
-                    'mac':mac,
+        self.api_post = {'sn':self.serial,
+                    	'device_type':self.deviceType,
+                    	'device_model':self.deviceModel, 
+                   		'product_name':self.product_name,
+                    	'mac':seld.mac,
 #                   'version_fw':versionVw,
 #                   'version_portal':versionPortal,
-                    'boot_mode':bootMode,
-                    'claimed_device_id':serial}
+                   		 'boot_mode':self.bootMode,
+                   		 'claimed_device_id':self.serial}
 
 # sending post request and saving response as response object 
-        api_response = requests.post(url = API_URL + 'register' , data = api_post) 
+        self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post) 
 
-        if json.loads(api_response.text)['state'] == 'NOT_REGISTERED':
+        if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
             self.log.info('NOT REGISTERED')
 #            print("NOT REGISTERED")
-            result = api_response.json()
-            self.log.info(result['registration_url_web'])
-            self.log.info(result['reg_token'])
+            self.esult = self.api_response.json()
+            self.log.info(self.result['registration_url_web'])
+            self.log.info(self.result['reg_token'])
  #           print("Registracni odkaz pro parovani:",result ['registration_url_web'])
  #           print("Parovaci kod:",result['reg_token'])
         else:
-             if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
+             if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
           		  self.log.info('REGISTERED')
 #                  print("REGISTERED")
  #                 result = api_response.json()                  
