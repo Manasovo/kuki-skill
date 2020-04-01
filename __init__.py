@@ -79,7 +79,8 @@ class KukiSkill(MycroftSkill):
     def list_devices(self, message):
         """ List available devices. """
 
-        self.log.error(self.result)
+        test = self.result
+        self.log.error(test)
         
         if self.kuki:
             devices = [d['alias'] for d in self.kuki.kuki_devices()]
