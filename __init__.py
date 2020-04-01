@@ -69,7 +69,7 @@ def kuki_session(self):
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
-        self.log.debug("DEBUG DEVICES")
+        self.log.error("DEBUG DEVICES")
         
         prdel = kuki_session(self)
         self.log.error(prdel)
