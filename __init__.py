@@ -98,30 +98,25 @@ class KukiSkill(MycroftSkill):
 
         else:
             self.log.error("Kuki is REGISTERED continue")
-
-
-        devices = kuki_devices(self)
-        self.log.error(devices)
-        
-        self.log.debug(kuki_devices)
-        
-        if self.kuki:
-            devices = [d['alias'] for d in self.kuki.kuki_devices()]
+            self.kuki = kuki_devices(self)
             
-            if len(devices) == 1:
-                self.speak(devices[0])
+            if self.kuki:
+                devices = [d['alias'] for d in self.kuki.kuki_devices()]
+            
+                    if len(devices) == 1:
+                        self.speak(devices[0])
 
-            elif len(devices) > 1:
-                self.speak_dialog('AvailableDevices',
+                    elif len(devices) > 1:
+                        self.speak_dialog('AvailableDevices',
                                   {'devices': ' '.join(devices[:-1]) + ' ' +
                                               self.translate('And') + ' ' +
                                               devices[-1]})
+                    else:
+                        self.log.debug("DEBUG NO DEVICE AVAILABLE")
+                        self.speak_dialog('NoDevicesAvailable')
             else:
-               self.log.debug("DEBUG NO DEVICE AVAILABLE")
-               self.speak_dialog('NoDevicesAvailable')
-        else:
-            self.log.debug("DEBUG KUKI AUTH FAILED")
-            # self.failed_auth()
+                self.log.debug("DEBUG KUKI AUTH FAILED")
+                # self.failed_auth()
 
 
     # testing playing tv intent
