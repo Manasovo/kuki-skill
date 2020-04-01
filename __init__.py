@@ -16,16 +16,14 @@ class KukiSkill(MycroftSkill):
     def list_devices(self, message):
         """ List available devices. """
         
-        self.kuki = KukiConnect.get_session(self)
-
-        #KukiConnect.get_devices()
-        
+        self.kuki = KukiConnect.kuki_session(self)
+    
         self.log.error(self.kuki)
         self.log.error("TEST")
         
 
         if self.kuki:
-            devices = [d['alias'] for d in self.kuki.get_devices()]
+            devices = [d['alias'] for d in self.kuki.kuki_devices()]
             
             if len(devices) == 1:
                 self.speak(devices[0])

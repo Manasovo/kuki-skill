@@ -27,7 +27,7 @@ class KukiConnect(object):
         return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
 
-    def get_session(self):
+    def kuki_session(self):
         """ registration and session key """
 
         #serial = GenerateSerial(56)
@@ -64,7 +64,7 @@ class KukiConnect(object):
 	       		  return self.session
     
 
-    def get_devices(self):
+    def kuki_devices(self):
         """ availabla device list from Kuki contract """
 
         self.api_headers = {'X-SessionKey': self.session}
