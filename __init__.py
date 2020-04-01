@@ -36,49 +36,6 @@ class KukiSkill(MycroftSkill):
         self.__devices_fetched = 0
 
 
-    def failed_auth(self):
-        if 'user' not in self.settings:
-            self.log.error('Settings hasn\'t been received yet')
-            self.speak_dialog('NoSettingsReceived')
-        elif not self.settings.get("user"):
-            self.log.error('User info has not been set.')
-            # Assume this is initial setup
-            self.speak_dialog('NotConfigured')
-        else:
-            # Assume password changed or there is a typo
-            self.log.error('User info has been set but Auth failed.')
-            self.speak_dialog('NotAuthorized')
-
-
-    def devices(self):
-        """Devices, cached for 60 seconds."""
-        if not self.kuki:
-            return []  # No connection, no devices
-        now = time.time()
-        if not self.__device_list or (now - self.__devices_fetched > 60):
-            self.__device_list = self.kuki.get_devices()
-            self.__devices_fetched = now
-        return self.__device_list
-
-
-    def device_by_name(self, name):
-        """Get a kuki devices from the API.
-
-        Arguments:
-            name (str): The device name (fuzzy matches)
-        Returns:
-            (dict) None or the matching device's description
-        """
-        devices = self.devices
-        if devices and len(devices) > 0:
-            # Otherwise get a device with the selected name
-            devices_by_name = {d['name']: d for d in devices}
-            key, confidence = match_one(name, list(devices_by_name.keys()))
-            if confidence > 0.5:
-                return devices_by_name[key]
-        return None
-
-
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
@@ -95,7 +52,6 @@ class KukiSkill(MycroftSkill):
                 self.speak_dialog('NoDevicesAvailable')
         else:
             self.failed_auth()
-
 
 
     @intent_handler(IntentBuilder('')
