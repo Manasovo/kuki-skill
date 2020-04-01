@@ -64,7 +64,7 @@ class KukiConnect(object):
 
 
 #    @refresh_auth
-    def get_session(self):
+ #   def get_session(self):
 
         # api call
         #serial = GenerateSerial(56)
