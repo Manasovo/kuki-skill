@@ -53,7 +53,7 @@ class MycroftKukiAuth(object):
         return self.access_token
 
 
-class KukiConnect(MycroftKukiAuth):
+class KukiConnect(object):
     """ Implement the Kuki Connect API """
 
 
