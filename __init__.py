@@ -17,7 +17,7 @@ import string                         # generate serial
 
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
-session = "fe9665c7-9bcc-4351-9241-d6e6f098148d"
+session = "0"
 
 
 def kuki_session(self):
@@ -101,8 +101,6 @@ def kuki_devices(self):
         """ availabla device list from Kuki contract """
             
         self.log.error("DEBUG DEVICES")   
-
-        #self.session = kuki_session(self)
  
         self.api_headers = {'X-SessionKey': kuki_session(self)}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
