@@ -17,7 +17,7 @@ import string                         # generate serial
 
 
 def generate_serial(StringLength=56):
-"""Generate a random string of letters and digits """
+    """Generate a random string of letters and digits """
     
     LettersAndDigits = string.ascii_letters + string.digits
     return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
