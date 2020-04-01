@@ -91,14 +91,13 @@ def kuki_reg(self):
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
                   self.log.info('Kuki device is REGISTERED')
-                  token = json.loads(self.api_response.text)['session_key']
                   
-                  session = "1234564789"
-
+                  session = json.loads(self.api_response.text)['session_key']
+                 
                   self.log.error('REGISTER')
                   self.log.error(session)  
 
-                  return session
+                  return kuki_session(self)
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
