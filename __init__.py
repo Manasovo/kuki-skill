@@ -73,7 +73,7 @@ def kuki_session(self):
             self.log.error(self.result['reg_token'])
 
             #return "NOT_REGISTERED"
-            failed_auth()
+            failed_auth(self)
 
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
