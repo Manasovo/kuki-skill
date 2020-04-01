@@ -48,7 +48,7 @@ def kuki_session(self):
         self.serial = "Manas_test_12345678"
         self.deviceType = "mobile"
         self.deviceModel = (socket.gethostname())
-        self.product_name = "MyCroft"
+        self.product_name = "Mycroft"
         self.mac = (':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) 
                    for ele in range(0,8*6,8)][::-1])) 
         self.bootMode = "unknown"
@@ -79,6 +79,10 @@ def kuki_session(self):
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
                   self.log.info('Kuki device is REGISTERED')
                   self.session = json.loads(self.api_response.text)['session_key']
+                  
+                  session_file = open("session.kuki","w") 
+                  session_file.write(self.session) 
+
                   self.log.debug('SESSION')
                   self.log.debug(self.session)  
 
