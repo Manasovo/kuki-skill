@@ -30,7 +30,7 @@ def kuki_session(self):
         self.log.debug("DEBUG SESSION")
 
         #serial = generate_serial(56)
-        self.serial = "Manas_test_12345678"
+        self.serial = "Manas_test_123456789"
         self.deviceType = "mobile"
         self.deviceModel = (socket.gethostname())
         self.product_name = "MyCroft"
@@ -61,9 +61,9 @@ def kuki_session(self):
                   self.log.info('Kuki device is REGISTERED')
                   self.session = json.loads(self.api_response.text)['session_key']
                   
-                  self.log.info('SESSION is')
+                  self.log.info('SESSION')
                   self.log.info(self.session)  
-                                    
+
                   return self.session
 
 
