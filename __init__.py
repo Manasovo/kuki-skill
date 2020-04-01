@@ -59,13 +59,11 @@ def kuki_session(self):
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
                   self.log.info('Kuki device is REGISTERED')
-
                   self.session = json.loads(self.api_response.text)['session_key']
                   
-                  self.log.error('session !!!!')
-
-                  self.log.debug(self.session)
-
+                  self.log.info('SESSION is')
+                  self.log.info(self.session)  
+                                    
                   return self.session
 
 
@@ -82,7 +80,7 @@ def kuki_devices(self):
         self.result = json.loads(self.api_get.text)
         self.log.debug(self.result)
 
-        return ([result_item['alias'] for result_item in result]) # all devices
+        return ([result_item['alias'] for result_item in self.result]) # all devices
 
 
 class KukiSkill(MycroftSkill):
