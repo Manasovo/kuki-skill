@@ -71,6 +71,7 @@ def kuki_devices(self):
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
+        self.log.error(self.result)
         return self.result               
 
 
