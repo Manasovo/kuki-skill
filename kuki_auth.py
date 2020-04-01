@@ -8,63 +8,63 @@ import socket                         # hostname
 import random                         # generate serial
 import string                         # generate serial
 
-#from mycroft.api import DeviceApi     # testing
-#from mycroft.util.log import LOG      # testing
+from mycroft.api import DeviceApi     # testing
+from mycroft.util.log import LOG      # testing
 import time                           # testing
 
 
 # defining the api-endpoint  
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
-#def get_token(dev_cred):
-#    retry = False
-#    try:
+def get_token(dev_cred):
+    retry = False
+    try:
  #       d = DeviceApi().get_oauth_token(dev_cred)
-#         d = requests.get(url = API_URL, params = "/device")
+         d = requests.get(url = API_URL, params = "/device")
 
 
-#    except HTTPError as e:
-#        if e.response.status_code == 404:  # Token doesn't exist
-#            raise
-#        if e.response.status_code == 401:  # Device isn't paired
-#            raise
-#        else:
-#            retry = True
-#    if retry:
-#        d = DeviceApi().get_oauth_token(dev_cred)
-#    return d
+    except HTTPError as e:
+        if e.response.status_code == 404:  # Token doesn't exist
+            raise
+        if e.response.status_code == 401:  # Device isn't paired
+            raise
+        else:
+            retry = True
+    if retry:
+        d = DeviceApi().get_oauth_token(dev_cred)
+    return d
 
 
-#class MycroftKukiAuth(object):
-#    """ Credentials object renewing through the Mycroft backend."""
-#    def __init__(self, dev_cred):
-#        self.dev_cred = dev_cred
-#        self.access_token = None
-#        self.expiration_time = None
-#        self.get_access_token()
+class MycroftKukiAuth(object):
+    """ Credentials object renewing through the Mycroft backend."""
+    def __init__(self, dev_cred):
+        self.dev_cred = dev_cred
+        self.access_token = None
+        self.expiration_time = None
+        self.get_access_token()
 
-#    def get_access_token(self, force=False):
-#        if (not self.access_token or time.time() > self.expiration_time or
-#                force):
-#            d = get_token(self.dev_cred)
-#            self.access_token = d['access_token']
-#            # get expiration time from message, if missing assume 1 hour
-#            self.expiration_time = d.get('expiration') or time.time() + 3600
-#        return self.access_token
+    def get_access_token(self, force=False):
+        if (not self.access_token or time.time() > self.expiration_time or
+                force):
+            d = get_token(self.dev_cred)
+            self.access_token = d['access_token']
+            # get expiration time from message, if missing assume 1 hour
+            self.expiration_time = d.get('expiration') or time.time() + 3600
+        return self.access_token
 
 
-class KukiConnect(object):
+class KukiConnect(MycroftKukiAuth):
     """ Implement the Kuki Connect API """
 
 
-#    def GenerateSerial(StringLength=56):
-#        """Generate a random string of letters and digits """
-#        LettersAndDigits = string.ascii_letters + string.digits
-#        return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+    def GenerateSerial(StringLength=56):
+        """Generate a random string of letters and digits """
+        LettersAndDigits = string.ascii_letters + string.digits
+        return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
 
 #    @refresh_auth
- #   def get_session(self):
+    def get_session(self):
 
         # api call
         #serial = GenerateSerial(56)
@@ -92,25 +92,25 @@ class KukiConnect(object):
 # sending post request and saving response as response object 
         api_response = requests.post(url = API_URL + 'register' , data = api_post) 
 
- #       if json.loads(api_response.text)['state'] == 'NOT_REGISTERED':
- #           self.log.info('NOT REGISTERED')
+        if json.loads(api_response.text)['state'] == 'NOT_REGISTERED':
+            self.log.info('NOT REGISTERED')
 #            print("NOT REGISTERED")
- #           result = api_response.json()
-  #          self.log.info(result['registration_url_web'])
-   #         self.log.info(result['reg_token'])
+            result = api_response.json()
+            self.log.info(result['registration_url_web'])
+            self.log.info(result['reg_token'])
  #           print("Registracni odkaz pro parovani:",result ['registration_url_web'])
  #           print("Parovaci kod:",result['reg_token'])
-   #     else:
-   #          if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
-    #      		  self.log.info('REGISTERED')
+        else:
+             if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
+          		  self.log.info('REGISTERED')
 #                  print("REGISTERED")
-  #                result = api_response.json()                  
+ #                 result = api_response.json()                  
 #                  print("Session key:",result['session_key'])
 
  #                 session = json.loads(api_response.text)['session_key']
 #				  self.log.info(result['session'])
-#                  return session_key
-#    	return NOTHING_FOUND
+   #               return session_key
+    
 
 #s = requests.Session()
 #s.auth = ('user', 'pass')
