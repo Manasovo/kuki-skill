@@ -8,7 +8,7 @@ from adapt.intent import IntentBuilder
 from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-log.error("DEBUG 00")
+
 TEST = kuki_session(self)
 
 class KukiSkill(MycroftSkill):
