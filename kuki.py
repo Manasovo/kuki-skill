@@ -17,9 +17,9 @@ self.log.error("DEBUG1")
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
 
-#class KukiConnect(object):
-#      """ Implement the Kuki Connect API """
-#    self.log.error("DEBUG2")
+class KukiConnect(object):
+      """ Implement the Kuki Connect API """
+    self.log.error("DEBUG2")
 
 def GenerateSerial(StringLength=56):
         """Generate a random string of letters and digits """
@@ -28,7 +28,7 @@ def GenerateSerial(StringLength=56):
         return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
 
-    def kuki_session(self):
+def kuki_session(self):
         """ registration and session key """
         self.log.error("DEBUG3")
 
@@ -66,7 +66,7 @@ def GenerateSerial(StringLength=56):
 	       		  return self.session
     
 
-    def kuki_devices(self):
+def kuki_devices(self):
         """ availabla device list from Kuki contract """
         self.log.error("DEBUG4")
 
