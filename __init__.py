@@ -20,7 +20,7 @@ API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 session = ''
 
 
-def kuki_session(name):
+def kuki_session(self):
         self.log.error("DEBUG SESSION")
         self.log.error(session )
 
@@ -104,7 +104,7 @@ def kuki_devices(self):
             
         self.log.error("DEBUG DEVICES")   
  
-        self.api_headers = {'X-SessionKey': kuki_session(name)}
+        self.api_headers = {'X-SessionKey': kuki_session(self)}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
@@ -121,7 +121,7 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         self.log.error("DEBUG voice LIST DEVICES")
 
-        kuki_session(name)
+        kuki_session(self)
 
         self.log.error("Kuki is REGISTERED continue")
 
