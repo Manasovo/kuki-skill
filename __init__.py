@@ -35,10 +35,13 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
+        
+        self.log.error(self.get_devices)
+
         if self.kuki:
             devices = [d['alias'] for d in self.kuki.get_devices()]
 
-            self.log.error(self.kuki.get_devices)
+            
             
             if len(devices) == 1:
                 self.speak(devices[0])
