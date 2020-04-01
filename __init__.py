@@ -5,7 +5,7 @@ from mycroft.messagebus import Message
 from requests import HTTPError
 from adapt.intent import IntentBuilder
 
-from .kuki import (GenerateSerial, kuki_session, kuki_devices)
+from .kuki import GenerateSerial
 
 
 class KukiSkill(MycroftSkill):
@@ -16,7 +16,7 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         
         self.log.error("DEBUG")
-        self.kuki = KukiConnect.kuki_session(self)
+        self.kuki = GenerateSerial(self)
     
         self.log.error(self.kuki)
         self.log.error("TEST")

@@ -21,7 +21,7 @@ API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #      """ Implement the Kuki Connect API """
 #    self.log.error("DEBUG2")
 
-    def GenerateSerial(StringLength=56):
+def GenerateSerial(StringLength=56):
         """Generate a random string of letters and digits """
 
         LettersAndDigits = string.ascii_letters + string.digits
