@@ -95,7 +95,7 @@ class KukiConnect(MycroftKukiAuth):
  #       if json.loads(api_response.text)['state'] == 'NOT_REGISTERED':
  #           self.log.info('NOT REGISTERED')
 #            print("NOT REGISTERED")
-            result = api_response.json()
+  #          result = api_response.json()
   #          self.log.info(result['registration_url_web'])
    #         self.log.info(result['reg_token'])
  #           print("Registracni odkaz pro parovani:",result ['registration_url_web'])
