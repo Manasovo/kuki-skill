@@ -59,7 +59,18 @@ def kuki_session(self):
 
                   self.session = json.loads(api_response.text)['session_key']
                   return self.session
-                  
+
+
+def kuki_devices(self):
+        """ availabla device list from Kuki contract """
+        self.log.error("DEBUG4")
+
+        self.api_headers = {'X-SessionKey': self.session}
+        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+
+        self.result = json.loads(self.api_get.text)
+        return self.result               
+
 
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""    
@@ -67,10 +78,8 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
-        
-        self.log.error("DEBUG")
-        self.kuki = generate_serial(56)
-        self.log.error(self.kuki)
+
+        self.log.error(self.result)
         
         if self.kuki:
             devices = [d['alias'] for d in self.kuki.kuki_devices()]
