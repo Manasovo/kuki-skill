@@ -24,7 +24,7 @@ def kuki_session(self):
         self.log.error("DEBUG SESSION")
         self.log.error(session )
 
-        if session == '0':
+        if session == "":
             self.log.error("SESSION not found generation new")
             kuki_reg(self)
         
