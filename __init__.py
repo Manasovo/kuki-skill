@@ -36,7 +36,8 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
-        self.kuki = KukiConnect(get_session)
+        
+        self.kuki = KukiConnect(get_devices)
         
         self.log.error(self.kuki)
         self.log.error("TEST")
