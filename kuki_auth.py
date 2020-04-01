@@ -14,7 +14,7 @@ import time                           # testing
 
 
 # defining the api-endpoint  
-API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
 def get_token(dev_cred):
     retry = False
