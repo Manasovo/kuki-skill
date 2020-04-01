@@ -112,6 +112,9 @@ class KukiConnect(MycroftKukiAuth):
                   return self.session
     
 
+
+print (get_session)
+
 #s = requests.Session()
 #s.auth = ('user', 'pass')
 #s.headers.update({'x-test': 'true'})

@@ -102,9 +102,6 @@ class KukiSkill(MycroftSkill):
                     .require('Play'))
     def play_intent(self, message):
         self.speak_dialog("Play")
-
-      
-        self.log.info(self.session)
   
   
 
