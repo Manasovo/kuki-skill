@@ -12,13 +12,8 @@ from mycroft.api import DeviceApi     # testing
 from mycroft.util.log import LOG      # testing
 import time                           # testing
 
-
 # defining the api-endpoint  
-#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-
-
-MycroftKukiCredentials
-
+API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
 
 class KukiConnect(object):
