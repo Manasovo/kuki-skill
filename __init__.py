@@ -6,7 +6,7 @@ from requests import HTTPError
 from adapt.intent import IntentBuilder
 
 from .kuki import KukiConnect
-
+import kuki
 
 
 class KukiSkill(MycroftSkill):
