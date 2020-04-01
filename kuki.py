@@ -17,6 +17,9 @@ import time                           # testing
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
 
+MycroftKukiCredentials
+
+
 
 class KukiConnect(object):
     """ Implement the Kuki Connect API """
@@ -33,7 +36,6 @@ class KukiConnect(object):
 
         # api call
         #serial = GenerateSerial(56)
-        self.get_session_token()
         self.serial = "Manas_test_12345678"
         self.deviceType = "mobile"
         self.deviceModel = (socket.gethostname())
