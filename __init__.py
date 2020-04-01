@@ -72,7 +72,7 @@ def kuki_devices(self):
         self.log.debug("DEBUG DEVICES")
         
         prdel = kuki_session(self)
-        self.log.debug(prdel)
+        self.log.error(prdel)
 
         self.api_headers = {'X-SessionKey': self.session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
