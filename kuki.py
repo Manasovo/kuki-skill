@@ -73,38 +73,17 @@ class KukiConnect(object):
  #                 result = api_response.json()                  
 #                  print("Session key:",result['session_key'])
                   self.session = json.loads(api_response.text)['session_key']
-	       		  self.log.info(result['session_key'])
-                  return self.session
+	       		  return self.session
     
 
-#s = requests.Session()
-#s.auth = ('user', 'pass')
-#s.headers.update({'x-test': 'true'})
+    def get_devices(self):
+        self.api_headers = {'X-SessionKey': .selfsession}
+        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
-# both 'x-test' and 'x-test2' are sent
-#s.get('https://as.kukacka.netbox.cz/api-v2/devices', headers={'x-test2': 'true'})
+        self.result = json.loads(self.api_get.text)
 
-#print (s)
-
-
-  #  print(d) 
-
-#        try:
-#            # TODO: Cache for a brief time
-#            devices = self._get('me/player/devices')['devices']
-#            return devices
-#        except Exception as e:
-#            LOG.error(e)
-
-#d = requests.get(url = API_URL, header = self.get_devices")
-#print(self.get_devices)
-#print(d)
-
-
-
-
-
-
+        #print(result[0]['alias']) # only first device
+        #print([result_item['alias'] for result_item in result]) # all devices
 
 
 
