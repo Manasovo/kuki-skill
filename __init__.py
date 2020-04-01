@@ -48,7 +48,7 @@ def generate_serial(StringLength=56):
     return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
 
-def kuki_session(self):
+def kuki_reg(self):
         """ registration and session key """
         self.log.error("DEBUG SESSION")
 
