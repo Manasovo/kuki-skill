@@ -37,6 +37,9 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         if self.kuki:
             devices = [d['alias'] for d in self.kuki.get_devices()]
+
+            self.log.error(self.kuki.get_devices)
+            
             if len(devices) == 1:
                 self.speak(devices[0])
             elif len(devices) > 1:
@@ -47,7 +50,6 @@ class KukiSkill(MycroftSkill):
             else:
                 self.speak_dialog('NoDevicesAvailable')
         else:
-            self.log.debug('PRDEL')
             self.log.error("Kuki AUTH failed")
             # self.failed_auth()
 

@@ -61,7 +61,7 @@ class KukiConnect(object):
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
             self.log.info('NOT REGISTERED')
 #            print("NOT REGISTERED")
-            self.esult = self.api_response.json()
+            self.result = self.api_response.json()
             self.log.info(self.result['registration_url_web'])
             self.log.info(self.result['reg_token'])
  #           print("Registracni odkaz pro parovani:",result ['registration_url_web'])
