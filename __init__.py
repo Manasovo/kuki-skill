@@ -114,8 +114,10 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         self.log.error("DEBUG voice LIST DEVICES")
 
-        if kuki_session(self) != 'NOT_REGISTERED':
-            
+        if kuki_session(self) == 'NOT_REGISTERED':
+            self.log.error("Kuki is NOT REGISTERED quit")
+
+        else:
             self.log.error("Kuki is REGISTERED continue")
 
             devices = kuki_devices(self)
@@ -132,9 +134,8 @@ class KukiSkill(MycroftSkill):
             else:
                self.log.debug("DEBUG NO DEVICE AVAILABLE")
                self.speak_dialog('NoDevicesAvailable')
+
     
-
-
     # testing playing tv intent
     @intent_handler(IntentBuilder('').require('Play'))
     def play_intent(self, message):
