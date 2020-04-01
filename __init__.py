@@ -17,8 +17,19 @@ import string                         # generate serial
 
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
-session = "0"
+session = ''
 
+
+def kuki_session(self):
+        self.log.error("DEBUG SESSION")
+        self.log.error(kuki_session)      
+        if len(session) == 0:
+            self.log.error("SESSION not found generation new")
+            kuki_reg(self)
+        
+        else:
+            self.log.error("SESSION found using")
+            
 
 def failed_auth(self):
     if 'user' not in self.settings:
@@ -85,18 +96,6 @@ def kuki_reg(self):
                   self.log.debug(session)  
 
                   return session
-
-
-def kuki_session(self):
-        self.log.error("DEBUG SESSION")
-        self.log.error(kuki_session)      
-        if len(session) == 0:
-            self.log.error("SESSION not found generation new")
-            kuki_reg(self)
-        
-        else:
-            self.log.error("SESSION found using")
-
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
