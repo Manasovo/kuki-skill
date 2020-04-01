@@ -110,7 +110,7 @@ class KukiConnect(MycroftKukiAuth):
  #                 session = json.loads(api_response.text)['session_key']
 #				  self.log.info(result['session'])
 #                  return session_key
-    	return NOTHING_FOUND
+#    	return NOTHING_FOUND
 
 #s = requests.Session()
 #s.auth = ('user', 'pass')
