@@ -27,7 +27,7 @@ def generate_serial(StringLength=56):
 
 def kuki_session(self):
         """ registration and session key """
-        self.log.debug("DEBUG SESSION")
+        self.log.error("DEBUG SESSION")
 
         #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
@@ -49,7 +49,7 @@ def kuki_session(self):
 
         # sending post request and saving response as response object 
         self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
-        self.log.debug("API POST")
+        self.log.error("API POST")
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
             self.log.info('Kuki device is NOT REGISTERED try URL and pair code bellow:')
@@ -71,7 +71,7 @@ def kuki_session(self):
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
-        self.log.debug("DEBUG DEVICES")
+        self.log.error("DEBUG DEVICES")
         
         if kuki_session(self) == 'NOT_REGISTERED':
             self.log.error("Kuki is NOT REGISTERED quit from kuki_devices")
