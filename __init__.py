@@ -43,7 +43,7 @@ def kuki_session(self):
                         'device_type':self.deviceType,
                         'device_model':self.deviceModel, 
                         'product_name':self.product_name,
-                        'mac':seld.mac,
+                        'mac':self.mac,
                         'boot_mode':self.bootMode,
                         'claimed_device_id':self.serial}
 
