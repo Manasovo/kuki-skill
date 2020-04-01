@@ -43,7 +43,7 @@ def generate_serial(StringLength=56):
 
 def kuki_reg(self):
         """ registration and session key """
-        self.log.error("DEBUG SESSION")
+        self.log.error("DEBUG REGISTRATION")
 
         #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
@@ -88,6 +88,7 @@ def kuki_reg(self):
 
 
 def kuki_session(self):
+        self.log.error("DEBUG SESSION")       
         if len(session) == 0:
             self.log.error("SESSION not found generation new")
             kuki_reg(self)
