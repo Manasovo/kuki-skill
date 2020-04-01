@@ -63,6 +63,7 @@ def kuki_session(self):
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
+        self.session = kuki_session
         self.log.error("DEBUG4")
 
         self.api_headers = {'X-SessionKey': self.session}
