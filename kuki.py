@@ -86,6 +86,6 @@ class KukiConnect(object):
 
         #print(result[0]['alias']) # only first device
         #print([result_item['alias'] for result_item in result]) # all devices
-
+        return self.result
 
 
