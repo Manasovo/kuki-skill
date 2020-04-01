@@ -105,8 +105,8 @@ class KukiSkill(MycroftSkill):
         else:
             self.log.error("Kuki is REGISTERED continue")
 
-            kuki_devices = kuki_devices(self)
-            self.log.error(kuki_devices)
+            devices = kuki_devices(self)
+            self.log.error(devices)
 
      
 
