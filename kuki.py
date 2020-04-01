@@ -12,13 +12,14 @@ from mycroft.api import DeviceApi     # testing
 from mycroft.util.log import LOG      # testing
 import time                           # testing
 
-# defining the api-endpoint  
+# defining the api-endpoint
+self.log.error("DEBUG1")
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 
 
 class KukiConnect(object):
       """ Implement the Kuki Connect API """
-
+    self.log.error("DEBUG2")
 
     def GenerateSerial(StringLength=56):
         """Generate a random string of letters and digits """
@@ -29,6 +30,7 @@ class KukiConnect(object):
 
     def kuki_session(self):
         """ registration and session key """
+        self.log.error("DEBUG3")
 
         #serial = GenerateSerial(56)
         self.serial = "Manas_test_12345678"
@@ -66,6 +68,7 @@ class KukiConnect(object):
 
     def kuki_devices(self):
         """ availabla device list from Kuki contract """
+        self.log.error("DEBUG4")
 
         self.api_headers = {'X-SessionKey': self.session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
