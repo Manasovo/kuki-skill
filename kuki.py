@@ -107,10 +107,9 @@ class KukiConnect(MycroftKukiAuth):
 #                  print("REGISTERED")
  #                 result = api_response.json()                  
 #                  print("Session key:",result['session_key'])
-
- #                 session = json.loads(api_response.text)['session_key']
-#				  self.log.info(result['session'])
-   #               return session_key
+                  session = json.loads(api_response.text)['session_key']
+	       		  self.log.info(result['session'])
+                  return session_key
     
 
 #s = requests.Session()
