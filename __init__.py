@@ -17,10 +17,9 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         
         self.log.error("DEBUG")
- #       self.kuki = kuki_session(self)    
- #       self.log.error(self.kuki)
+        self.kuki = kuki_session(self)    
+        self.log.error(self.kuki)
         
-
         if self.kuki:
             devices = [d['alias'] for d in self.kuki.kuki_devices()]
             
