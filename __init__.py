@@ -17,7 +17,7 @@ import string                         # generate serial
 
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
-session = ''
+session = "0"
 
 
 def failed_auth(self):
