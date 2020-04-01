@@ -19,18 +19,18 @@ API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
 
 
- def failed_auth(self):
-        if 'user' not in self.settings:
-            self.log.error('Settings hasn\'t been received yet')
-            self.speak_dialog('NoSettingsReceived')
-        elif not self.settings.get("user"):
-            self.log.error('User info has not been set.')
-            # Assume this is initial setup
-            self.speak_dialog('NotConfigured')
-        else:
-            # Assume password changed or there is a typo
-            self.log.error('User info has been set but Auth failed.')
-            self.speak_dialog('NotAuthorized')
+def failed_auth(self):
+    if 'user' not in self.settings:
+        self.log.error('Settings hasn\'t been received yet')
+        self.speak_dialog('NoSettingsReceived')
+    elif not self.settings.get("user"):
+        self.log.error('User info has not been set.')
+        # Assume this is initial setup
+        self.speak_dialog('NotConfigured')
+    else:
+        # Assume password changed or there is a typo
+        self.log.error('User info has been set but Auth failed.')
+        self.speak_dialog('NotAuthorized')
 
 
 def generate_serial(StringLength=56):
