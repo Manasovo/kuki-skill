@@ -18,7 +18,7 @@ from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 
 from enum import Enum
 
-from .kuki import (KukiConnect, get_devices)
+from .kuki import (KukiConnect)
 
 
 
@@ -29,7 +29,9 @@ class KukiSkill(MycroftSkill):
     def list_devices(self, message):
         """ List available devices. """
         
-        self.kuki = KukiConnect(get_devices)
+        self.kuki = KukiConnect.get_devices()
+
+        #KukiConnect.get_devices()
         
         self.log.error(self.kuki)
         self.log.error("TEST")
