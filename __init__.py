@@ -52,11 +52,12 @@ def kuki_session(self):
         self.log.debug("API POST")
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
-            self.log.info('Kuki device is NOT REGISTERED')
+            self.log.info('Kuki device is NOT REGISTERED try URL and pair code bellow:')
             self.result = self.api_response.json()
             self.log.info(self.result['registration_url_web'])
             self.log.info(self.result['reg_token'])
             return "NOT_REGISTERED"
+
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
                   self.log.info('Kuki device is REGISTERED')
@@ -91,6 +92,13 @@ class KukiSkill(MycroftSkill):
     def list_devices(self, message):
         """ List available devices. """
         self.log.error("DEBUG voice LIST DEVICES")
+
+        if kuki_session(self) == 'NOT_REGISTERED':
+            self.log.error("Kuki is NOT REGISTERED quit")
+
+        else:
+            self.log.error("Kuki is REGISTERED continue")
+
 
         devices = kuki_devices(self)
         self.log.error(devices)
