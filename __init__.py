@@ -80,6 +80,7 @@ def kuki_session(self):
                   self.log.info('Kuki device is REGISTERED')
                   self.session = json.loads(self.api_response.text)['session_key']
                   
+                  self.log.debug('WRITING SESSION')
                   session_file = open("session.kuki","w") 
                   session_file.write(self.session) 
 
