@@ -45,7 +45,7 @@ def kuki_session(self):
         self.log.error("DEBUG SESSION")
 
         #serial = generate_serial(56)
-        self.serial = "Manas_test_123456789"
+        self.serial = "Manas_test_12345678"
         self.deviceType = "mobile"
         self.deviceModel = (socket.gethostname())
         self.product_name = "MyCroft"
@@ -115,9 +115,6 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG voice LIST DEVICES")
 
         if kuki_session(self) == 'NOT_REGISTERED':
-
-            self.log.error(kuki_session)
-
             self.log.error("Kuki is NOT REGISTERED quit")
 
         else:
