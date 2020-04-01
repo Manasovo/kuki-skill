@@ -117,6 +117,7 @@ class KukiSkill(MycroftSkill):
         if kuki_session(self) == 'NOT_REGISTERED':
             self.log.error("Kuki is NOT REGISTERED quit")
 
+
         else:
             self.log.error("Kuki is REGISTERED continue")
 
@@ -136,6 +137,8 @@ class KukiSkill(MycroftSkill):
                self.speak_dialog('NoDevicesAvailable')
 
     
+
+
     # testing playing tv intent
     @intent_handler(IntentBuilder('').require('Play'))
     def play_intent(self, message):
