@@ -58,7 +58,7 @@ def kuki_session(self):
             self.log.info(self.result['reg_token'])
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
-                  self.log.info('DEBUG REGISTERED')
+                  self.log.warning('DEBUG REGISTERED')
 
                   self.session = json.loads(api_response.text)['session_key']
                   
