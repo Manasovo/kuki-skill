@@ -100,29 +100,26 @@ class KukiConnect(MycroftKukiAuth):
             self.log.info(result['reg_token'])
  #           print("Registracni odkaz pro parovani:",result ['registration_url_web'])
  #           print("Parovaci kod:",result['reg_token'])
-
         else:
- 
-              if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
-           		  self.log.info('REGISTERED')
+             if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
+          		  self.log.info('REGISTERED')
 #                  print("REGISTERED")
-#                  result = api_response.json()
-                  
+  #                result = api_response.json()                  
 #                  print("Session key:",result['session_key'])
 
  #                 session = json.loads(api_response.text)['session_key']
 #				  self.log.info(result['session'])
-   #               return session_key
-    
+                  return session_key
+    	return NOTHING_FOUND
 
-s = requests.Session()
-s.auth = ('user', 'pass')
-s.headers.update({'x-test': 'true'})
+#s = requests.Session()
+#s.auth = ('user', 'pass')
+#s.headers.update({'x-test': 'true'})
 
 # both 'x-test' and 'x-test2' are sent
-s.get('https://as.kukacka.netbox.cz/api-v2/devices', headers={'x-test2': 'true'})
+#s.get('https://as.kukacka.netbox.cz/api-v2/devices', headers={'x-test2': 'true'})
 
-print (s)
+#print (s)
 
 
   #  print(d) 
