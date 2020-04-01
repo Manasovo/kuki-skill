@@ -82,7 +82,7 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         self.log.error("DEBUG voice LIST DEVICES")
 
-        devices = list_devices()
+        devices = kuki_devices()
         self.log.error(devices)
         
         self.log.error(kuki_devices)
