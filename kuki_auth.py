@@ -106,13 +106,13 @@ class KukiConnect(MycroftKukiAuth):
               if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
            		  self.log.info('REGISTERED')
 #                  print("REGISTERED")
-                  result = api_response.json()
-                  self.log.info(result['session_key'])
+#                  result = api_response.json()
+                  
 #                  print("Session key:",result['session_key'])
 
-                  session_key = json.loads(api_response.text)['session_key']
-
-                  return session_key
+ #                 session = json.loads(api_response.text)['session_key']
+#				  self.log.info(result['session'])
+   #               return session_key
     
 
 s = requests.Session()
