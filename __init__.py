@@ -27,7 +27,7 @@ def generate_serial(StringLength=56):
 
 def kuki_session(self):
         """ registration and session key """
-        self.log.error("DEBUG SESSION")
+        self.log.debug("DEBUG SESSION")
 
         #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
@@ -49,7 +49,7 @@ def kuki_session(self):
 
         # sending post request and saving response as response object 
         self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
-        self.log.error("API POST")
+        self.log.debug("API POST")
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
             self.log.info('DEBUG NOT REGISTERED')
@@ -62,23 +62,23 @@ def kuki_session(self):
 
                   self.session = json.loads(api_response.text)['session_key']
                   
-                  self.log.error(self.session)
+                  self.log.debug(self.session)
 
                   return self.session
 
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
-        self.log.error("DEBUG DEVICES")
+        self.log.debug("DEBUG DEVICES")
         
         prdel = kuki_session(self)
-        self.log.error(prdel)
+        self.log.debug(prdel)
 
         self.api_headers = {'X-SessionKey': self.session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-        self.log.error(self.result)
+        self.log.debug(self.result)
 
         return ([result_item['alias'] for result_item in result]) # all devices
 
@@ -89,12 +89,12 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
-        self.log.error("DEBUG voice LIST DEVICES")
+        self.log.debug("DEBUG voice LIST DEVICES")
 
         devices = kuki_devices(self)
-        self.log.error(devices)
+        self.log.debug(devices)
         
-        self.log.error(kuki_devices)
+        self.log.debug(kuki_devices)
         
         if self.kuki:
             devices = [d['alias'] for d in self.kuki.kuki_devices()]
@@ -108,17 +108,17 @@ class KukiSkill(MycroftSkill):
                                               self.translate('And') + ' ' +
                                               devices[-1]})
             else:
-               self.log.error("DEBUG NO DEVICE AVAILABLE")
+               self.log.debug("DEBUG NO DEVICE AVAILABLE")
                self.speak_dialog('NoDevicesAvailable')
         else:
-            self.log.error("DEBUG KUKI AUTH FAILED")
+            self.log.debug("DEBUG KUKI AUTH FAILED")
             # self.failed_auth()
 
 
     # testing playing tv intent
     @intent_handler(IntentBuilder('').require('Play'))
     def play_intent(self, message):
-        self.log.error("DEBUG play")
+        self.log.debug("DEBUG play")
         self.speak_dialog("Play")
   
   
