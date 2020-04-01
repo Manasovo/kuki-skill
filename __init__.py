@@ -69,7 +69,7 @@ def kuki_session(self):
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
-        self.log.error("DEBUG DEVICES")
+        self.log.debug("DEBUG DEVICES")
         
         prdel = kuki_session(self)
         self.log.error(prdel)
@@ -89,10 +89,10 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
-        self.log.debug("DEBUG voice LIST DEVICES")
+        self.log.error("DEBUG voice LIST DEVICES")
 
         devices = kuki_devices(self)
-        self.log.debug(devices)
+        self.log.error(devices)
         
         self.log.debug(kuki_devices)
         
