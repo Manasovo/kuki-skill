@@ -15,8 +15,8 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-
+#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+API_URL = "https://as.kuki.cz/api-v2/"
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
@@ -107,13 +107,7 @@ class KukiSkill(MycroftSkill):
 
             devices = kuki_devices(self)
             self.log.error(devices)
-
-     
-
-        
-        #if self.devices(self):
-        #    devices = [d['alias'] for d in kuki_devices()]
-            
+           
             if len(devices) == 1:
                 self.speak(devices[0])
 
