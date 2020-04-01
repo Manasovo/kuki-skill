@@ -20,14 +20,6 @@ API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 session = ''
 
 
-def kuki_session(self):
-    if len(session) == 0:
-        self.log.error("SESSION not found generation new")
-        kuki_reg(self)
-    else:
-        self.log.error("SESSION found using")
-
-
 def failed_auth(self):
     if 'user' not in self.settings:
         self.log.error('Settings hasn\'t been received yet')
@@ -93,6 +85,15 @@ def kuki_reg(self):
                   self.log.debug(session)  
 
                   return session
+
+
+def kuki_session(self):
+         if len(session) == 0:
+            self.log.error("SESSION not found generation new")
+            kuki_reg(self)
+        else:
+            self.log.error("SESSION found using")
+
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
