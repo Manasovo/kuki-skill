@@ -72,7 +72,7 @@ def kuki_session(self):
             self.log.error(self.result['registration_url_web'])
             self.log.error(self.result['reg_token'])
 
-            #return "NOT_REGISTERED"
+            return "NOT_REGISTERED"
             failed_auth(self)
 
         else:
