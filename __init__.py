@@ -5,8 +5,22 @@ from mycroft.messagebus import Message
 from requests import HTTPError
 from adapt.intent import IntentBuilder
 
-from .kuki import *
+import requests                       # http post & get
+import json                           # json :-)
+import uuid                           # mac
+import socket                         # hostname
+import random                         # generate serial
+import string                         # generate serial
+
+#from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
+
+
+def generate_serial(StringLength=56):
+"""Generate a random string of letters and digits """
+    
+    LettersAndDigits = string.ascii_letters + string.digits
+    return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
 
 class KukiSkill(MycroftSkill):
