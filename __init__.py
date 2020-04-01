@@ -23,15 +23,7 @@ from .kuki import (KukiConnect)
 
 
 class KukiSkill(MycroftSkill):
-    """Kuki control through the Kuki API."""
-    
-    def __init__(self):
-        super(KukiSkill, self).__init__()
-        self.kuki = None
-        self.__device_list = None
-        self.__devices_fetched = 0
-        self.KukiSession = 1
-
+    """Kuki control through the Kuki API."""    
 
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
