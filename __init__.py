@@ -5,7 +5,7 @@ from mycroft.messagebus import Message
 from requests import HTTPError
 from adapt.intent import IntentBuilder
 
-from .kuki import kuki_session
+from .kuki import (GenerateSerial, kuki_session, kuki_devices)
 
 
 class KukiSkill(MycroftSkill):
