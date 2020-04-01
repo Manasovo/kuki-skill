@@ -17,7 +17,7 @@ import string                         # generate serial
 
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
-session = ''
+session = "fe9665c7-9bcc-4351-9241-d6e6f098148d"
 
 
 def kuki_session(self):
