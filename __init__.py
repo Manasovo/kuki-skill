@@ -29,7 +29,7 @@ def kuki_session(self):
         
         else:
             self.log.error("SESSION found using")
-
+            return session
 
 def failed_auth(self):
     if 'user' not in self.settings:
@@ -103,8 +103,7 @@ def kuki_devices(self):
         self.log.error("DEBUG DEVICES")   
 
         self.session = kuki_session(self)
-        self.log.debug(self.session)
-
+ 
         self.api_headers = {'X-SessionKey': self.session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
