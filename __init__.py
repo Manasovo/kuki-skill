@@ -100,18 +100,18 @@ def kuki_session(self):
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
             
-            self.log.error("DEBUG DEVICES")   
+        self.log.error("DEBUG DEVICES")   
 
-            self.session = kuki_session(self)
-            self.log.debug(self.session)
+        self.session = kuki_session(self)
+        self.log.debug(self.session)
 
-            self.api_headers = {'X-SessionKey': self.session}
-            self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+        self.api_headers = {'X-SessionKey': self.session}
+        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
-            self.result = json.loads(self.api_get.text)
-            self.log.debug(self.result)
+        self.result = json.loads(self.api_get.text)
+        self.log.debug(self.result)
 
-            return ([result_item['alias'] for result_item in self.result]) # all devices
+        return ([result_item['alias'] for result_item in self.result]) # all devices
 
 
 class KukiSkill(MycroftSkill):
@@ -123,27 +123,23 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG voice LIST DEVICES")
 
         kuki_session(self)
-#        if kuki_session(self) == 'NOT_REGISTERED':
-#            self.log.error("Kuki is NOT REGISTERED quit")
 
+        self.log.error("Kuki is REGISTERED continue")
 
-#        else:
-            self.log.error("Kuki is REGISTERED continue")
-
-            devices = kuki_devices(self)
-            self.log.debug(devices)
+        devices = kuki_devices(self)
+        self.log.debug(devices)
            
-            if len(devices) == 1:
-                self.speak(devices[0])
+        if len(devices) == 1:
+            self.speak(devices[0])
 
-            elif len(devices) > 1:
-                self.speak_dialog('AvailableDevices',
-                                  {'devices': ' '.join(devices[:-1]) + ' ' +
-                                              self.translate('And') + ' ' +
-                                              devices[-1]})
-            else:
-               self.log.debug("DEBUG NO DEVICE AVAILABLE")
-               self.speak_dialog('NoDevicesAvailable')
+        elif len(devices) > 1:
+            self.speak_dialog('AvailableDevices',
+                                {'devices': ' '.join(devices[:-1]) + ' ' +
+                                            self.translate('And') + ' ' +
+                                            devices[-1]})
+        else:
+            self.log.debug("DEBUG NO DEVICE AVAILABLE")
+            self.speak_dialog('NoDevicesAvailable')
 
     
 
