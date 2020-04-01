@@ -19,6 +19,14 @@ API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
 session = ''
 
+
+def kuki_session(self):
+    if len(session) == 0:
+        self.log.error("SESSION = 0")
+    else:
+        self.log.error("SESSION = more")
+
+
 def failed_auth(self):
     if 'user' not in self.settings:
         self.log.error('Settings hasn\'t been received yet')
