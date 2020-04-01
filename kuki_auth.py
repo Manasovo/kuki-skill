@@ -53,7 +53,7 @@ class MycroftKukiAuth(object):
         return self.access_token
 
 
-class KukiConnect(object):
+class KukiConnect(MycroftKukiAuth):
     """ Implement the Kuki Connect API """
 
 
@@ -92,17 +92,17 @@ class KukiConnect(object):
 # sending post request and saving response as response object 
         api_response = requests.post(url = API_URL + 'register' , data = api_post) 
 
-        if json.loads(api_response.text)['state'] == 'NOT_REGISTERED':
-            self.log.info('NOT REGISTERED')
+ #       if json.loads(api_response.text)['state'] == 'NOT_REGISTERED':
+ #           self.log.info('NOT REGISTERED')
 #            print("NOT REGISTERED")
             result = api_response.json()
-            self.log.info(result['registration_url_web'])
-            self.log.info(result['reg_token'])
+  #          self.log.info(result['registration_url_web'])
+   #         self.log.info(result['reg_token'])
  #           print("Registracni odkaz pro parovani:",result ['registration_url_web'])
  #           print("Parovaci kod:",result['reg_token'])
-        else:
-             if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
-          		  self.log.info('REGISTERED')
+   #     else:
+   #          if json.loads(api_response.text)['state'] != 'NOT_REGISTERED':
+    #      		  self.log.info('REGISTERED')
 #                  print("REGISTERED")
   #                result = api_response.json()                  
 #                  print("Session key:",result['session_key'])
