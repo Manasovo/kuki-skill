@@ -1,22 +1,9 @@
-import re
 from mycroft.skills.core import intent_handler
 from mycroft.util.parse import match_one, fuzzy_match
 from mycroft.api import DeviceApi
 from mycroft.messagebus import Message
 from requests import HTTPError
 from adapt.intent import IntentBuilder
-
-import time
-from os.path import abspath, dirname, join
-from subprocess import call, Popen, DEVNULL
-import signal
-from socket import gethostname
-
-import random
-
-from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
-
-from enum import Enum
 
 from .kuki import (KukiConnect)
 
