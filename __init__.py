@@ -32,7 +32,7 @@ class KukiSkill(MycroftSkill):
         self.__devices_fetched = 0
         self.KukiSession = 1
 
-   def load_credentials(self):
+    def load_credentials(self):
         """Retrieve credentials from the backend and connect to Spotify."""
         try:
 #            creds = MycroftKukiCredentials(self.KukiSession)
