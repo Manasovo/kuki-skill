@@ -19,7 +19,7 @@ class KukiSkill(MycroftSkill):
         self.kuki = kuki_session(self)
     
         self.log.error(self.kuki)
-        self.log.error("TEST")
+
         
 
         if self.kuki:
@@ -44,6 +44,7 @@ class KukiSkill(MycroftSkill):
     # testing playing tv intent
     @intent_handler(IntentBuilder('').require('Play'))
     def play_intent(self, message):
+        self.log.error("DEBUG play")
         self.speak_dialog("Play")
   
   
