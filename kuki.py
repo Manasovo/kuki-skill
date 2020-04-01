@@ -77,7 +77,7 @@ class KukiConnect(object):
     
 
     def get_devices(self):
-        self.api_headers = {'X-SessionKey': .selfsession}
+        self.api_headers = {'X-SessionKey': self.session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
