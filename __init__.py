@@ -212,7 +212,7 @@ class KukiSkill(MycroftSkill):
         # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}
         
-        API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/api/remote/(?P<pk>\d+)"
+        API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/(?P<pk>\d+)"
         #API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
         DEVICE_ID = "30928"
 
