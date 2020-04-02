@@ -142,7 +142,8 @@ def prefered_devices(self):
         if default_device == '':
             self.log.error("NO DEFAULT DEVICE SELECED")
             kuki_session(self)
-            kuki_devices(self)
+            devices = kuki_devices(self)
+
             self.log.error(devices)
         
         else:
