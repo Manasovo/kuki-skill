@@ -181,7 +181,7 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG VOLUME")
 
         kuki_session(self)
-        
+
         devices = kuki_devices(self)
         self.log.error(devices)
         
@@ -215,12 +215,13 @@ class KukiSkill(MycroftSkill):
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
         
-       
-        #self.api_response = requests.post('https://as.kukacka.netbox.cz/api/remote/30928?X-SessionKey=52a0011b-8f52-4a43-8580-240f7d198718', data = self.api_post)
         self.remote = json.loads(self.api_remote.text)
         self.log.error(self.remote)
 
-        self.speak_dialog("Volume")
+        self.speak_dialog('VolumeUp',
+                            {'devices': ' '.join(devices[:-1]) + ' ' +  
+                                            devices[-1]})
+    
 
 
 
@@ -266,8 +267,6 @@ class KukiSkill(MycroftSkill):
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
         
-       
-        #self.api_response = requests.post('https://as.kukacka.netbox.cz/api/remote/30928?X-SessionKey=52a0011b-8f52-4a43-8580-240f7d198718', data = self.api_post)
         self.remote = json.loads(self.api_remote.text)
         self.log.error(self.remote)
 
