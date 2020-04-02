@@ -216,7 +216,7 @@ class KukiSkill(MycroftSkill):
         self.result = json.loads(self.api_get.text)
  
         #self.prefered_device_id = result[0]['id']
-        self.prefered_device_id = ([result_item['alias'] for result_item in self.result])
+        self.prefered_device_id = ([result_item['id'] for result_item in self.result])
 
         # self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
 
