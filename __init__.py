@@ -60,7 +60,7 @@ def generate_serial(StringLength=56):
 
 
 def kuki_reg(self):
-   # global session
+        global session
 
         """ registration and session key """
         self.log.error("DEBUG REGISTER")
@@ -105,8 +105,8 @@ def kuki_reg(self):
                   self.log.error('REGISTER')
                   self.log.error(session)  
 
-                  #return session
-                  return globals()['session'] = 'session'
+                  return session
+                  #return globals()['session'] = 'session'
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
