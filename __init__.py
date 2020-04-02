@@ -226,16 +226,15 @@ class KukiSkill(MycroftSkill):
 
         # API POST data
       
-        self.
         self.action = "playLive"
-        self.live = "live"
         self.op = "play"
+        self.type = "live"
         self.channel = "1";
         
         # data to be sent to api 
         self.api_post = {'action':self.action,
-                        'type':self.live,
                         'op': self.op,
+                        'type':self.type,
                         'channel_id': self.channel}
 
         # sending post request and saving response as response object
