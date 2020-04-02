@@ -135,9 +135,15 @@ def prefered_devices(self):
             
         self.log.error("DEBUG PREFERED DEVICES")   
 
-        default_device = self.settings.get('default_device')
-       
+        default_device = self.settings.get('default_device')       
         self.log.error(default_device) 
+
+        if default_device == '':
+            self.log.error("NO DEFAULT DEVICE SELECED")
+        
+        else:
+        
+            return default_device
 
 
 class KukiSkill(MycroftSkill):
