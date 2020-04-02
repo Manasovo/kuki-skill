@@ -211,8 +211,9 @@ class KukiSkill(MycroftSkill):
 
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
         
-        string = self.api_get.read().decode('utf-8')
-        self.result = json.loads(string)
+        response = requests.get(self.api_get)    
+        dict = response.json()
+        self.log.error(dict)
        
 
         # POKUSY O DODANI ID
