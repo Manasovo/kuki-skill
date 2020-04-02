@@ -270,8 +270,9 @@ class KukiSkill(MycroftSkill):
         self.remote = json.loads(self.api_remote.text)
         self.log.error(self.remote)
 
-        self.speak_dialog("Playlive")
-
+        self.speak_dialog('PlayLive',
+                            {'devices': ' '.join(devices[:-1]) + ' ' +  
+                                            devices[-1]})
 
 
 
