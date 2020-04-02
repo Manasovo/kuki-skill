@@ -216,7 +216,7 @@ class KukiSkill(MycroftSkill):
         self.result = json.loads(self.api_get.text)
         self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
 
-        myid = prefered_device_id[0]
+        myid = print(prefered_device_id[0])
         self.log.error(myid)
         
         
