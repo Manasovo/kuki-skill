@@ -1,5 +1,6 @@
 from mycroft.skills.core import intent_handler
 from mycroft.util.parse import match_one, fuzzy_match
+from mycroft.skills.common_play_skill import CommonPlaySkill
 from mycroft.api import DeviceApi
 from mycroft.messagebus import Message
 from requests import HTTPError
