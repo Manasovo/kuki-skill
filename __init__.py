@@ -11,10 +11,9 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-#API_URL = "https://as.kuki.cz/api-v2/"
+#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+API_URL = "https://as.kuki.cz/api-v2/"
 #session = ''
-session = '52a0011b-8f52-4a43-8580-240f7d198718'
 
 #session ostra
 #session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
@@ -215,15 +214,15 @@ class KukiSkill(MycroftSkill):
         # POKUSY O DODANI ID
         # self.prefered_device_id = self.result[0]['id']
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
-        # self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
-        self.prefered_device_id = "30928"
+        self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'VIP1113', self.result)))
+        # self.prefered_device_id = "30928"
         self.log.error(self.prefered_device_id)
         
         
 
         # API POST data
-        API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
-        #API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
+        #API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
+        API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
         
         self.remote = "remote"
         self.live = "live"
