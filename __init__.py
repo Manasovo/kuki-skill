@@ -204,6 +204,8 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('PlayLive'))
     def live_intent(self, message):
 
+        self.log.error("DEBUG PLAY LIVE")
+
         kuki_session(self)
         
         # API get - TODO set prefered devices
