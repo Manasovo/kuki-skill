@@ -214,13 +214,11 @@ class KukiSkill(MycroftSkill):
         
         API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
         #API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
-        DEVICE_ID = "30928"
-
+        
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
-
         self.result = json.loads(self.api_get.text)
         self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
-        
+
         self.log.error(self.prefered_device_id)
 
 
@@ -232,10 +230,11 @@ class KukiSkill(MycroftSkill):
         # data to be sent to api 
         self.api_post = {'action':self.remote,
                         'type':self.live}
-
+        
+        prefered_device_id = self.prefered_device_id
 
         # sending post request and saving response as response object
-        self.api_response = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_response = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
         
         #self.api_response = requests.post('https://as.kukacka.netbox.cz/api/remote/30928?X-SessionKey=52a0011b-8f52-4a43-8580-240f7d198718', data = self.api_post)
 
