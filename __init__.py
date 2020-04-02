@@ -212,8 +212,6 @@ class KukiSkill(MycroftSkill):
         # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}
         
-        API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
-        #API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
         
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
         self.result = json.loads(self.api_get.text)
@@ -224,21 +222,22 @@ class KukiSkill(MycroftSkill):
 
 
         #API POST data
+        
+        API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
+        #API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
         self.remote = "remote"
         self.live = "live"
         
         # data to be sent to api 
         self.api_post = {'action':self.remote,
                         'type':self.live}
-        
-        prefered_device_id = self.prefered_device_id
 
         # sending post request and saving response as response object
-        self.api_response = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_response = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
         
         #self.api_response = requests.post('https://as.kukacka.netbox.cz/api/remote/30928?X-SessionKey=52a0011b-8f52-4a43-8580-240f7d198718', data = self.api_post)
-
-        self.log.error(self.api_response)
+        self.result = json.loads(self.api_response.text)
+        self.log.error(self.result)
 
 
         prdel = json.loads(self.api_response.text)
