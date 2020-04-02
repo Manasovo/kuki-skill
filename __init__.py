@@ -172,7 +172,7 @@ class KukiSkill(MycroftSkill):
   
 
     # volume on devices
-    @intent_handler(IntentBuilder('').require('VolumeIP').reguire('VolumeDOWN'))
+    @intent_handler(IntentBuilder('').require('VolumeUP').reguire('VolumeDOWN'))
     def volume_intent(self, message):
 
         kuki_session(self)
