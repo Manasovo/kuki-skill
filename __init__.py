@@ -206,7 +206,7 @@ class KukiSkill(MycroftSkill):
         
         self.log.error("==============")
         self.log.error(prefered_device)
-        self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device self.result)))
+        self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'prefered_device' self.result)))
         
         #self.prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
