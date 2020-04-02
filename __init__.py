@@ -152,11 +152,26 @@ class KukiSkill(MycroftSkill):
     def status_intent(self, message):
     
         kuki_session(self)
+
+        self.api_headers = {'X-SessionKey': session}
+        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+
+        self.result = json.loads(self.api_get.text)
+        specific_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'NVIDIA SHIELD', self.result)))
+        print(specific_device)
+
+
         # API get
+
+        
+      
 
         self.api_headers = {'X-SessionKey': session}
         self.api_get = requests.get(API_URL + 'api/remote/', headers = self.api_headers)
         
+
+
+
         self.result = json.loads(self.api_get.text)
 
         self.log.error(self.result)
