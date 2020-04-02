@@ -1,8 +1,8 @@
 {
-  "utterance": "what spotify devices are available",
+  "utterance": "what Kukki devices are available",
   "intent_type": "list_devices",
   "intent": {
-    "Spotify": "spotify",
+    "Spotify": "kuki",
     "Device": "devices"
   },
   "expected_response": "TESTING"
