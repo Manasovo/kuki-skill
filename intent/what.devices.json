@@ -1,5 +1,5 @@
 {
-  "utterance": "show cookie devices",
+  "utterance": "what cookie devices are available",
   "intent_type": "list_devices",
   "intent": {
     "Kuki": "kuki",

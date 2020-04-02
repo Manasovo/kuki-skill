@@ -15,12 +15,12 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-API_URL = "https://as.kuki.cz/api-v2/"
+API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+#API_URL = "https://as.kuki.cz/api-v2/"
 session = ''
 
 #session ostra
-session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
+#session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
 
 #session testovka
 #session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
@@ -60,6 +60,8 @@ def generate_serial(StringLength=56):
 
 
 def kuki_reg(self):
+   # global session
+
         """ registration and session key """
         self.log.error("DEBUG REGISTER")
 
@@ -103,7 +105,8 @@ def kuki_reg(self):
                   self.log.error('REGISTER')
                   self.log.error(session)  
 
-                  return session
+                  #return session
+                  return globals()['session'] = 'session'
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
