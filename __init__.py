@@ -22,6 +22,7 @@ API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
 
 session = ''
+default_device = ''
 
 #session ostra
 #session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
@@ -132,17 +133,20 @@ def kuki_devices(self):
 
 def prefered_devices(self):
         """ select of of many Kuki devices from contract """
-            
+        global default_device #cache device
+
         self.log.error("DEBUG PREFERED DEVICES")   
 
         default_device = self.settings.get('default_device')       
-        self.log.error(default_device) 
-
+     
         if default_device == '':
             self.log.error("NO DEFAULT DEVICE SELECED")
+            kuki_session(self)
+            kuki_devices(self)
+            self.log.error(kuki_devices)
         
         else:
-            self.log.info("default_device")
+            self.log.error(default_device)
             return default_device
 
 
