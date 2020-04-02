@@ -13,7 +13,8 @@ import string                         # generate serial
 
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
-session = ''
+#session = ''
+session = '52a0011b-8f52-4a43-8580-240f7d198718'
 
 #session ostra
 #session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
@@ -234,8 +235,10 @@ class KukiSkill(MycroftSkill):
 
 
         # sending post request and saving response as response object
-        self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID + ".json", headers = self.api_headers, data = self.api_post)
+        #self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID + ".json", headers = self.api_headers, data = self.api_post)
         
+        self.api_response = requests.post('https://as.kukacka.netbox.cz/api/remote/30928.json?X-SessionKey=52a0011b-8f52-4a43-8580-240f7d198718', data = self.api_post')
+
         self.log.error(self.api_response)
 
 
