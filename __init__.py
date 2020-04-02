@@ -152,8 +152,11 @@ class KukiSkill(MycroftSkill):
     def status_intent(self, message):
     
         # API get
-        self.log.error(kuki_session(self))
+
         self.api_headers = {'X-SessionKey': kuki_session(self)}
+
+        self.log.error(self.api_headers)
+
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
         
 
