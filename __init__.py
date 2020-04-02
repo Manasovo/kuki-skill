@@ -210,13 +210,12 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG STATUS")
 
         kuki_session(self)
-        prefered_device(self)
         prefered_device_id = prefered_device(self)
-        
+
         #prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
-        self.log.error(self.prefered_device_id)
+        self.log.error(prefered_device_id)
         
 
         # API GET
