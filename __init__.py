@@ -170,7 +170,6 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog("Play")
   
   
-
     # volume on devices
     @intent_handler(IntentBuilder('').require('VolumeUp').require('VolumeDown'))
     def volume_intent(self, message):
@@ -198,22 +197,38 @@ class KukiSkill(MycroftSkill):
         prdel = json.loads(self.api_response.text)
         print(prdel)
 
-# "https://admin.as.kuki.tv/api/remote/<id zažízení>" 
-
-# admin.as.kuki.cz/api/device-state/5034042.json?X-SessionKey=b828091a-e2c0-43cd-901d-62b9acd0ddc9
-
-# api/remote/(?P<pk>\d+)
-
         self.speak_dialog("Volume")
 
 
+        # play live tv
+    @intent_handler(IntentBuilder('').require('PlayLive'))
+    def live_intent(self, message):
 
-#  elif action == 'volset':
-#                m = {
-#                    'action': 'remote',
-#                    'op': action,
-#                    'volume': volume
- 
+        kuki_session(self)
+        
+        # API get - TODO set prefered devices
+        self.api_headers = {'X-SessionKey': session}
+        API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
+        DEVICE_ID = "123"
+
+        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+
+        self.result = json.loads(self.api_get.text)
+        self.play_live = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
+        self.log.error(self.play_live)
+
+        # data to be sent to api 
+        self.api_post = {'action':remote,
+                        'tyoe':'live'}
+
+        # sending post request and saving response as response object
+        self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID +".json", headers = self.api_headers, data = self.api_post)
+        
+        prdel = json.loads(self.api_response.text)
+        print(prdel)
+
+        self.speak_dialog("Playlive")
+
 
 
 
