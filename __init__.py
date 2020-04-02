@@ -113,7 +113,7 @@ def kuki_devices(self):
 
         #return ([result_item['alias'] for result_item in self.result]) # all devices
         # only devices can play TV, only fix or smarrtv
-        return list(map(lambda item: item['alias'], filter(lambda item: item['canPlay'] and item['deviceType'] in ['smarttv', 'fix'], result)))
+        return list(map(lambda item: item['alias'], filter(lambda item: item['canPlay'] and item['deviceType'] in ['smarttv', 'fix'], self.result)))
 
 
 class KukiSkill(MycroftSkill):
