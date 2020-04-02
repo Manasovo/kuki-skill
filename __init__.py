@@ -211,13 +211,11 @@ class KukiSkill(MycroftSkill):
 
         kuki_session(self)
         prefered_device(self)
-
         #prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
-        self.log.error(prefered_device_id)
+        self.log.debug(prefered_device_id)
         
-
         # API GET
         self.api_status = requests.get(API_REMOTE_STATE_URL + prefered_device_id + ".json", headers = self.api_headers)
         
