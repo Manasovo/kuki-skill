@@ -59,7 +59,7 @@ def kuki_reg(self):
         global session #cache session
 
         """ registration and session key """
-        self.log.debug("DEBUG REGISTER")
+        self.log.error("DEBUG REGISTER")
 
         #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
