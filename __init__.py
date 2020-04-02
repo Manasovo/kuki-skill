@@ -219,9 +219,14 @@ class KukiSkill(MycroftSkill):
         self.play_live = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
         self.log.error(self.play_live)
 
+        #API POST data
+        self.remote = "remote"
+        self.live = "live"
+        
         # data to be sent to api 
-        self.api_post = {'action':remote,
-                        'type':live}
+        self.api_post = {'action':self.remote,
+                        'type':self.live}
+
 
         # sending post request and saving response as response object
         self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID +".json", headers = self.api_headers, data = self.api_post)
