@@ -181,7 +181,9 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG VOLUME")
 
         kuki_session(self)
+        
         devices = kuki_devices(self)
+        self.log.error(devices)
         
         # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}  
