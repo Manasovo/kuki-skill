@@ -145,8 +145,8 @@ def prefered_devices(self):
             devices = kuki_devices(self)
 
             self.log.error(devices)
-            self.prefered_device_id = devices[0]
-            self.log.error(self.prefered)
+            prefered_device = devices[0]
+            self.log.error(prefered_device)
         
         else:
             self.log.error(default_device)
