@@ -153,17 +153,19 @@ class KukiSkill(MycroftSkill):
     
         kuki_session(self)
 
+        # API get - TODO prefered devices
         self.api_headers = {'X-SessionKey': session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-        self.specific_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
-        self.log.error(self.specific_device)
-
+        self.prefered_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
+        self.log.error(self.prefered_device)
 
         # API get
+        status_get = requests.get('https://admin.as.kuki.cz/api/device-state/5792218.json?X-SessionKey=', headers = session)
+        #status_get = requests.get('https://admin.as.kuki.cz/api/device-state/5034042.json?X-SessionKey=b828091a-e2c0-43cd-901d-62b9acd0ddc9')
 
-       # api/remote/(?P<pk>\d+)
+ 
         self.speak_dialog("Status")
     
 
