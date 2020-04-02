@@ -11,8 +11,8 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-API_URL = "https://as.kuki.cz/api-v2/"
+API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+#API_URL = "https://as.kuki.cz/api-v2/"
 session = ''
 
 #session ostra
@@ -62,7 +62,7 @@ def kuki_reg(self):
         self.log.debug("DEBUG REGISTER")
 
         #serial = generate_serial(56)
-        self.serial = "Manas_test_123456789"
+        self.serial = "Manas_test_12345678"
         self.deviceType = "fix"
         self.deviceModel = (socket.gethostname())
         self.product_name = "Mycroft"
@@ -210,7 +210,9 @@ class KukiSkill(MycroftSkill):
         
         # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}
-        API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
+        
+        API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
+        #API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
         DEVICE_ID = "5034042"
 
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
