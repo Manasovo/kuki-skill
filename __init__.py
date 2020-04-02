@@ -177,12 +177,11 @@ class KukiSkill(MycroftSkill):
     # volume on devices
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_intent(self, message):
-
-        kuki_session(self)
         
         self.log.error("DEBUG VOLUME")
 
         kuki_session(self)
+        devices = kuki_devices(self)
         
         # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}  
