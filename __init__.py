@@ -157,7 +157,7 @@ class KukiSkill(MycroftSkill):
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-        self.specific_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'NVIDIA SHIELD', self.result)))
+        self.specific_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
         self.log.error(self.specific_device)
 
 
