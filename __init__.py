@@ -304,22 +304,7 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG PLAY LIVE")
 
         kuki_session(self)
-        prefered_device(self)
-        
-        devices = kuki_devices(self)
-        self.log.debug(devices)
-
-        # API get - TODO set prefered devices
-        self.api_headers = {'X-SessionKey': session}  
-
-        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
-        self.result = json.loads(self.api_get.text)
-        
-        # POKUSY O DODANI ID
-        # self.prefered_device_id = self.result[0]['id']
-        # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
-        # self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
-        
+                      
         self.prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
