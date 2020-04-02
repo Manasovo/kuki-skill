@@ -13,7 +13,7 @@ import string                         # generate serial
 
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 API_URL = "https://as.kuki.cz/api-v2/"
-#session = ''
+session = ''
 
 #session ostra
 #session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
