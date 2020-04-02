@@ -20,7 +20,7 @@ API_URL = "https://as.kuki.cz/api-v2/"
 session = ''
 
 #session ostra
-#session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
+session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
 
 #session testovka
 #session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
