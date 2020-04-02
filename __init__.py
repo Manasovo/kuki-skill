@@ -23,7 +23,7 @@ session = ''
 
 
 def kuki_session(self):
-        self.log.debug("DEBUG SESSION")
+        self.log.error("DEBUG SESSION")
         self.log.debug(session)
 
         if session == "":
