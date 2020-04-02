@@ -154,14 +154,14 @@ def prefered_device(self):
             self.result = json.loads(self.api_get.text)
             prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device, self.result)))
 
-            self.log.error("DEFAULT DEVICE ID")
-            self.log.error(prefered_device_id)
+            self.log.info("DEFAULT DEVICE ID")
+            self.log.info(prefered_device_id)
 
             return prefered_device_id
         
         else:
-            self.log.error("DEFAULT DEVICE SELECED")
-            self.log.error(default_device)
+            self.log.info("DEFAULT DEVICE SELECED")
+            self.log.info(default_device)
             #prefered_device = default_device
 
             # API get - get id from default alias
@@ -170,8 +170,8 @@ def prefered_device(self):
             self.result = json.loads(self.api_get.text)
             prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))
 
-            self.log.error("DEFAULT DEVICE ID")
-            self.log.error(prefered_device_id)
+            self.log.info("DEFAULT DEVICE ID")
+            self.log.info(prefered_device_id)
 
             return prefered_device_id
 
