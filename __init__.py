@@ -42,6 +42,7 @@ def kuki_session(self):
             self.log.info("SESSION found using")
             return session
 
+
 def failed_auth(self):
     if 'user' not in self.settings:
         self.log.error('Settings hasn\'t been received yet')
@@ -133,9 +134,10 @@ def prefered_devices(self):
         """ select of of many Kuki devices from contract """
             
         self.log.error("DEBUG PREFERED DEVICES")   
- 
-        self.settings.get('default_device')
-        self.log.error(self.settings)   
+
+        default_device = self.settings.get('default_device', '')
+       
+        self.log.error(default_device)   
 
 
 class KukiSkill(MycroftSkill):
