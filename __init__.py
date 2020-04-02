@@ -11,14 +11,14 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-#API_URL = "https://as.kuki.cz/api-v2/"
+#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+API_URL = "https://as.kuki.cz/api-v2/"
 
-API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
-#API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
+#API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
+API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
 
-API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/(?P<pk>\d+)"
-#API_REMOTE_STATE_URL = "https://admin.as.kuki.tv/api/remote/" 
+#API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/(?P<pk>\d+)"
+API_REMOTE_STATE_URL = "https://admin.as.kuki.tv/api/device-state/(?P<pk>\d+)"
 
 
 session = ''
@@ -178,8 +178,8 @@ class KukiSkill(MycroftSkill):
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
         #self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
         
-        #self.prefered_device_id = "5034042" #ostra
-        self.prefered_device_id = "30928" #testovka
+        self.prefered_device_id = "5034042" #ostra
+        #self.prefered_device_id = "30928" #testovka
         
         self.log.error(self.prefered_device_id)
         
@@ -224,8 +224,8 @@ class KukiSkill(MycroftSkill):
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
         #self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
         
-        #self.prefered_device_id = "5034042" #ostra
-        self.prefered_device_id = "30928" #testovka
+        self.prefered_device_id = "5034042" #ostra
+        #self.prefered_device_id = "30928" #testovka
         
         self.log.error(self.prefered_device_id)
         
@@ -275,8 +275,8 @@ class KukiSkill(MycroftSkill):
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
         self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
         
-        #self.prefered_device_id = "5034042" #ostra
-        self.prefered_device_id = "30928" #testovka
+        self.prefered_device_id = "5034042" #ostra
+        #self.prefered_device_id = "30928" #testovka
         
         self.log.error(self.prefered_device_id)
         
