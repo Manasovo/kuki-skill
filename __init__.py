@@ -186,11 +186,17 @@ class KukiSkill(MycroftSkill):
 
         # API GET
         self.api_status = requests.get(API_REMOTE_STATE_URL + self.prefered_device_id + ".json", headers = self.api_headers)
-
+        
         self.remote = json.loads(self.api_status.text)
         self.log.error(self.remote)
 
-        self.speak_dialog('Status',
+        if json.loads(self.remote.text) == '':
+   
+            self.log.error('Kuki device is DOWN')
+
+        else:
+            
+            self.speak_dialog('Status',
                             {'devices': ' '.join(devices[:-1]) + ' ' +  
                                             devices[-1]})
     
