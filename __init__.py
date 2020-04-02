@@ -201,7 +201,7 @@ class KukiSkill(MycroftSkill):
 
         # API POST data
       
-        self.action = "volset"
+        self.action = "remote"
         self.volume = "10"
         
         # data to be sent to api 
