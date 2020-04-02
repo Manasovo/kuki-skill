@@ -198,7 +198,8 @@ class KukiSkill(MycroftSkill):
                 self.remote = json.loads(self.api_status.text)
 
             except ValueError:
-                self.log.error('Kuki device is DOWN')            
+                self.log.error('Kuki device is DOWN')
+                self.speak_dialog('NoDevicesAvailable')        
 
             else:
             
