@@ -107,6 +107,7 @@ def kuki_devices(self):
             
         self.log.debug("DEBUG DEVICES")   
  
+        # API get
         self.api_headers = {'X-SessionKey': kuki_session(self)}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
@@ -149,14 +150,18 @@ class KukiSkill(MycroftSkill):
     # status of device
     @intent_handler(IntentBuilder('').require('Status').require('Kuki').require('Device'))
     def status_intent(self, message):
+    
+        # API get
+        self.log.error(kuki_session(self))
         self.api_headers = {'X-SessionKey': kuki_session(self)}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+        
+
+
         self.result = json.loads(self.api_get.text)
 
         print(self.result)
        # api/remote/(?P<pk>\d+)
-
-
         self.speak_dialog("Status")
     
 
