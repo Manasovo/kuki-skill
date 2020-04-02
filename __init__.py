@@ -135,7 +135,7 @@ def prefered_devices(self):
             
         self.log.error("DEBUG PREFERED DEVICES")   
 
-        default_device = self.settings.get('default_device', '')
+        default_device = self.settings.get('default_device')
        
         self.log.error(default_device)   
 
