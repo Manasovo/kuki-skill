@@ -210,15 +210,16 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG STATUS")
 
         kuki_session(self)
+        prefered_device(self)
    
-        self.prefered_device_id = "5034042" #ostra
+        #prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
         self.log.error(self.prefered_device_id)
         
 
         # API GET
-        self.api_status = requests.get(API_REMOTE_STATE_URL + self.prefered_device_id + ".json", headers = self.api_headers)
+        self.api_status = requests.get(API_REMOTE_STATE_URL + prefered_device_id + ".json", headers = self.api_headers)
         
         if self.api_status:
    
@@ -305,7 +306,7 @@ class KukiSkill(MycroftSkill):
 
         kuki_session(self)
         devices = kuki_devices(self)
-                  
+
         self.prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
