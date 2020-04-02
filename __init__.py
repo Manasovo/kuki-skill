@@ -214,7 +214,7 @@ class KukiSkill(MycroftSkill):
         response = requests.get(self.api_get)    
         dict = response.json()
         self.log.error(dict)
-       
+        self.prefered_device_id = dict
 
         # POKUSY O DODANI ID
         self.prefered_device_id = self.result[0]['id']
