@@ -215,11 +215,10 @@ class KukiSkill(MycroftSkill):
         
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
         self.result = json.loads(self.api_get.text)
-        self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+        #self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
 
-        self.log.error(self.prefered_device_id)
-
-
+        #self.log.error(self.prefered_device_id)
+        self.prefered_device_id = "30928"
 
         #API POST data
         
