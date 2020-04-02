@@ -220,10 +220,10 @@ class KukiSkill(MycroftSkill):
         self.log.error(self.prefered_device_id)
         #self.prefered_device_id = "30928"
 
-        #API POST data
-        
+        # API POST data
         API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
         #API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
+        
         self.remote = "remote"
         self.live = "live"
         
