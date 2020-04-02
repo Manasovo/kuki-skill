@@ -104,7 +104,7 @@ def kuki_reg(self):
                   self.log.info(session)  
 
                   return session
-                  #return globals()['session'] = 'session'
+                  
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
@@ -126,7 +126,7 @@ def kuki_devices(self):
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""    
 
-    @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
+    @intent_handler(IntentBuilder('').require('Kuki').require('Device').require('ListDevices'))
     def list_devices(self, message):
         """ List available devices. """
         self.log.debug("DEBUG voice LIST DEVICES")
@@ -150,11 +150,9 @@ class KukiSkill(MycroftSkill):
 
     
 
-
     # testing playing tv intent
     @intent_handler(IntentBuilder('').require('Play'))
     def play_intent(self, message):
-        self.log.debug("DEBUG play")
         self.speak_dialog("Play")
   
   
