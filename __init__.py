@@ -165,9 +165,10 @@ class KukiSkill(MycroftSkill):
         status_get = requests.get('https://admin.as.kuki.cz/api/device-state/5792218.json?X-SessionKey=', headers = session)
         #status_get = requests.get('https://admin.as.kuki.cz/api/device-state/5034042.json?X-SessionKey=b828091a-e2c0-43cd-901d-62b9acd0ddc9')
         self.status_result = json.loads(self.status_get.text)
+        self.log.error(self.status_get)
         self.log.error(self.status_result)
         
-        self.speak_dialog("Status")
+        #self.speak_dialog("Status")
     
 
     # testing playing tv intent
