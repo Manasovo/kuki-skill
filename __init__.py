@@ -151,6 +151,7 @@ def prefered_device(self):
             return prefered_device
         
         else:
+            self.log.error("DEFAULT DEVICE SELECED")
             self.log.error(prefered_device)
             return prefered_device
 
