@@ -232,15 +232,11 @@ class KukiSkill(MycroftSkill):
                         'type':self.live}
 
         # sending post request and saving response as response object
-        self.api_response = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
         
         #self.api_response = requests.post('https://as.kukacka.netbox.cz/api/remote/30928?X-SessionKey=52a0011b-8f52-4a43-8580-240f7d198718', data = self.api_post)
-        self.result = json.loads(self.api_response.text)
-        self.log.error(self.result)
-
-
-        prdel = json.loads(self.api_response.text)
-        self.log.error(prdel)
+        self.remote = json.loads(self.api_remote.text)
+        self.log.error(self.remote)
 
         self.speak_dialog("Playlive")
 
