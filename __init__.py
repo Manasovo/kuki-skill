@@ -191,7 +191,6 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG STATUS")
 
         kuki_session(self)
-
         devices = kuki_devices(self)
         self.log.debug(devices)
         
@@ -204,9 +203,12 @@ class KukiSkill(MycroftSkill):
         # POKUSY O DODANI ID
         # self.prefered_device_id = self.result[0]['id']
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
-        #self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
         
-        self.prefered_device_id = "5034042" #ostra
+        self.log.error("==============")
+        self.log.error(prefered_device)
+        self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device self.result)))
+        
+        #self.prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
         self.log.error(self.prefered_device_id)
