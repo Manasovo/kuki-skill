@@ -15,8 +15,8 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-#API_URL = "https://as.kuki.cz/api-v2/"
+#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+API_URL = "https://as.kuki.cz/api-v2/"
 #session = ''
 session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
 
@@ -109,12 +109,12 @@ def kuki_devices(self):
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-        self.log.error(self.result)
+        self.log.debug(self.result)
 
         #return ([result_item['alias'] for result_item in self.result]) # all devices
         # only devices can play TV, only fix or smarrtv
         devices = list(map(lambda item: item['alias'], filter(lambda item: item['canPlay'] and item['deviceType'] in ['smarttv', 'fix'], self.result)))
-        self.log.error(devices) 
+        self.log.debug(devices) 
         return devices
 
 
