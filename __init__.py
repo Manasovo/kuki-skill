@@ -123,7 +123,7 @@ def kuki_devices(self):
         return devices
 
 
-class KukiSkill(MycroftSkill):
+class KukiSkill(CommonPlaySkill):
     """Kuki control through the Kuki API."""    
 
     @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Device'))
