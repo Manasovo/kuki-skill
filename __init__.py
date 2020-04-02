@@ -153,7 +153,7 @@ class KukiSkill(MycroftSkill):
     
         # API get
 
-        self.api_headers = {'X-SessionKey': kuki_session(self)}
+        self.api_headers = {'X-SessionKey': session}
 
         self.log.error(self.api_headers)
 
