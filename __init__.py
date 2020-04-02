@@ -211,7 +211,8 @@ class KukiSkill(MycroftSkill):
 
         kuki_session(self)
         prefered_device(self)
-   
+        prefered_device_id = prefered_device(self)
+        
         #prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
