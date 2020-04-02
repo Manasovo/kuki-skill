@@ -146,7 +146,7 @@ def prefered_device(self):
 
             self.log.debug(devices)
             prefered_device = devices[0]
-            self.log.debug(prefered_device)
+            self.log.error(prefered_device)
 
             return prefered_device
         
