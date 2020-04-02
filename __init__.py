@@ -108,7 +108,7 @@ def kuki_devices(self):
         self.log.debug("DEBUG DEVICES")   
  
         # API get
-        self.api_headers = {'X-SessionKey': kuki_session(self)}
+        self.api_headers = {'X-SessionKey': session}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
