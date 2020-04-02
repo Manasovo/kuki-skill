@@ -17,10 +17,10 @@ import string                         # generate serial
 
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 API_URL = "https://as.kuki.cz/api-v2/"
-#session = ''
+session = ''
 
 #session ostra
-session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
+#session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
 
 #session testovka
 session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
