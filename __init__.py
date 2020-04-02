@@ -195,9 +195,6 @@ class KukiSkill(MycroftSkill):
         # sending post request and saving response as response object
         self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID +".json", headers = self.api_headers, data = self.api_post)
         
-        prdel = json.loads(self.api_response.text)
-        print(prdel)
-
         self.speak_dialog("Volume")
 
 
@@ -214,7 +211,7 @@ class KukiSkill(MycroftSkill):
 
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
         
-        string = response.read().decode('utf-8')
+        string = api_get.read().decode('utf-8')
         self.result = json.loads(string)
        
 
