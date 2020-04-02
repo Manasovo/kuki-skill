@@ -151,6 +151,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Status').require('Kuki').require('Device'))
     def status_intent(self, message):
     
+        kuki_session(self)
         # API get
 
         self.api_headers = {'X-SessionKey': session}
