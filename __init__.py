@@ -180,7 +180,7 @@ class KukiSkill(MycroftSkill):
         # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}
         API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
-        DEVICE_ID = 
+        DEVICE_ID = "123"
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
