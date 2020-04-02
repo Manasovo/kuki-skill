@@ -119,7 +119,7 @@ def kuki_devices(self):
         #return ([result_item['alias'] for result_item in self.result]) # all devices
         # only devices can play TV, only fix or smarrtv
         devices = list(map(lambda item: item['alias'], filter(lambda item: item['canPlay'] and item['deviceType'] in ['smarttv', 'fix'], self.result)))
-        self.log.debug(devices) 
+        self.log.error(devices) 
         return devices
 
 
