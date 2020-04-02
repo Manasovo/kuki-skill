@@ -219,7 +219,7 @@ class KukiSkill(MycroftSkill):
         self.log.error("================")
         self.log.error(self.prefered_device_id)
         
-        
+        self.log.error([result_item['alias'] for result_item in self.api_get])
 
         #self.prefered_device_id = "30928"
 
