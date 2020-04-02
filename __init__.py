@@ -126,7 +126,7 @@ def kuki_devices(self):
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""    
 
-    @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
+    @intent_handler(IntentBuilder('').require('Kuki').require('Device'))aa
     def list_devices(self, message):
         """ List available devices. """
         self.log.debug("DEBUG voice LIST DEVICES")
