@@ -185,7 +185,7 @@ class KukiSkill(MycroftSkill):
         
 
         # API GET
-        self.api_status = requests.get(API_REMOTE_STATE_URL + self.prefered_device_id, headers = self.api_headers)
+        self.api_status = requests.get(API_REMOTE_STATE_URL + self.prefered_device_id + ".json", headers = self.api_headers)
 
         self.remote = json.loads(self.api_status.text)
         self.log.error(self.remote)
