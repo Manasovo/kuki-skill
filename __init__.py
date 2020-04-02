@@ -11,10 +11,10 @@ import string                         # generate serial
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
 
-#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-API_URL = "https://as.kuki.cz/api-v2/"
-#API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
-API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
+API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+#API_URL = "https://as.kuki.cz/api-v2/"
+API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
+#API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
 
 session = ''
 
@@ -237,8 +237,11 @@ class KukiSkill(MycroftSkill):
         # POKUSY O DODANI ID
         # self.prefered_device_id = self.result[0]['id']
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
-        #self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
-        self.prefered_device_id = "5034042"
+        self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+        
+        #self.prefered_device_id = "5034042"
+        #self.prefered_device_id = "5034042"
+        
         self.log.error(self.prefered_device_id)
         
         
