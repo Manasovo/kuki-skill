@@ -210,19 +210,16 @@ class KukiSkill(MycroftSkill):
         self.api_headers = {'X-SessionKey': session}  
 
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+        self.result = json.loads(self.api_get.text)
         
-        response = requests.get(self.api_get)    
-        dict = response.json()
-        self.log.error(dict)
-        self.prefered_device_id = dict
-
         # POKUSY O DODANI ID
-        self.prefered_device_id = self.result[0]['id']
+        # self.prefered_device_id = self.result[0]['id']
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
         # self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+        self.prefered_device_id = "30928"
         self.log.error(self.prefered_device_id)
         
-        #self.prefered_device_id = "30928"
+        
 
         # API POST data
         API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
