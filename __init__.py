@@ -214,13 +214,15 @@ class KukiSkill(MycroftSkill):
 
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
         self.result = json.loads(self.api_get.text)
-        self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+ 
+        prdel = ([result_item['alias'] for result_item in self.api_get])
 
-        self.log.error("================")
+        # self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+
+        self.log.error(prdel)
         self.log.error(self.prefered_device_id)
         
-        self.log.error([result_item['alias'] for result_item in self.api_get])
-
+        
         #self.prefered_device_id = "30928"
 
         # API POST data
