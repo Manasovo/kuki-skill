@@ -221,7 +221,7 @@ class KukiSkill(MycroftSkill):
 
         # data to be sent to api 
         self.api_post = {'action':remote,
-                        'tyoe':'live'}
+                        'type':live}
 
         # sending post request and saving response as response object
         self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID +".json", headers = self.api_headers, data = self.api_post)
