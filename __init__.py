@@ -15,6 +15,9 @@ API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 #API_URL = "https://as.kuki.cz/api-v2/"
 API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
 #API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
+API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/(?P<pk>\d+)\."
+#API_REMOTE_STATE_URL = "https://admin.as.kuki.tv/api/remote/" 
+
 
 session = ''
 
@@ -155,17 +158,40 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Status').require('Kuki').require('Device'))
     def status_intent(self, message):
     
+        self.log.error("DEBUG STATUS")
+
         kuki_session(self)
 
-        # API get - TODO prefered devices
-        self.api_headers = {'X-SessionKey': session}
-        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
-
-        self.result = json.loads(self.api_get.text)
-        self.prefered_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
-        self.log.error(self.prefered_device)
+        devices = kuki_devices(self)
+        self.log.debug(devices)
         
-        self.speak_dialog("Status")
+        # API get - TODO set prefered devices
+        self.api_headers = {'X-SessionKey': session}  
+
+        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+        self.result = json.loads(self.api_get.text)
+        
+        # POKUSY O DODANI ID
+        # self.prefered_device_id = self.result[0]['id']
+        # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
+        #self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+        
+        #self.prefered_device_id = "5034042" #ostra
+        self.prefered_device_id = "30928" #testovka
+        
+        self.log.error(self.prefered_device_id)
+        
+
+        # API GET
+        self.api_status = requests.get(API_REMOTE_STATE_URL + self.prefered_device_id, headers = self.api_headers)
+
+        self.remote = json.loads(self.api_status.text)
+        self.log.error(self.remote)
+
+        self.speak_dialog('Status',
+                            {'devices': ' '.join(devices[:-1]) + ' ' +  
+                                            devices[-1]})
+    
     
 
     # testing playing tv intent
@@ -235,7 +261,7 @@ class KukiSkill(MycroftSkill):
         
         devices = kuki_devices(self)
         self.log.debug(devices)
-        
+
         # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}  
 
