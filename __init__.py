@@ -27,15 +27,15 @@ session = ''
 
 
 def kuki_session(self):
-        self.log.error("DEBUG SESSION")
-        self.log.error(session )
+        self.log.debug("DEBUG SESSION")
+        self.log.debug(session )
 
         if session == "":
-            self.log.error("SESSION not found generation new")
+            self.log.info("SESSION not found generation new")
             kuki_reg(self)
         
         else:
-            self.log.error("SESSION found using")
+            self.log.info("SESSION found using")
             return session
 
 def failed_auth(self):
@@ -63,7 +63,7 @@ def kuki_reg(self):
         global session #cache session
 
         """ registration and session key """
-        self.log.error("DEBUG REGISTER")
+        self.log.debug("DEBUG REGISTER")
 
         #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
@@ -85,7 +85,7 @@ def kuki_reg(self):
 
         # sending post request and saving response as response object
         self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
-        self.log.error("API POST")
+        self.log.debug("API POST")
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
             self.result = self.api_response.json()
@@ -101,9 +101,7 @@ def kuki_reg(self):
                   self.log.info('Kuki device is REGISTERED')
                   
                   session = json.loads(self.api_response.text)['session_key']
-                 
-                  self.log.error('REGISTER')
-                  self.log.error(session)  
+                  self.log.info(session)  
 
                   return session
                   #return globals()['session'] = 'session'
@@ -111,18 +109,17 @@ def kuki_reg(self):
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
             
-        self.log.error("DEBUG DEVICES")   
+        self.log.debug("DEBUG DEVICES")   
  
         self.api_headers = {'X-SessionKey': kuki_session(self)}
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-        self.log.error(self.result)
 
-        #return ([result_item['alias'] for result_item in self.result]) # all devices
         # only devices can play TV, only fix or smarrtv
         devices = list(map(lambda item: item['alias'], filter(lambda item: item['canPlay'] and item['deviceType'] in ['smarttv', 'fix'], self.result)))
-        self.log.error(devices) 
+        self.log.debug(devices) 
+        
         return devices
 
 
@@ -132,11 +129,9 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Kuki').require('Device'))
     def list_devices(self, message):
         """ List available devices. """
-        self.log.error("DEBUG voice LIST DEVICES")
+        self.log.debug("DEBUG voice LIST DEVICES")
 
         kuki_session(self)
-
-        self.log.error("Kuki is REGISTERED continue")
 
         devices = kuki_devices(self)
         self.log.debug(devices)
