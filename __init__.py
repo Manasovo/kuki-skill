@@ -181,12 +181,22 @@ class KukiSkill(MycroftSkill):
         self.api_headers = {'X-SessionKey': session}
         API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
         DEVICE_ID = "123"
+
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
         self.prefered_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
         self.log.error(self.prefered_device)
 
+        # data to be sent to api 
+        self.api_post = {'action':volset,
+                        'volume':"10"}
+
+        # sending post request and saving response as response object
+        self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID +".json", headers = self.api_headers, data = self.api_post)
+        
+        prdel = json.loads(self.api_response.text)
+        print(prdel)
 
 # "https://admin.as.kuki.tv/api/remote/<id zažízení>" 
 
