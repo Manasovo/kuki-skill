@@ -142,7 +142,7 @@ def prefered_devices(self):
             self.log.error("NO DEFAULT DEVICE SELECED")
         
         else:
-        
+            self.log.info("default_device")
             return default_device
 
 
