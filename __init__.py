@@ -252,8 +252,7 @@ class KukiSkill(MycroftSkill):
         
         # data to be sent to api 
         self.api_post = {'action':self.action,
-                        'type':self.type,
-                        'channel_id': self.channel}
+                        'type':self.type}
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
