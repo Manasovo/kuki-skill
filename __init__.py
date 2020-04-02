@@ -129,6 +129,15 @@ def kuki_devices(self):
         return devices
 
 
+def prefered_devices(self):
+        """ select of of many Kuki devices from contract """
+            
+        self.log.error("DEBUG PREFERED DEVICES")   
+ 
+        self.settings.get('default_device')
+        self.log.error(self.settings)   
+
+
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""    
 
@@ -187,11 +196,6 @@ class KukiSkill(MycroftSkill):
         # API GET
         self.api_status = requests.get(API_REMOTE_STATE_URL + self.prefered_device_id + ".json", headers = self.api_headers)
         
-        # self.remote = json.loads(self.api_status.text)
-        # self.log.error(self.remote)
-
-
-
         if self.api_status:
    
             try:
@@ -276,6 +280,7 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG PLAY LIVE")
 
         kuki_session(self)
+        prefered_devices(self)
         
         devices = kuki_devices(self)
         self.log.debug(devices)
