@@ -18,7 +18,7 @@ API_URL = "https://as.kuki.cz/api-v2/"
 API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
 
 #API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/(?P<pk>\d+)"
-API_REMOTE_STATE_URL = "https://admin.as.kuki.tv/api/device-state/(?P<pk>\d+)"
+API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/(?P<pk>\d+)"
 
 
 session = ''
