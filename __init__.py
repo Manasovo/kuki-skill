@@ -146,7 +146,7 @@ def prefered_devices(self):
 
             self.log.error(devices)
             self.prefered_device_id = devices[0]
-
+            self.log.error(self.prefered)
         
         else:
             self.log.error(default_device)
