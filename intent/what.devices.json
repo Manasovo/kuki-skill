@@ -1,6 +1,7 @@
 {
   "utterance": "what Kuki devices are available",
   "utterance": "show Kuki devices",
+  "utterance": "show TV devices",
   "intent_type": "list_devices",
   "intent": {
     "Kuki": "kuki",
