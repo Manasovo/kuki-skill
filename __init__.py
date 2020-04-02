@@ -1,10 +1,5 @@
-from mycroft.skills.core import intent_handler
-from mycroft.util.parse import match_one, fuzzy_match
-from mycroft.skills.common_play_skill import CommonPlaySkill
-from mycroft.api import DeviceApi
-from mycroft.messagebus import Message
-from requests import HTTPError
 from adapt.intent import IntentBuilder
+from mycroft import MycroftSkill, intent_file_handler, intent_handler
 
 import requests                       # http post & get
 import json                           # json :-)
@@ -124,7 +119,7 @@ def kuki_devices(self):
         return devices
 
 
-class KukiSkill(CommonPlaySkill):
+class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""    
 
     @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Device'))
