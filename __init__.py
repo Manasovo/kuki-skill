@@ -168,7 +168,7 @@ class KukiSkill(MycroftSkill):
         self.log.error(self.status_get)
         self.log.error(self.status_result)
         
-        #self.speak_dialog("Status")
+        self.speak_dialog("Status")
     
 
     # testing playing tv intent
@@ -179,8 +179,21 @@ class KukiSkill(MycroftSkill):
   
 
     # testing playing tv intent
-    @intent_handler(IntentBuilder('').require('Volume'))
+    @intent_handler(IntentBuilder('').require('VolumeIP').reguire('VolumeDOWN'))
     def volume_intent(self, message):
+
+        kuki_session(self)
+        
+        # API get - TODO prefered devices
+        self.api_headers = {'X-SessionKey': session}
+        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+
+        self.result = json.loads(self.api_get.text)
+        self.prefered_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
+        self.log.error(self.prefered_device)
+
+
+
         self.speak_dialog("Volume")
 
 
