@@ -60,14 +60,14 @@ def generate_serial(StringLength=56):
 
 
 def kuki_reg(self):
-        global session
+        global session #cache session
 
         """ registration and session key """
         self.log.error("DEBUG REGISTER")
 
         #serial = generate_serial(56)
         self.serial = "Manas_test_12345678"
-        self.deviceType = "mobile"
+        self.deviceType = "fix"
         self.deviceModel = (socket.gethostname())
         self.product_name = "Mycroft"
         self.mac = (':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) 
