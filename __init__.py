@@ -184,7 +184,7 @@ class KukiSkill(MycroftSkill):
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-        self.prefered_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == '', self.result)))
+        self.prefered_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
         self.log.error(self.prefered_device)
 
         # data to be sent to api 
@@ -218,7 +218,7 @@ class KukiSkill(MycroftSkill):
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-        self.play_live = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
+        self.play_live = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
         
         self.log.error(self.play_live)
 
