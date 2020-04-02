@@ -23,7 +23,7 @@ session = ''
 #session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
 
 #session testovka
-session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
+#session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
 
 
 def kuki_session(self):
