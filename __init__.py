@@ -144,6 +144,20 @@ class KukiSkill(MycroftSkill):
             self.log.debug("DEBUG NO DEVICE AVAILABLE")
             self.speak_dialog('NoDevicesAvailable')
 
+
+
+    # status of device
+    @intent_handler(IntentBuilder('').require('Status').require('Kuki').require('Device'))
+    def status_intent(self, message):
+        self.api_headers = {'X-SessionKey': kuki_session(self)}
+        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+        self.result = json.loads(self.api_get.text)
+
+        print(self.result)
+       # api/remote/(?P<pk>\d+)
+
+
+        self.speak_dialog("Status")
     
 
     # testing playing tv intent
@@ -152,6 +166,22 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog("Play")
   
   
+
+    # testing playing tv intent
+    @intent_handler(IntentBuilder('').require('Volume'))
+    def volume_intent(self, message):
+        self.speak_dialog("Volume")
+
+
+
+#  elif action == 'volset':
+#                m = {
+#                    'action': 'remote',
+#                    'op': action,
+#                    'volume': volume
+ 
+
+
 
     def stop(self):
         pass
