@@ -190,7 +190,7 @@ class KukiSkill(MycroftSkill):
         # self.remote = json.loads(self.api_status.text)
         # self.log.error(self.remote)
 
-        if json.loads(self.api_status.text) == '':
+        if json.loads(self.api_status.text) == None:
    
             self.log.error('Kuki device is DOWN')
 
