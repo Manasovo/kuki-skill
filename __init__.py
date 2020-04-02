@@ -109,7 +109,7 @@ def kuki_devices(self):
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
-        self.log.debug(self.result)
+        self.log.error(self.result)
 
         #return ([result_item['alias'] for result_item in self.result]) # all devices
         # only devices can play TV, only fix or smarrtv
