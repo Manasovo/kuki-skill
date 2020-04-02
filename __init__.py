@@ -234,7 +234,7 @@ class KukiSkill(MycroftSkill):
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
         
-        test = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post
+        test = self.prefered_device_id
 
         self.log.error(test)
 
