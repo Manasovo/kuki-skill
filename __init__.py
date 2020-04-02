@@ -155,14 +155,11 @@ class KukiSkill(MycroftSkill):
         # API get
 
         self.api_headers = {'X-SessionKey': session}
-
-        self.log.error(self.api_headers)
-
-        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+        self.api_get = requests.get(API_URL + 'api/remote/', headers = self.api_headers)
         
-
-
         self.result = json.loads(self.api_get.text)
+
+        self.log.error(self.result)
 
         print(self.result)
        # api/remote/(?P<pk>\d+)
