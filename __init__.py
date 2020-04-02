@@ -22,7 +22,7 @@ API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
 
 session = ''
-prefered_device = ''
+prefered_device_id = ''
 
 #session ostra
 #session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
@@ -133,7 +133,7 @@ def kuki_devices(self):
 
 def prefered_device(self):
         """ select of of many Kuki devices from contract """
-        global prefered_device #cache device
+        global prefered_device_id #cache device
 
         self.log.error("DEBUG PREFERED DEVICES")   
 
@@ -148,13 +148,32 @@ def prefered_device(self):
             prefered_device = devices[0]
             self.log.error(prefered_device)
 
-            return prefered_device
+            # API get - get id from prefered alias
+            self.api_headers = {'X-SessionKey': session}  
+            self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+            self.result = json.loads(self.api_get.text)
+            prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device, self.result)))
+
+            self.log.error("DEFAULT DEVICE ID")
+            self.log.error(default_device_id)
+
+            return prefered_device_id
         
         else:
             self.log.error("DEFAULT DEVICE SELECED")
             self.log.error(default_device)
             prefered_device = default_device
-            return prefered_device
+
+            # API get - get id from default alias
+            self.api_headers = {'X-SessionKey': session}  
+            self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
+            self.result = json.loads(self.api_get.text)
+            prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device, self.result)))
+
+            self.log.error("DEFAULT DEVICE ID")
+            self.log.error(default_device_id)
+
+            return prefered_device_id
 
 
 class KukiSkill(MycroftSkill):
@@ -247,7 +266,7 @@ class KukiSkill(MycroftSkill):
         # POKUSY O DODANI ID
         # self.prefered_device_id = self.result[0]['id']
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
-        #self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+        # self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
         
         self.prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
@@ -299,7 +318,7 @@ class KukiSkill(MycroftSkill):
         # POKUSY O DODANI ID
         # self.prefered_device_id = self.result[0]['id']
         # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
-        self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+        # self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
         
         self.prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
