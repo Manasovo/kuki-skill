@@ -234,8 +234,11 @@ class KukiSkill(MycroftSkill):
         # sending post request and saving response as response object
         self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID + ".json", headers = self.api_headers, data = self.api_post)
         
+        self.log.error(api_response)
+
+
         prdel = json.loads(self.api_response.text)
-        print(prdel)
+        self.log.error(prdel)
 
         self.speak_dialog("Playlive")
 
