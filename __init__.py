@@ -211,7 +211,7 @@ class KukiSkill(MycroftSkill):
 
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
         
-        string = api_get.read().decode('utf-8')
+        string = self.api_get.read().decode('utf-8')
         self.result = json.loads(string)
        
 
