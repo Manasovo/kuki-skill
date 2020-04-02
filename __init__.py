@@ -22,7 +22,7 @@ API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
 
 session = ''
-default_device = ''
+prefered_device = ''
 
 #session ostra
 #session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
@@ -131,9 +131,9 @@ def kuki_devices(self):
         return devices
 
 
-def prefered_devices(self):
+def prefered_device(self):
         """ select of of many Kuki devices from contract """
-        global default_device #cache device
+        global prefered_device #cache device
 
         self.log.error("DEBUG PREFERED DEVICES")   
 
@@ -144,13 +144,15 @@ def prefered_devices(self):
             kuki_session(self)
             devices = kuki_devices(self)
 
-            self.log.error(devices)
+            self.log.debug(devices)
             prefered_device = devices[0]
-            self.log.error(prefered_device)
+            self.log.debug(prefered_device)
+
+            return prefered_device
         
         else:
-            self.log.error(default_device)
-            return default_device
+            self.log.error(prefered_device)
+            return prefered_device
 
 
 class KukiSkill(MycroftSkill):
@@ -295,7 +297,7 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG PLAY LIVE")
 
         kuki_session(self)
-        prefered_devices(self)
+        prefered_device(self)
         
         devices = kuki_devices(self)
         self.log.debug(devices)
