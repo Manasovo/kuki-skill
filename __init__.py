@@ -180,25 +180,44 @@ class KukiSkill(MycroftSkill):
 
         kuki_session(self)
         
+        self.log.error("DEBUG VOLUME")
+
+        kuki_session(self)
+        
         # API get - TODO set prefered devices
-        self.api_headers = {'X-SessionKey': session}
-        API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
-        DEVICE_ID = "123"
+        self.api_headers = {'X-SessionKey': session}  
 
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
-
         self.result = json.loads(self.api_get.text)
-        self.prefered_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
-        self.log.error(self.prefered_device)
+        
+        # POKUSY O DODANI ID
+        # self.prefered_device_id = self.result[0]['id']
+        # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
+        #self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
+        self.prefered_device_id = "5034042"
+        self.log.error(self.prefered_device_id)
+        
+        
 
+        # API POST data
+      
+        self.action = "volset"
+        self.volume = "10"
+        
         # data to be sent to api 
-        self.api_post = {'action':volset,
-                        'volume':"10"}
+        self.api_post = {'action':self.action,
+                        'volume': self.volume}
 
         # sending post request and saving response as response object
-        self.api_response = requests.post(url = API_REMOTE_URL + DEVICE_ID +".json", headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
         
+       
+        #self.api_response = requests.post('https://as.kukacka.netbox.cz/api/remote/30928?X-SessionKey=52a0011b-8f52-4a43-8580-240f7d198718', data = self.api_post)
+        self.remote = json.loads(self.api_remote.text)
+        self.log.error(self.remote)
+
         self.speak_dialog("Volume")
+
 
 
         # play live tv
@@ -233,7 +252,6 @@ class KukiSkill(MycroftSkill):
         
         # data to be sent to api 
         self.api_post = {'action':self.action,
-                        'op': self.op,
                         'type':self.type,
                         'channel_id': self.channel}
 
