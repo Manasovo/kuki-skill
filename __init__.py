@@ -304,7 +304,8 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG PLAY LIVE")
 
         kuki_session(self)
-                      
+        devices = kuki_devices(self)
+                  
         self.prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
