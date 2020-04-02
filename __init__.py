@@ -160,13 +160,6 @@ class KukiSkill(MycroftSkill):
         self.result = json.loads(self.api_get.text)
         self.prefered_device = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mother Fucker', self.result)))
         self.log.error(self.prefered_device)
-
-        # API get
-        status_get = requests.get('https://admin.as.kuki.cz/api/device-state/5792218.json?X-SessionKey=', headers = session)
-        #status_get = requests.get('https://admin.as.kuki.cz/api/device-state/5034042.json?X-SessionKey=b828091a-e2c0-43cd-901d-62b9acd0ddc9')
-        self.status_result = json.loads(self.status_get.text)
-        self.log.error(self.status_get)
-        self.log.error(self.status_result)
         
         self.speak_dialog("Status")
     
@@ -178,14 +171,16 @@ class KukiSkill(MycroftSkill):
   
   
 
-    # testing playing tv intent
+    # volume on devices
     @intent_handler(IntentBuilder('').require('VolumeIP').reguire('VolumeDOWN'))
     def volume_intent(self, message):
 
         kuki_session(self)
         
-        # API get - TODO prefered devices
+        # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}
+        API_REMOTE_URL = "https://admin.as.kuki.tv/api/remote/" 
+        DEVICE_ID = 
         self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
 
         self.result = json.loads(self.api_get.text)
@@ -193,6 +188,11 @@ class KukiSkill(MycroftSkill):
         self.log.error(self.prefered_device)
 
 
+# "https://admin.as.kuki.tv/api/remote/<id zažízení>" 
+
+# admin.as.kuki.cz/api/device-state/5034042.json?X-SessionKey=b828091a-e2c0-43cd-901d-62b9acd0ddc9
+
+# api/remote/(?P<pk>\d+)
 
         self.speak_dialog("Volume")
 
