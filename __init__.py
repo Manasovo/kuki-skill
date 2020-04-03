@@ -267,7 +267,7 @@ class KukiSkill(MycroftSkill):
                         'volume': self.volume}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
         
         self.remote = json.loads(self.api_remote.text)
         self.log.error(self.remote)
@@ -301,7 +301,7 @@ class KukiSkill(MycroftSkill):
                         'channel_id': self.channel}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + self.prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
         
         self.remote = json.loads(self.api_remote.text)
         self.log.error(self.remote)
