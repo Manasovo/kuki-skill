@@ -294,6 +294,8 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_intent(self, message):
         
+        global status_volume # for saving volume
+
         init(self) 
         status_device(self) # reload status of device
 
@@ -307,7 +309,8 @@ class KukiSkill(MycroftSkill):
         self.log.error("SET VOLUME TO")
         self.log.error(self.volume)
         
-        status_device(self) # reload status of device
+        status_volume = self.volume     # save volume
+        
 
         # data to be sent to api 
         self.api_post = {'action':self.action,
