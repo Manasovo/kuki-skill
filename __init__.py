@@ -316,7 +316,7 @@ class KukiSkill(MycroftSkill):
         init(self) 
         status_volume_check(self)
    
-        if status_volume == "110":    # if volume is more than 110% - TODO 2 REFACTOR
+        if status_volume == "100":    # if volume is more than 100% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO HIGH more than 100")
             status_volume == 100
             self.speak_dialog('VolumeMax')
@@ -353,7 +353,7 @@ class KukiSkill(MycroftSkill):
         init(self) 
         status_volume_check(self)
         
-        if status_volume == "-10":    # if volume is less than -10% - TODO 2 REFACTOR
+        if status_volume == "0":    # if volume is less than 0% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO LOW less than 0")
             status_volume == 0
             self.speak_dialog('VolumeMin')
