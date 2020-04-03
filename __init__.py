@@ -294,6 +294,8 @@ class KukiSkill(MycroftSkill):
     # volume UP
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_up_intent(self, message):
+
+        def volume_start(self)
         
         global status_volume # for saving volume
 
@@ -304,7 +306,7 @@ class KukiSkill(MycroftSkill):
         if status_volume == "":     # if volume is not set
             self.log.info("DEBUG VOLUME is not set")
             status_device(self)     # reload status of device
-            return
+            return volume_start
         
         else:
             self.log.info("DEBUG VOLUME if cached")
