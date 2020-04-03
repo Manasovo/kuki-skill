@@ -143,7 +143,7 @@ def prefered_device(self):
             return init(self)
         
         else:
-            self.log.info("DEFAULT DEVICE SELECED")
+            self.log.info("DEFAULT DEVICE SELECED from Mycroft settings")
             self.log.info(default_device)
             #prefered_device = default_device
 
@@ -152,7 +152,7 @@ def prefered_device(self):
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
             self.result = json.loads(self.api_get.text)
             #prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))
-            prefered_device_id = str(list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device, self.result)))['id']);
+            prefered_device_id = str(list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))['id']);
 
             self.log.info("DEFAULT DEVICE ID")
             self.log.info(prefered_device_id)
