@@ -303,7 +303,7 @@ class KukiSkill(MycroftSkill):
         else:
             self.log.error("DEBUG VOLUME")
         
-            if status_volume ==> 100:
+            if status_volume >= 100:
                 status_volume == 100
             else:
 
