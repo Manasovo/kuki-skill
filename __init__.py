@@ -233,7 +233,7 @@ class KukiSkill(MycroftSkill):
         if self.api_status:
    
             try:
-                self.remote = json.loads(self.api_status.text)
+                self.status = json.loads(self.api_status.text)
 
             except ValueError:
                 self.log.error('Kuki device is DOWN')
@@ -241,14 +241,16 @@ class KukiSkill(MycroftSkill):
 
             else:
                 self.log.info('Kuki device is UP')
-                self.remote = json.loads(self.api_status.text)
                 
-                self.log.error(self.remote )
+                self.status = json.loads(self.api_status.text)
+                self.log.error(self.status )
 
                 ##############
                 
-                status_volume = list(map(lambda item: item['audio'], filter(lambda item: item['volume']), self.api_status))
-        
+                
+                status_power = self.status['power']
+                status_playing = self.status['playing']
+                status_volume = self.status['audio'][0]['volume']
 
                 self.log.error(status_volume)
 
