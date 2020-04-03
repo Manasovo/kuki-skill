@@ -275,32 +275,19 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG STATUS")
 
         init(self)
+        status_device(self)
 
-        # API GET
-        self.api_status = requests.get(API_REMOTE_STATE_URL + prefered_device_id + ".json", headers = self.api_headers)
-        
-        if self.api_status:
-   
-            try:
-                self.status = json.loads(self.api_status.text)
+        if status_power == 0;
+            self.speak_dialog('PowerOff')
 
-            except ValueError:
-                self.log.error('Kuki device is DOWN')
-                self.speak_dialog('NoDevicesAvailable')
-
-            else:
-                self.log.info('Kuki device is UP')
-                
-                self.status = json.loads(self.api_status.text)
-                self.log.error(self.status )        # data from device
-
-                status_power = self.status['power']
-                self.translate('power is') 
-                self.translate(status_power)
-
-                status_playing = self.status['playing']
-                status_volume = self.status['audio']['volume']
-
+        else:
+            self.speak_dialog('PowerOn')
+            
+            self.translate('Kuki playing') 
+            self.translate(status_playing)
+            
+            self.translate('Volume is on')
+            self.translate(status_volume)
 
 
     # power ON
