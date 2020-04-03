@@ -180,22 +180,20 @@ def status_device(self):
                 self.status = json.loads(self.api_status.text)
 
             except ValueError:
-                self.log.error('Kuki prefered device is POWER DOWN')
+                self.log.error('Kuki PREFERED DEVICE IS POWER DOWN')
                 
             else:
-                self.log.info('Kuki device is UP - reading settings')
+                self.log.info('Kuki DEVICE IS UP - reading settings')
                 self.status = json.loads(self.api_status.text)
-                
-                self.log.error(self.status)
-                
                 status_power = int(self.status['power'])
-                self.log.error(status_power)
-
+        
                 if status_power == 0:
-                    self.log.info('Kuki device is SLEEPing')
+                    self.log.info('Kuki DEVICE IS SLEEPing')
+
                 else: 
                     status_playing = self.status['playing']
                     status_volume = int(self.status['audio']['volume'])
+
 
 def init(self):
         """ initialize first start """
