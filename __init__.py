@@ -377,6 +377,21 @@ class KukiSkill(MycroftSkill):
             self.speak_dialog('VolumeDown')
 
 
+ # channel UP
+    @intent_handler(IntentBuilder('').require('ChannelUp'))
+    def volume_up_intent(self, message):
+       
+        self.log.error("DEBUG CHANNEL UP")
+
+        init(self) 
+            
+        # API POST data
+        self.api_headers = {'X-SessionKey': session} 
+ 
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = chup)
+        self.speak_dialog('ChannelUp')
+
 
     # play live tv
     @intent_handler(IntentBuilder('').require('PlayLive'))
