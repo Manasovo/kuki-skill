@@ -182,9 +182,24 @@ def init(self):
         """ initialize first start """
         self.log.error("DEBUG INITIALIZE")
         
-        kuki_session(self)
-        kuki_devices(self)
-        prefered_device(self)
+        if session == "":
+            self.log.error("SESSION not found - create new")
+            kuki_reg(self)
+            return session
+        
+        elif devices == "":
+            self.log.error("DEVICES not found - search for new")
+            kuki_devices(self)
+            return device
+
+        elif prefered_device_id == "":
+            self.log.error("PREFERED DEVICE not found - choose new")
+            prefered_device_id(self)
+            eturn device
+
+        else:
+            self.log.info("INIT OK")
+            
 
 
 class KukiSkill(MycroftSkill):
