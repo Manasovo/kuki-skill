@@ -21,10 +21,10 @@ API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
 API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
 
-session = ''
-devices = ''
-prefered_device = ''
-prefered_device_id = ''
+session = ''                # token 
+devices = ''                # all devices
+prefered_device = ''        # alias
+prefered_device_id = ''     # id
 
 
 def failed_auth(self):
