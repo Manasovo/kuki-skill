@@ -249,7 +249,6 @@ class KukiSkill(MycroftSkill):
             self.speak_dialog('NoDevicesAvailable')
 
 
-
     # status of device
     @intent_handler(IntentBuilder('').require('Status').require('Kuki').require('Device'))
     def status_intent(self, message):
@@ -302,8 +301,8 @@ class KukiSkill(MycroftSkill):
             status_device(self)     # reload status of device
             
         elif status_power['power'] == False:
-            self.log.info('Kuki device is SLEEPing'
-           
+            self.log.info('Kuki device is SLEEPing')
+        
         else:
             self.log.error("DEBUG VOLUME if cached")
 
@@ -337,9 +336,9 @@ class KukiSkill(MycroftSkill):
     
 
 
-        # play live tv
+    # play live tv
     @intent_handler(IntentBuilder('').require('PlayLive'))
-    def live_intent(self, message):
+    def live_intent(self, message):  
 
         self.log.error("DEBUG PLAY LIVE")
 
