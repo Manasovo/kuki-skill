@@ -195,7 +195,7 @@ def status_device(self):
                     status_volume = int(self.status['audio']['volume'])
 
 # status of prefered device of volume
-def status_volume(self):
+def status_volume_check(self):
 
         global status_volume # for saving volume
 
@@ -312,7 +312,7 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG VOLUME")
 
         init(self) 
-        status_volume(self)
+        status_volume_check(self)
         
         if status_volume == "110":    # if volume is more than 110% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO HIGH more than 100")
