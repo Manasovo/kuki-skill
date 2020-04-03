@@ -190,10 +190,6 @@ def status_device(self):
                 status_playing = self.status['playing']
                 status_volume = int(self.status['audio']['volume'])
 
-                     if status_power['power'] == False:
-                        self.log.info('Kuki device is SLEEPing')
-
-
 def init(self):
         """ initialize first start """
         self.log.error("DEBUG INITIALIZE")
@@ -300,6 +296,15 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG VOLUME")
 
         init(self) 
+
+
+
+        if status_power['power'] == False:
+            self.log.info('Kuki device is SLEEPing')
+        else:
+            self.log.info('Kuki device is running')
+
+
         
         if status_volume == "":     # if volume is not set
             self.log.error("DEBUG VOLUME is not set")
