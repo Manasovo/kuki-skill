@@ -163,7 +163,7 @@ def prefered_device(self):
 
 
 # status of prefered device
-def status_device(self, message):
+def status_device(self):
         
         global status_power # power of end device
         global status_playing # state of device
