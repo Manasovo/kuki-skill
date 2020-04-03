@@ -242,11 +242,10 @@ class KukiSkill(MycroftSkill):
             else:
                 self.log.info('Kuki device is UP')
                 self.remote = json.loads(self.api_status.text)
-                self.log.error(self.remote)
-            
-                self.speak_dialog('Status',
-                          {'devices': ' '.join(devices[:-1]) + ' ' +  
-                                            devices[-1]})
+                
+                status_device = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
+
+
 
     
     # testing playing tv intent
@@ -255,7 +254,7 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog("Play")
   
   
-    # volume on devices
+    # volume up
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_intent(self, message):
         
