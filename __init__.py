@@ -186,12 +186,12 @@ def status_device(self):
                 self.log.info('Kuki device is UP - reading settings')
                 self.status = json.loads(self.api_status.text)
 
-                if self.status['power'] == False:
-                    elf.log.info('Kuki device is SLEEPing')
-                else:
-                    status_power = self.status['power']
-                    status_playing = self.status['playing']
-                    status_volume = int(self.status['audio']['volume'])
+                status_power = self.status['power']
+                status_playing = self.status['playing']
+                status_volume = int(self.status['audio']['volume'])
+
+                     if status_power['power'] == False:
+                        self.log.info('Kuki device is SLEEPing')
 
 
 def init(self):
