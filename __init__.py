@@ -195,10 +195,7 @@ class KukiSkill(MycroftSkill):
         """ List available devices. """
         self.log.debug("DEBUG voice LIST DEVICES")
 
-        kuki_session(self)
-
-        devices = kuki_devices(self)
-        self.log.debug(devices)
+        init(self)
            
         if len(devices) == 1:
             self.speak(devices[0])
@@ -220,8 +217,7 @@ class KukiSkill(MycroftSkill):
     
         self.log.error("DEBUG STATUS")
 
-        #kuki_session(self)
-        #prefered_device(self)
+        init(self)
         
         #prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
@@ -263,7 +259,7 @@ class KukiSkill(MycroftSkill):
         
         self.log.error("DEBUG VOLUME")
 
-        # kuki_session(self)
+        init(self)
 
         # devices = kuki_devices(self)
         # self.log.debug(devices)
@@ -314,7 +310,7 @@ class KukiSkill(MycroftSkill):
 
         self.log.error("DEBUG PLAY LIVE")
 
-        # kuki_session(self)
+        init(self)
         # devices = kuki_devices(self)
 
         self.prefered_device_id = "5034042" #ostra
