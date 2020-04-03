@@ -191,6 +191,7 @@ def status_device(self):
                 status_playing = self.status['playing']
                 status_volume = self.status['audio']['volume']
 
+                self.log.error(status_volume)
 
 def init(self):
         """ initialize first start """
