@@ -22,6 +22,7 @@ API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
 
 session = ''
+devices = ''
 prefered_device_id = ''
 
 #session ostra
@@ -29,6 +30,13 @@ prefered_device_id = ''
 
 #session testovka
 #session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
+
+
+# initialize
+log.error("DEBUG INITIALIZE")
+kuki_session(self)
+kuki_devices(self)
+prefered_device(self)
 
 
 def kuki_session(self):
@@ -115,7 +123,8 @@ def kuki_reg(self):
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
-            
+        global devices # cache connected devices
+
         self.log.debug("DEBUG DEVICES")   
  
         # API get
@@ -133,7 +142,7 @@ def kuki_devices(self):
 
 def prefered_device(self):
         """ select of of many Kuki devices from contract """
-        global prefered_device_id #cache device
+        global prefered_device_id #cache prefered device
 
         self.log.error("DEBUG PREFERED DEVICES")   
 
@@ -209,8 +218,9 @@ class KukiSkill(MycroftSkill):
     
         self.log.error("DEBUG STATUS")
 
-        kuki_session(self)
-        prefered_device(self)
+        #kuki_session(self)
+        #prefered_device(self)
+        
         #prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
         
@@ -251,10 +261,10 @@ class KukiSkill(MycroftSkill):
         
         self.log.error("DEBUG VOLUME")
 
-        kuki_session(self)
+        # kuki_session(self)
 
-        devices = kuki_devices(self)
-        self.log.debug(devices)
+        # devices = kuki_devices(self)
+        # self.log.debug(devices)
         
         # API get - TODO set prefered devices
         self.api_headers = {'X-SessionKey': session}  
@@ -302,8 +312,8 @@ class KukiSkill(MycroftSkill):
 
         self.log.error("DEBUG PLAY LIVE")
 
-        kuki_session(self)
-        devices = kuki_devices(self)
+        # kuki_session(self)
+        # devices = kuki_devices(self)
 
         self.prefered_device_id = "5034042" #ostra
         #self.prefered_device_id = "30928" #testovka
