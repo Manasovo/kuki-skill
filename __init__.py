@@ -308,11 +308,14 @@ class KukiSkill(MycroftSkill):
     # volume UP
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_up_intent(self, message):
+
+        global status_volume
         
         self.log.error("DEBUG VOLUME")
 
         init(self) 
         status_volume_check(self)
+
         
         if status_volume == "110":    # if volume is more than 110% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO HIGH more than 100")
