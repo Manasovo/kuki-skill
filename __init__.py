@@ -189,10 +189,12 @@ def status_device(self):
         
                 if status_power == 0:
                     self.log.info('Kuki DEVICE IS SLEEPing')
+                    return status_power = "OFF"
 
                 else: 
                     status_playing = self.status['playing']
                     status_volume = int(self.status['audio']['volume'])
+                    status_power = "ON"
 
 # status of prefered device of volume
 def status_volume_check(self):
@@ -277,7 +279,7 @@ class KukiSkill(MycroftSkill):
         init(self)
         status_device(self)
 
-        if status_power == 0;
+        if status_power == "OFF";
             self.speak_dialog('PowerOff')
 
         else:
