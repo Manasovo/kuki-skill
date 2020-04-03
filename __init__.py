@@ -279,7 +279,7 @@ class KukiSkill(MycroftSkill):
         init(self)
         status_device(self)
 
-        if status_power == "OFF";
+        if status_power == "OFF":
             self.speak_dialog('PowerOff')
 
         else:
