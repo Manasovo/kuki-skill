@@ -33,7 +33,7 @@ prefered_device_id = ''
 
 
 # initialize
-log.error("DEBUG INITIALIZE eeee")
+# log.error("DEBUG INITIALIZE eeee")
 kuki_session(self)
 kuki_devices(self)
 prefered_device(self)
