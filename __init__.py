@@ -252,6 +252,8 @@ class KukiSkill(MycroftSkill):
                 status_playing = self.status['playing']
                 status_volume = self.status['audio']['volume']
 
+                self.log.error(status_power)
+                self.log.error(status_playing)
                 self.log.error(status_volume)
 
     
