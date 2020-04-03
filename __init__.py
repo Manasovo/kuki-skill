@@ -187,12 +187,12 @@ def init(self):
             kuki_reg(self)
             return session
         
-        elif devices == "":
+        elif not devices == "":
             self.log.error("DEVICES not found - search for new")
             kuki_devices(self)
             return device
 
-        elif prefered_device_id == "":
+        elif not prefered_device_id == "":
             self.log.error("PREFERED DEVICE not found - choose new")
             prefered_device_id(self)
             return prefered_device_id
