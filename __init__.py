@@ -152,11 +152,13 @@ def prefered_device(self):
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers) # show all devices on contract
             
             self.result = json.loads(self.api_get.text)
-            self.log.error(self.result)
 
+            self.log.error(self.result) # DEBUG
 
             #prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))
-            prefered_device_id = str(list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))['id']);
+            #prefered_device_id = str(list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))['id']);
+            
+            prefered_device_id = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id'])
 
             self.log.info("DEFAULT DEVICE ID")
             self.log.info(prefered_device_id)
