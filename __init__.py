@@ -296,20 +296,13 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG VOLUME")
 
         init(self) 
-
-
-
-        if status_power['power'] == False:
-            self.log.info('Kuki device is SLEEPing')
-        else:
-            self.log.info('Kuki device is running')
-
-
         
         if status_volume == "":     # if volume is not set
             self.log.error("DEBUG VOLUME is not set")
             status_device(self)     # reload status of device
-            #return status_volume
+            
+        elif status_power['power'] == False:
+                self.log.info('Kuki device is SLEEPing'
            
         else:
             self.log.error("DEBUG VOLUME if cached")
