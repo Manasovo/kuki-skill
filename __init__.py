@@ -308,8 +308,6 @@ class KukiSkill(MycroftSkill):
     # volume UP
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_up_intent(self, message):
-
-        global status_volume
         
         self.log.error("DEBUG VOLUME")
 
@@ -318,7 +316,6 @@ class KukiSkill(MycroftSkill):
    
         if status_volume == "100":    # if volume is more than 100% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO HIGH more than 100")
-            status_volume == 100
             self.speak_dialog('VolumeMax')
 
         else:
@@ -345,8 +342,6 @@ class KukiSkill(MycroftSkill):
     # volume DOWN
     @intent_handler(IntentBuilder('').require('VolumeDown'))
     def volume_up_intent(self, message):
-
-        global status_volume
         
         self.log.error("DEBUG VOLUME")
 
@@ -355,7 +350,6 @@ class KukiSkill(MycroftSkill):
         
         if status_volume == "0":    # if volume is less than 0% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO LOW less than 0")
-            status_volume == 0
             self.speak_dialog('VolumeMin')
 
         else:
