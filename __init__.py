@@ -187,9 +187,9 @@ def status_device(self):
                 
                 self.status = json.loads(self.api_status.text)
 
-                status_power = self.status['power']
-                status_playing = self.status['playing']
-                status_volume = self.status['audio']['volume']
+                status_power = str(self.status['power'])
+                status_playing = str(self.status['playing'])
+                status_volume = str(self.status['audio']['volume'])
 
 
 def init(self):
@@ -301,10 +301,10 @@ class KukiSkill(MycroftSkill):
             status_device(self) # reload status of device
            
         else:
-            self.log.error("DEBUG VOLUME")
-        
+            self.log.error("DEBUG VOLUME")  # first volume set
+
             if status_volume >= 100:
-                status_volume == 100
+                    status_volume == 100
             else:
 
                 # API POST data
