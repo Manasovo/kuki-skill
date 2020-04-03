@@ -178,17 +178,13 @@ def prefered_device(self):
             return prefered_device_id
 
 
-
-
-def initialize(self)
-""" initialize variables for the first run """    
-    
+def init(self):
+        """ initialize first start """
         log.error("DEBUG INITIALIZE")
         
         kuki_session(self)
         kuki_devices(self)
         prefered_device(self)
-
 
 
 class KukiSkill(MycroftSkill):
