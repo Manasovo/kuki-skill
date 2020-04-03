@@ -195,7 +195,7 @@ def init(self):
         elif prefered_device_id == "":
             self.log.error("PREFERED DEVICE not found - choose new")
             prefered_device_id(self)
-            eturn device
+            return prefered_device_id
 
         else:
             self.log.info("INIT OK")
