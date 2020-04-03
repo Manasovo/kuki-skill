@@ -312,6 +312,7 @@ class KukiSkill(MycroftSkill):
                 self.log.error("DEBUG VOLUME IS TOO HIGH")
                 self.log.error(status_volume)
                 status_volume == 100
+                self.speak_dialog('VolumeMax')
 
             else:
                 self.log.error("DEBUG VOLUME IS OK between 0 and 100")
