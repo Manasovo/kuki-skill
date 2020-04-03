@@ -238,8 +238,9 @@ class KukiSkill(MycroftSkill):
                 self.log.error(self.remote)
             
                 self.speak_dialog('Status',
-                                     {'prefered_device': ' '.joinprefered_device[-1]})
+                                     {'prefered_device': ' '.join(prefered_device)})
                                                     
+    
     
 
     # testing playing tv intent
