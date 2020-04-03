@@ -73,8 +73,8 @@ def kuki_reg(self):
 
         # sending post request and saving response as response object
         self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
-        self.log.error("API POST")
-        self.log.error(self.api_response)
+        self.log.debug("API POST")
+        self.log.debug(self.api_response)
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
             self.result = self.api_response.json()
@@ -166,21 +166,21 @@ def init(self):
         if session == "":
             self.log.error("SESSION not found - create new")
             kuki_reg(self)
-            return session
+           
         else:
             self.log.info("SESSION FOUND - use cache")
         
         if devices == "":
             self.log.error("DEVICES not found - search for new")
             kuki_devices(self)
-            return devices
+           
         else:
             self.log.info("DEVICES FOUND - use cache")
 
         if prefered_device_id == "":
             self.log.error("PREFERED DEVICE not found - choose new")
             prefered_device_id(self)
-            return prefered_device_id
+          
         else:
             self.log.info("PREFERED DEVICE FOUND - use cache")
         
