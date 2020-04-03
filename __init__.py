@@ -298,7 +298,6 @@ class KukiSkill(MycroftSkill):
         global status_volume # for saving volume
 
         self.log.error("DEBUG VOLUME")
-        self.log.error(status_volume)
 
         init(self) 
         
@@ -311,10 +310,12 @@ class KukiSkill(MycroftSkill):
 
             if status_volume == 110:    # if volume is more than 110% - TODO 2 REFACTOR
                 self.log.error("DEBUG VOLUME IS TOO HIGH")
+                self.log.error(status_volume)
                 status_volume == 100
 
             else:
                 self.log.error("DEBUG VOLUME IS OK between 0 and 100")
+                self.log.error(status_volume)
                 # API POST data
                 self.api_headers = {'X-SessionKey': session} 
                 self.action = "volset"
