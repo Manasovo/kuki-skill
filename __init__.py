@@ -239,7 +239,7 @@ class KukiSkill(MycroftSkill):
 
             else:
             
-                self.remote = json.loads(self.api_status.text)
+                self.remote = json.dump(self.api_status.text)
                 self.log.error(self.remote)
             
                 self.speak_dialog('Status',
