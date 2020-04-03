@@ -283,7 +283,7 @@ class KukiSkill(MycroftSkill):
             self.speak_dialog('PowerOff')
 
         else:
-            self.translate('Kuki is wake up') 
+            self.translate('and') 
             
             #self.translate('playing') 
             #self.translate(status_playing)
