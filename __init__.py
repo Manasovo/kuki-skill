@@ -298,6 +298,7 @@ class KukiSkill(MycroftSkill):
         global status_volume # for saving volume
 
         self.log.error("DEBUG VOLUME")
+        self.log.error(status_volume)
 
         init(self) 
         
