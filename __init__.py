@@ -240,7 +240,7 @@ class KukiSkill(MycroftSkill):
             except ValueError:
                 self.log.error('Kuki device is DOWN')
                 self.speak_dialog('NoDevicesAvailable')
-                #prefered_device = '' # restart prefered device id ... need to refactoring
+                prefered_device = '' # restart prefered device id ... need to refactoring
 
             else:
                 self.log.info('Kuki device is UP')
