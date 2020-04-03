@@ -23,6 +23,7 @@ API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
 session = ''
 devices = ''
+prefered_device = ''
 prefered_device_id = ''
 
 
@@ -116,20 +117,19 @@ def kuki_devices(self):
 
 def prefered_device(self):
         """ select of of many Kuki devices from contract """
-        global prefered_device_id #cache prefered device
+        global prefered_device #cache prefered device alias
+        global prefered_device_id #cache prefered device id
 
         self.log.error("DEBUG PREFERED DEVICES")   
 
-        default_device = self.settings.get('default_device')       
+        default_device = self.settings.get('default_device')    # load setting from Mycroft backend
      
         if default_device == '':
-            self.log.error("NO DEFAULT DEVICE SELECED")
-            kuki_session(self)
-            devices = kuki_devices(self)
-
+            self.log.error("NO DEFAULT DEVICE SELECED in Mycroft settings")
+            
             self.log.debug(devices)
-            prefered_device = devices[0]
-            self.log.error(prefered_device)
+            prefered_device = devices[0]    # choose frist device from list
+            self.log.info(prefered_device)
 
             # API get - get id from prefered alias
             self.api_headers = {'X-SessionKey': session}  
