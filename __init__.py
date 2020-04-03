@@ -180,12 +180,14 @@ def prefered_device(self):
 
 
 
-#def prdel(self)
+def initialize(self)
+""" initialize variables for the first run """    
     
-log.error("DEBUG INITIALIZE")
-kuki_session(self)
-kuki_devices(self)
-prefered_device(self)
+        log.error("DEBUG INITIALIZE")
+        
+        kuki_session(self)
+        kuki_devices(self)
+        prefered_device(self)
 
 
 
