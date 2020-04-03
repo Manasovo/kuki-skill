@@ -184,6 +184,13 @@ def init(self):
         else:
             self.log.info("PREFERED DEVICE FOUND - use cache")
         
+        if prefered_device_id == "":
+            self.log.error("PREFERED DEVICE ID not found - choose new")
+            prefered_device(self)
+          
+        else:
+            self.log.info("PREFERED DEVICE FOUND ID - use cache")
+        
 
 # ============================ Mycroft STARTs ============================ #
 
@@ -307,8 +314,8 @@ class KukiSkill(MycroftSkill):
         self.log.error(self.remote)
 
         self.speak_dialog('PlayLive',
-                            {'prefered_device': ' '.join(prefered_device[:-1]) + ' ' +  
-                                            prefered_device[-1]})
+                            {'devices': ' '.join(devices[:-1]) + ' ' +  
+                                            devices[-1]})
 
 
 
