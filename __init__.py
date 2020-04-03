@@ -309,7 +309,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_up_intent(self, message):
 
-        global status_volume 
+        global status_volume  # need for writing status of volume
         
         self.log.error("DEBUG VOLUME")
 
@@ -344,6 +344,8 @@ class KukiSkill(MycroftSkill):
     # volume DOWN
     @intent_handler(IntentBuilder('').require('VolumeDown'))
     def volume_up_intent(self, message):
+
+        global status_volume    # need for writing status of volume
         
         self.log.error("DEBUG VOLUME")
 
