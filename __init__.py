@@ -134,7 +134,7 @@ def prefered_device(self):
             # API get - get id from prefered alias
             self.api_headers = {'X-SessionKey': session}  
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers) # show all devices on contract
-            self.result = json.load(self.api_get.text)
+            self.result = json.loads(self.api_get.text)
             prefered_device_id = str(list(filter(lambda item: item['alias'] == prefered_device, self.result))[0]['id']) # select prefered device
 
             self.log.info("DEFAULT DEVICE ID")
@@ -150,7 +150,7 @@ def prefered_device(self):
             # API get - get id from default alias
             self.api_headers = {'X-SessionKey': session}  
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers) # show all devices on contract
-            self.result = json.load(self.api_get.text)
+            self.result = json.loads(self.api_get.text)
             prefered_device_id = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
 
             self.log.info("DEFAULT DEVICE ID")
@@ -232,7 +232,7 @@ class KukiSkill(MycroftSkill):
         if self.api_status:
    
             try:
-                self.remote = json.load(self.api_status.text)
+                self.remote = json.loads(self.api_status.text)
 
             except ValueError:
                 self.log.error('Kuki device is DOWN')
@@ -240,7 +240,7 @@ class KukiSkill(MycroftSkill):
 
             else:
                 self.log.info('Kuki device is UP')
-                self.remote = json.load(self.api_status.text)
+                self.remote = json.loads(self.api_status.text)
                 self.log.error(self.remote)
             
                 self.speak_dialog('Status',
