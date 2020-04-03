@@ -25,25 +25,6 @@ session = ''
 devices = ''
 prefered_device_id = ''
 
-#session ostra
-#session = "c466192e-1cf0-49c5-af1e-8dd80682b447"
-
-#session testovka
-#session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
-
-
-def kuki_session(self):
-        self.log.error("DEBUG SESSION")
-        self.log.debug(session)
-
-        if session == "":
-            self.log.info("SESSION not found generation new")
-            kuki_reg(self)
-        
-        else:
-            self.log.info("SESSION found using")
-            return session
-
 
 def failed_auth(self):
     if 'user' not in self.settings:
@@ -130,7 +111,7 @@ def kuki_devices(self):
         devices = list(map(lambda item: item['alias'], filter(lambda item: item['canPlay'] and item['deviceType'] in ['smarttv', 'fix'], self.result)))
         self.log.debug(devices) 
         
-        return devices
+        return init(self)
 
 
 def prefered_device(self):
@@ -159,7 +140,7 @@ def prefered_device(self):
             self.log.info("DEFAULT DEVICE ID")
             self.log.info(prefered_device_id)
 
-            return prefered_device_id
+            return init(self)
         
         else:
             self.log.info("DEFAULT DEVICE SELECED")
@@ -175,7 +156,7 @@ def prefered_device(self):
             self.log.info("DEFAULT DEVICE ID")
             self.log.info(prefered_device_id)
 
-            return prefered_device_id
+            return init(self)
 
 
 def init(self):
@@ -202,8 +183,9 @@ def init(self):
             return prefered_device_id
         else:
             self.log.info("PREFERED DEVICE FOUND - use cache")
+        
 
-                   
+# ============================ Mycroft STARTs ============================ #
 
 
 class KukiSkill(MycroftSkill):
