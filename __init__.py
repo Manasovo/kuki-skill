@@ -376,7 +376,7 @@ class KukiSkill(MycroftSkill):
 
             # sending post request and saving response as response object
             self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('VolumeUp')
+            self.speak_dialog('VolumeDown')
 
 
 
