@@ -266,7 +266,7 @@ class KukiSkill(MycroftSkill):
         # API POST data
         self.api_headers = {'X-SessionKey': session} 
         self.action = "volset"
-        self.volume = "10"
+        self.volume = "+10"
         
         # data to be sent to api 
         self.api_post = {'action':self.action,
