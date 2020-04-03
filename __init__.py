@@ -284,14 +284,8 @@ class KukiSkill(MycroftSkill):
 
         else:
             self.speak_dialog('WakeUp')
-            self.translate('and') 
+            # TODO stats of playing and volume 
             
-            #self.translate('playing') 
-            #self.translate(status_playing)
-            
-            #self.translate('Volume is on')
-            #self.translate(status_volume)
-
 
     # power ON
     @intent_handler(IntentBuilder('').require('PowerOn'))
