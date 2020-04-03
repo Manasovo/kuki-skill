@@ -192,7 +192,7 @@ def init(self):
         if devices == "":
             self.log.error("DEVICES not found - search for new")
             kuki_devices(self)
-            return device
+            return devices
         else:
             self.log.info("DEVICES FOUND - use cache")
 
