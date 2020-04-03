@@ -189,12 +189,12 @@ def status_device(self):
         
                 if status_power == 0:
                     self.log.info('Kuki DEVICE IS SLEEPing')
-                    status_power = "OFF"
+                    status_power = 'OFF'
 
                 else: 
                     status_playing = self.status['playing']
                     status_volume = int(self.status['audio']['volume'])
-                    status_power = "ON"
+                    status_power = 'ON'
 
 # status of prefered device of volume
 def status_volume_check(self):
