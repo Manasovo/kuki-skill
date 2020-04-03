@@ -134,7 +134,7 @@ def prefered_device(self):
             # API get - get id from prefered alias
             self.api_headers = {'X-SessionKey': session}  
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
-            self.result = json.dump(self.api_get.text)
+            self.result = json.loads(self.api_get.text)
             prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device, self.result)))
 
             self.log.info("DEFAULT DEVICE ID")
@@ -150,7 +150,7 @@ def prefered_device(self):
             # API get - get id from default alias
             self.api_headers = {'X-SessionKey': session}  
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
-            self.result = json.dump(self.api_get.text)
+            self.result = json.loads(self.api_get.text)
             prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))
 
             self.log.info("DEFAULT DEVICE ID")
