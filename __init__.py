@@ -288,8 +288,8 @@ class KukiSkill(MycroftSkill):
             #self.translate('playing') 
             #self.translate(status_playing)
             
-            self.translate('Volume is on')
-            self.translate(status_volume)
+            #self.translate('Volume is on')
+            #self.translate(status_volume)
 
 
     # power ON
