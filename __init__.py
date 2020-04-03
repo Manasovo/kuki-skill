@@ -191,7 +191,6 @@ def status_device(self):
                 status_playing = self.status['playing']
                 status_volume = self.status['audio']['volume']
 
-                self.log.error(status_volume)
 
 def init(self):
         """ initialize first start """
@@ -297,36 +296,37 @@ class KukiSkill(MycroftSkill):
         global status_volume # for saving volume
 
         init(self) 
-        status_device(self) # reload status of device
-
-        self.log.error("DEBUG VOLUME")
         
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.action = "volset"
-        self.volume = str(int(status_volume) + 10)
+        if status_volume == "":
+            status_device(self) # reload status of device
+           
+        else:
+            self.log.error("DEBUG VOLUME")
         
-        self.log.error("SET VOLUME TO")
-        self.log.error(self.volume)
+            # API POST data
+            self.api_headers = {'X-SessionKey': session} 
+            self.action = "volset"
+            self.volume = str(int(status_volume) + 10)
         
-        status_volume = self.volume     # save volume
+            self.log.error("SET VOLUME TO")
+            self.log.error(self.volume)
         
-
-        # data to be sent to api 
-        self.api_post = {'action':self.action,
+            status_volume = self.volume     # save volume
+        
+            # data to be sent to api 
+            self.api_post = {'action':self.action,
                         'volume': self.volume}
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+            # sending post request and saving response as response object
+            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
         
-        self.remote = json.loads(self.api_remote.text)
-        self.log.error(self.remote)
+            self.remote = json.loads(self.api_remote.text)
+            self.log.error(self.remote)
 
-        self.speak_dialog('Volume',
-                            {'devices': ' '.join(devices[:-1]) + ' ' +  
-                                            devices[-1]})
+            self.speak_dialog('Volume',
+                                 {'devices': ' '.join(devices[:-1]) + ' ' +  
+                                                  devices[-1]})
     
-
 
 
         # play live tv
