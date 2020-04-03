@@ -310,11 +310,11 @@ class KukiSkill(MycroftSkill):
             self.log.error("DEBUG VOLUME if cached")
 
             if status_volume == 110:    # if volume is more than 110% - TODO 2 REFACTOR
-                self.log.error("DEBUG VOLUME IS TO HIGH")
+                self.log.error("DEBUG VOLUME IS TOO HIGH")
                 status_volume == 100
 
             else:
-
+                self.log.error("DEBUG VOLUME IS OK between 0 and 100")
                 # API POST data
                 self.api_headers = {'X-SessionKey': session} 
                 self.action = "volset"
