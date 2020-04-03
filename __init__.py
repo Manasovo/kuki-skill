@@ -238,8 +238,8 @@ class KukiSkill(MycroftSkill):
                 self.log.error(self.remote)
             
                 self.speak_dialog('Status',
-                                     {'devices': ' '.join(devices[:-1]) + ' ' +  
-                                                    devices[-1]})
+                                     {'prefered_device': ' '.join(prefered_device[:-1]) + ' ' +  
+                                                    prefered_device[-1]})
     
     
 
@@ -273,8 +273,8 @@ class KukiSkill(MycroftSkill):
         self.log.error(self.remote)
 
         self.speak_dialog('Volume',
-                            {'devices': ' '.join(devices[:-1]) + ' ' +  
-                                            devices[-1]})
+                            {'prefered_device': ' '.join(prefered_device[:-1]) + ' ' +  
+                                            prefered_device[-1]})
     
 
 
@@ -307,8 +307,8 @@ class KukiSkill(MycroftSkill):
         self.log.error(self.remote)
 
         self.speak_dialog('PlayLive',
-                            {'devices': ' '.join(devices[:-1]) + ' ' +  
-                                            devices[-1]})
+                            {'prefered_device': ' '.join(prefered_device[:-1]) + ' ' +  
+                                            prefered_device[-1]})
 
 
 
