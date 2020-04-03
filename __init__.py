@@ -32,14 +32,6 @@ prefered_device_id = ''
 #session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
 
 
-def prdel(self)
-    
-    log.error("DEBUG INITIALIZE")
-    kuki_session(self)
-    kuki_devices(self)
-    prefered_device(self)
-
-
 def kuki_session(self):
         self.log.error("DEBUG SESSION")
         self.log.debug(session)
@@ -184,6 +176,17 @@ def prefered_device(self):
             self.log.info(prefered_device_id)
 
             return prefered_device_id
+
+
+
+
+#def prdel(self)
+    
+log.error("DEBUG INITIALIZE")
+kuki_session(self)
+kuki_devices(self)
+prefered_device(self)
+
 
 
 class KukiSkill(MycroftSkill):
