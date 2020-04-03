@@ -246,8 +246,11 @@ class KukiSkill(MycroftSkill):
                 self.log.error(self.remote )
 
                 ##############
-                status = json.loads(self.api_status.text)['volume']
-                self.log.error(status)
+                
+                status_volume = list(map(lambda item: item['audio'], filter(lambda item: item['volume']), self.api_status))
+        
+
+                self.log.error(status_volume)
 
     
     # testing playing tv intent
