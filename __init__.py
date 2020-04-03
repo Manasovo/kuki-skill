@@ -246,7 +246,7 @@ class KukiSkill(MycroftSkill):
                 self.log.error(self.remote )
 
                 ##############
-                status = json.loads(self.api_response.text)['audio']
+                status = json.loads(self.api_status.text)['audio']
                 self.log.error(status)
 
     
