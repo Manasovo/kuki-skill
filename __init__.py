@@ -276,18 +276,11 @@ class KukiSkill(MycroftSkill):
                 self.log.info('Kuki device is UP')
                 
                 self.status = json.loads(self.api_status.text)
-                self.log.error(self.status )
+                self.log.debug(self.status )
 
-                ##############
-                
-                
                 status_power = self.status['power']
                 status_playing = self.status['playing']
                 status_volume = self.status['audio']['volume']
-
-                self.log.error(status_power)
-                self.log.error(status_playing)
-                self.log.error(status_volume)
 
     
     # testing playing tv intent
@@ -302,6 +295,10 @@ class KukiSkill(MycroftSkill):
         
         status_device(self) # reload status of device
         
+        self.log.error(status_power)
+        self.log.error(status_playing)
+        self.log.error(status_volume)
+
         self.log.error("DEBUG VOLUME")
 
         init(self)        
