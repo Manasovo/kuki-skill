@@ -295,13 +295,15 @@ class KukiSkill(MycroftSkill):
         
         global status_volume # for saving volume
 
+        self.log.error("DEBUG VOLUME")
+
         init(self) 
         
         if status_volume == "":
             status_device(self) # reload status of device
            
         else:
-            self.log.error("DEBUG VOLUME")  # first volume set
+            self.log.error("DEBUG VOLUME if cached")
 
             if status_volume >= 100:
                     status_volume == 100
