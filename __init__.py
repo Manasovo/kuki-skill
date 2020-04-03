@@ -186,19 +186,24 @@ def init(self):
             self.log.error("SESSION not found - create new")
             kuki_reg(self)
             return session
+        else:
+            self.log.info("SESSION FOUND - use cache")
         
-        elif not devices == "":
+        if devices == "":
             self.log.error("DEVICES not found - search for new")
             kuki_devices(self)
             return device
+        else:
+            self.log.info("DEVICES FOUND - use cache")
 
-        elif not prefered_device_id == "":
+        if prefered_device_id == "":
             self.log.error("PREFERED DEVICE not found - choose new")
             prefered_device_id(self)
             return prefered_device_id
-
         else:
-            self.log.info("INIT OK")
+            self.log.info("PREFERED DEVICE FOUND - use cache")
+
+        
             
 
 
