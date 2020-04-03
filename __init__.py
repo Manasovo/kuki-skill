@@ -243,7 +243,8 @@ class KukiSkill(MycroftSkill):
                 self.log.info('Kuki device is UP')
                 self.remote = json.loads(self.api_status.text)
                 
-                status_device = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
+                self.log.error(self.remote )
+                #status_device = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
 
 
 
