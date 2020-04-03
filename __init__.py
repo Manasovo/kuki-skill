@@ -244,9 +244,9 @@ class KukiSkill(MycroftSkill):
                 self.remote = json.loads(self.api_status.text)
                 
                 self.log.error(self.remote )
-                #status_device = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
 
-
+                status = json.loads(self.api_status.text)['volume'] 
+                self.log.error(status)
 
     
     # testing playing tv intent
