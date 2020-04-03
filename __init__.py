@@ -291,7 +291,7 @@ class KukiSkill(MycroftSkill):
   
     # volume UP
     @intent_handler(IntentBuilder('').require('VolumeUp'))
-    def volume_intent(self, message):
+    def volume_up_intent(self, message):
         
         global status_volume # for saving volume
 
@@ -334,7 +334,7 @@ class KukiSkill(MycroftSkill):
 
    # volume DOWN
     @intent_handler(IntentBuilder('').require('VolumeDown'))
-    def volume_intent(self, message):
+    def volume_down_intent(self, message):
         
         global status_volume # for saving volume
 
