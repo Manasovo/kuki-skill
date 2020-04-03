@@ -25,6 +25,9 @@ session = ''                # token
 devices = ''                # all devices
 prefered_device = ''        # alias
 prefered_device_id = ''     # id
+status_power = ''           # power of end device
+status_playing = ''         # state of device
+status_volume = ''          # volume of device
 
 
 def failed_auth(self):
@@ -159,6 +162,36 @@ def prefered_device(self):
             return init(self)
 
 
+# status of prefered device
+def status_device(self, message):
+        
+        global status_power # power of end device
+        global status_playing # state of device
+        global status_volume # volume of device
+
+        self.log.error("DEBUG STATUS OF PREFERED DEVICE")
+        
+        # API GET
+        self.api_status = requests.get(API_REMOTE_STATE_URL + prefered_device_id + ".json", headers = self.api_headers)
+        
+        if self.api_status:
+   
+            try:
+                self.status = json.loads(self.api_status.text)
+
+            except ValueError:
+                self.log.error('Kuki prefered device is DOWN')
+                
+            else:
+                self.log.info('Kuki device is UP - reading settings')
+                
+                self.status = json.loads(self.api_status.text)
+
+                status_power = self.status['power']
+                status_playing = self.status['playing']
+                status_volume = self.status['audio']['volume']
+
+
 def init(self):
         """ initialize first start """
         self.log.error("DEBUG INITIALIZE")
@@ -266,6 +299,8 @@ class KukiSkill(MycroftSkill):
     # volume up
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_intent(self, message):
+        
+        status_device(self) # reload status of device
         
         self.log.error("DEBUG VOLUME")
 
