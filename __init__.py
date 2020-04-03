@@ -184,11 +184,11 @@ def status_device(self):
                 
             else:
                 self.log.info('Kuki device is UP - reading settings')
-                self.status = json.loads(self.api_status.text)
+                self.status = json.dumps(self.api_status.text)
 
                 status_power = self.status['power']
 
-                if status_power['power'] == "False":
+                if status_power['power'] == False:
                     self.log.info('Kuki device is SLEEPing')
                 else: 
                     status_playing = self.status['playing']
