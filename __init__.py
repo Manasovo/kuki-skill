@@ -177,7 +177,7 @@ def init(self):
         else:
             self.log.info("DEVICES FOUND - use cache")
 
-        if prefered_device_id == "":
+        if prefered_device == "":
             self.log.error("PREFERED DEVICE not found - choose new")
             prefered_device(self)
           
@@ -230,7 +230,8 @@ class KukiSkill(MycroftSkill):
 
             except ValueError:
                 self.log.error('Kuki device is DOWN')
-                self.speak_dialog('NoDevicesAvailable')        
+                self.speak_dialog('NoDevicesAvailable')
+                prefered_device = '' # restart prefered device id ... need to refactoring
 
             else:
                 self.log.info('Kuki device is UP')
