@@ -277,7 +277,7 @@ class KukiSkill(MycroftSkill):
                 self.log.info('Kuki device is UP')
                 
                 self.status = json.loads(self.api_status.text)
-                self.log.debug(self.status )
+                self.log.error(self.status )        # data from device
 
                 status_power = self.status['power']
                 status_playing = self.status['playing']
