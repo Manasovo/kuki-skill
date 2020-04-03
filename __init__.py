@@ -289,7 +289,7 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog("Play")
   
   
-    # volume up
+    # volume UP
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_intent(self, message):
         
@@ -303,10 +303,56 @@ class KukiSkill(MycroftSkill):
         else:
             self.log.error("DEBUG VOLUME")
         
+            if status_volume ==> 100:
+                status_volume == 100
+            else:
+
+                # API POST data
+                self.api_headers = {'X-SessionKey': session} 
+                self.action = "volset"
+                self.volume = str(int(status_volume) + 10)      # TODO - maximum 100
+        
+                self.log.error("SET VOLUME TO")
+                self.log.error(self.volume)
+        
+                status_volume = self.volume     # save volume
+        
+                # data to be sent to api 
+                self.api_post = {'action':self.action,
+                               'volume': self.volume}
+
+                # sending post request and saving response as response object
+                self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        
+                self.remote = json.loads(self.api_remote.text)
+                self.log.error(self.remote)
+
+                self.speak_dialog('Volume',
+                                    {'devices': ' '.join(devices[:-1]) + ' ' +  
+                                                    devices[-1]})
+    
+
+   # volume DOWN
+    @intent_handler(IntentBuilder('').require('VolumeDown'))
+    def volume_intent(self, message):
+        
+        global status_volume # for saving volume
+
+        self.log.error("DEBUG VOLUME")
+
+        init(self) 
+        
+        if status_volume == "":
+            status_device(self) # reload status of device
+           
+        else:
             # API POST data
+
+
+
             self.api_headers = {'X-SessionKey': session} 
             self.action = "volset"
-            self.volume = str(int(status_volume) + 10)
+            self.volume = str(int(status_volume) - 10)      # TODO - maximum 100
         
             self.log.error("SET VOLUME TO")
             self.log.error(self.volume)
@@ -327,7 +373,6 @@ class KukiSkill(MycroftSkill):
                                  {'devices': ' '.join(devices[:-1]) + ' ' +  
                                                   devices[-1]})
     
-
 
         # play live tv
     @intent_handler(IntentBuilder('').require('PlayLive'))
