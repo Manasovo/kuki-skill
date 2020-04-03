@@ -308,7 +308,7 @@ class KukiSkill(MycroftSkill):
         else:
             self.log.error("DEBUG VOLUME if cached")
 
-            if status_volume == 110:    # if volume is more than 110% - TODO 2 REFACTOR
+            if status_volume == "110":    # if volume is more than 110% - TODO 2 REFACTOR
                 self.log.error("DEBUG VOLUME IS TOO HIGH")
                 self.log.error(status_volume)
                 status_volume == 100
