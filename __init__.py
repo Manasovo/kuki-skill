@@ -32,7 +32,7 @@ prefered_device_id = ''
 #session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
 
 
-def initialize(self)
+def prdel(self)
     
     log.error("DEBUG INITIALIZE")
     kuki_session(self)
