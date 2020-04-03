@@ -189,7 +189,7 @@ def status_device(self):
 
                 status_power = str(self.status['power'])
                 status_playing = str(self.status['playing'])
-                status_volume = str(self.status['audio']['volume'])
+                status_volume = int(self.status['audio']['volume'])
 
 
 def init(self):
