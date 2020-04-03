@@ -302,28 +302,27 @@ class KukiSkill(MycroftSkill):
         init(self) 
         
         if status_volume == "":     # if volume is not set
-            self.log.error("DEBUG VOLUME is not set")
+            self.log.info("DEBUG VOLUME is not set")
             status_device(self)     # reload status of device
+            return
         
         else:
-            self.log.error("DEBUG VOLUME if cached")
+            self.log.info("DEBUG VOLUME if cached")
 
             if status_volume == "110":    # if volume is more than 110% - TODO 2 REFACTOR
-                self.log.error("DEBUG VOLUME IS TOO HIGH")
-                self.log.error(status_volume)
+                self.log.info("DEBUG VOLUME IS TOO HIGH more than 100")
                 status_volume == 100
                 self.speak_dialog('VolumeMax')
 
             else:
-                self.log.error("DEBUG VOLUME IS OK between 0 and 100")
-                self.log.error(status_volume)
+                self.log.info("DEBUG VOLUME IS OK between 0 and 100")
                 # API POST data
                 self.api_headers = {'X-SessionKey': session} 
                 self.action = "volset"
                 self.volume = str(int(status_volume) + 10)      # TODO - maximum 100
         
-                self.log.error("SET VOLUME TO")
-                self.log.error(self.volume)
+                self.log.info("SET VOLUME TO")
+                self.log.info(self.volume)
         
                 status_volume = self.volume     # save volume
         
@@ -333,10 +332,6 @@ class KukiSkill(MycroftSkill):
 
                 # sending post request and saving response as response object
                 self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-        
-                self.remote = json.loads(self.api_remote.text)
-                self.log.error(self.remote)
-
                 self.speak_dialog('VolumeUp')
 
 
