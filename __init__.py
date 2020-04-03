@@ -298,7 +298,42 @@ class KukiSkill(MycroftSkill):
                 status_playing = self.status['playing']
                 status_volume = self.status['audio']['volume']
 
+
+
+    # power ON
+    @intent_handler(IntentBuilder('').require('PowerOn'))
+    def power_on_intent(self, message):
+       
+        self.log.error("DEBUG POWER ON")
+
+        init(self) 
+            
+        # API POST data
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"poweron"}
+
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('PowerOn')
+
+   
+    # power OFF
+    @intent_handler(IntentBuilder('').require('PowerOff'))
+    def power_off_intent(self, message):
+       
+        self.log.error("DEBUG POWER OFF")
+
+        init(self) 
+            
+        # API POST data
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"poweroff"}
+
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('PowerOff')
     
+
     # testing playing tv intent
     @intent_handler(IntentBuilder('').require('Play'))
     def play_intent(self, message):
@@ -438,9 +473,7 @@ class KukiSkill(MycroftSkill):
         self.remote = json.loads(self.api_remote.text)
         self.log.error(self.remote)
 
-        self.speak_dialog('PlayLive',
-                            {'devices': ' '.join(devices[:-1]) + ' ' +  
-                                            devices[-1]})
+        self.speak_dialog('PlayLive')
 
 
 
