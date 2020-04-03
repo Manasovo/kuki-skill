@@ -300,6 +300,7 @@ class KukiSkill(MycroftSkill):
         init(self) 
         
         if status_volume == "":
+            self.log.error("DEBUG VOLUME is not set")
             status_device(self) # reload status of device
            
         else:
