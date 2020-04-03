@@ -1,5 +1,10 @@
 shutdown Kuki
+shutdown cookie
 poweroff Kuki
+poweroff cookie
 Kuki poweroff
+cookie Kuki poweroff
 Kuki shutdown
+cookie shutdown
 Kuki off
+cookie off
