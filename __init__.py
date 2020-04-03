@@ -445,6 +445,14 @@ class KukiSkill(MycroftSkill):
         if status_power == "OFF":
             self.speak_dialog('PowerOff')
 
+            # WAKE UP
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"poweron"}
+
+            # sending post request and saving response as response object
+            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+            self.speak_dialog('PowerOn')
+
         else:
             # API POST data
             self.api_headers = {'X-SessionKey': session}
