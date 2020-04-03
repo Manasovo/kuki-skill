@@ -305,8 +305,8 @@ class KukiSkill(MycroftSkill):
             self.log.info("DEBUG VOLUME is not set")
             status_device(self)     # reload status of device
             
-            return volume_up_intent()
-        
+            return volume_up_intent(self, message)
+
         else:
             self.log.info("DEBUG VOLUME if cached")
 
