@@ -187,8 +187,8 @@ def status_device(self):
                 
                 self.status = json.loads(self.api_status.text)
 
-                status_power = str(self.status['power'])
-                status_playing = str(self.status['playing'])
+                status_power = self.status['power']
+                status_playing = self.status['playing']
                 status_volume = int(self.status['audio']['volume'])
 
 
