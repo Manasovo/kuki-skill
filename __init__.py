@@ -135,7 +135,7 @@ def prefered_device(self):
             self.api_headers = {'X-SessionKey': session}  
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
             self.result = json.loads(self.api_get.text)
-            prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device, self.result)))
+            prefered_device_id = str(list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device, self.result)))['id']);
 
             self.log.info("DEFAULT DEVICE ID")
             self.log.info(prefered_device_id)
@@ -151,7 +151,8 @@ def prefered_device(self):
             self.api_headers = {'X-SessionKey': session}  
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
             self.result = json.loads(self.api_get.text)
-            prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))
+            #prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == default_device, self.result)))
+            prefered_device_id = str(list(map(lambda item: item['id'], filter(lambda item: item['alias'] == prefered_device, self.result)))['id']);
 
             self.log.info("DEFAULT DEVICE ID")
             self.log.info(prefered_device_id)
