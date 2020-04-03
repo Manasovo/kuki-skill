@@ -295,7 +295,8 @@ class KukiSkill(MycroftSkill):
                 self.log.error(self.status )        # data from device
 
                 status_power = self.status['power']
-                self.translate('power is') self.translate(status_power)
+                self.translate('power is') 
+                self.translate(status_power)
 
                 status_playing = self.status['playing']
                 status_volume = self.status['audio']['volume']
