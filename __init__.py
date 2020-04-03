@@ -220,12 +220,6 @@ class KukiSkill(MycroftSkill):
 
         init(self)
         
-        #prefered_device_id = "5034042" #ostra
-        #self.prefered_device_id = "30928" #testovka
-        
-        self.log.error("=================")
-        self.log.error(prefered_device_id)
-        
         # API GET
         self.api_status = requests.get(API_REMOTE_STATE_URL + prefered_device_id + ".json", headers = self.api_headers)
         
@@ -261,28 +255,7 @@ class KukiSkill(MycroftSkill):
         
         self.log.error("DEBUG VOLUME")
 
-        init(self)
-
-        # devices = kuki_devices(self)
-        # self.log.debug(devices)
-        
-        # API get - TODO set prefered devices
-        self.api_headers = {'X-SessionKey': session}  
-
-        self.api_get = requests.get(API_URL + 'device', headers = self.api_headers)
-        self.result = json.loads(self.api_get.text)
-        
-        # POKUSY O DODANI ID
-        # self.prefered_device_id = self.result[0]['id']
-        # self.prefered_device_id = ([result_item['id'] for result_item in self.result])
-        # self.prefered_device_id = list(map(lambda item: item['id'], filter(lambda item: item['alias'] == 'Mycroft', self.result)))
-        
-        self.prefered_device_id = "5034042" #ostra
-        #self.prefered_device_id = "30928" #testovka
-        
-        self.log.error(self.prefered_device_id)
-        
-        
+        init(self)        
 
         # API POST data
         self.api_headers = {'X-SessionKey': session} 
@@ -313,14 +286,6 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG PLAY LIVE")
 
         init(self)
-        # devices = kuki_devices(self)
-
-        self.prefered_device_id = "5034042" #ostra
-        #self.prefered_device_id = "30928" #testovka
-        
-        self.log.error(self.prefered_device_id)
-        
-        
 
         # API POST data
         self.api_headers = {'X-SessionKey': session}
