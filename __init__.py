@@ -32,11 +32,12 @@ prefered_device_id = ''
 #session = "4fb565d2-b386-4fc9-9d35-84d11cb05c0b"
 
 
-# initialize
-# log.error("DEBUG INITIALIZE eeee")
-kuki_session(self)
-kuki_devices(self)
-prefered_device(self)
+def initialize(self)
+    
+    log.error("DEBUG INITIALIZE")
+    kuki_session(self)
+    kuki_devices(self)
+    prefered_device(self)
 
 
 def kuki_session(self):
