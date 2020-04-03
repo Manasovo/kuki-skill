@@ -180,7 +180,7 @@ def prefered_device(self):
 
 def init(self):
         """ initialize first start """
-        log.error("DEBUG INITIALIZE")
+        self.log.error("DEBUG INITIALIZE")
         
         kuki_session(self)
         kuki_devices(self)
