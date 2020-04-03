@@ -238,7 +238,7 @@ class KukiSkill(MycroftSkill):
                 self.speak_dialog('NoDevicesAvailable')        
 
             else:
-            
+                self.log.info('Kuki device is UP')
                 self.remote = json.dump(self.api_status.text)
                 self.log.error(self.remote)
             
