@@ -222,7 +222,9 @@ class KukiSkill(MycroftSkill):
     # status of device
     @intent_handler(IntentBuilder('').require('Status').require('Kuki').require('Device'))
     def status_intent(self, message):
-    
+        
+        global prefered_device
+        
         self.log.error("DEBUG STATUS")
 
         init(self)
@@ -237,7 +239,7 @@ class KukiSkill(MycroftSkill):
 
             except ValueError:
                 self.log.error('Kuki device is DOWN')
-                self.speak_dialog('NoDevicesAvailable')
+                self.speak_diprefered_devicealog('NoDevicesAvailable')
                 prefered_device = '' # restart prefered device id ... need to refactoring
 
             else:
