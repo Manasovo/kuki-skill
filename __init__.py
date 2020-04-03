@@ -184,7 +184,7 @@ def status_device(self):
                 
             else:
                 self.log.info('Kuki device is UP - reading settings')
-                self.status = json.dumps(self.api_status.text)
+                self.status = json.loads(self.api_status.text)
                 
                 self.log.error(self.status)
                 
