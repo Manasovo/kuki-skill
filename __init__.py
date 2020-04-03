@@ -285,7 +285,7 @@ class KukiSkill(MycroftSkill):
         else:
             self.speak_dialog('WakeUp')
             # TODO stats of playing and volume 
-            
+
 
     # power ON
     @intent_handler(IntentBuilder('').require('PowerOn'))
@@ -440,27 +440,32 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG PLAY LIVE")
 
         init(self)
+        status_device(self)
 
-        # API POST data
-        self.api_headers = {'X-SessionKey': session}
-        self.action = "playLive"
-        self.op = "play"
-        self.type = "live"
-        self.channel = "1";
+        if status_power == "OFF":
+            self.speak_dialog('PowerOff')
+
+        else:
+            # API POST data
+            self.api_headers = {'X-SessionKey': session}
+            self.action = "playLive"
+            self.op = "play"
+            self.type = "live"
+            self.channel = "1";
         
-        # data to be sent to api 
-        self.api_post = {'action':self.action,
-                        'op': self.op,
-                        'type':self.type,
-                        'channel_id': self.channel}
+            # data to be sent to api 
+            self.api_post = {'action':self.action,
+                             'op': self.op,
+                             'type':self.type,
+                             'channel_id': self.channel}
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+            # sending post request and saving response as response object
+            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
         
-        self.remote = json.loads(self.api_remote.text)
-        self.log.error(self.remote)
+            self.remote = json.loads(self.api_remote.text)
+            self.log.error(self.remote)
 
-        self.speak_dialog('PlayLive')
+            self.speak_dialog('PlayLive')
 
 
 
