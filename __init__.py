@@ -179,7 +179,7 @@ def init(self):
 
         if prefered_device_id == "":
             self.log.error("PREFERED DEVICE not found - choose new")
-            prefered_device_id(self)
+            prefered_device(self)
           
         else:
             self.log.info("PREFERED DEVICE FOUND - use cache")
