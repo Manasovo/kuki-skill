@@ -389,7 +389,7 @@ class KukiSkill(MycroftSkill):
         self.api_headers = {'X-SessionKey': session} 
  
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = chup)
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = "chup")
         self.speak_dialog('ChannelUp')
 
 
