@@ -111,7 +111,7 @@ def kuki_reg(self):
                   session = json.loads(self.api_response.text)['session_key']
                   self.log.info(session)  
 
-                  return session
+                  return init(self)
                   
 
 def kuki_devices(self):
@@ -203,8 +203,7 @@ def init(self):
         else:
             self.log.info("PREFERED DEVICE FOUND - use cache")
 
-        
-            
+                   
 
 
 class KukiSkill(MycroftSkill):
