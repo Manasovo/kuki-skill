@@ -347,7 +347,7 @@ class KukiSkill(MycroftSkill):
             # API POST data
             self.api_headers = {'X-SessionKey': session} 
             self.action = "volset"
-            self.volume = str(int(status_volume) + 10)      # TODO - maximum 100
+            self.volume = str(int(status_volume) + 20)      # TODO - maximum 100
         
             self.log.info("SET VOLUME TO")
             self.log.info(self.volume)
@@ -383,7 +383,7 @@ class KukiSkill(MycroftSkill):
             # API POST data
             self.api_headers = {'X-SessionKey': session} 
             self.action = "volset"
-            self.volume = str(int(status_volume) - 10)      # TODO - maximum 100
+            self.volume = str(int(status_volume) - 20)      # TODO - maximum 100
         
             self.log.info("SET VOLUME TO")
             self.log.info(self.volume)
