@@ -1,1 +1,1 @@
-volume set on: {{devices}}
+volume set on: {{prefered_device}}
