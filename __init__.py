@@ -293,6 +293,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('VolumeUp'))
     def volume_intent(self, message):
         
+        init(self) 
         status_device(self) # reload status of device
         
         self.log.error(status_power)
@@ -300,8 +301,7 @@ class KukiSkill(MycroftSkill):
         self.log.error(status_volume)
 
         self.log.error("DEBUG VOLUME")
-
-        init(self)        
+        
 
         # API POST data
         self.api_headers = {'X-SessionKey': session} 
