@@ -223,7 +223,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Status').require('Kuki').require('Device'))
     def status_intent(self, message):
         
-        #global prefered_device
+        global prefered_device
         
         self.log.error("DEBUG STATUS")
 
