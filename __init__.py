@@ -295,18 +295,13 @@ class KukiSkill(MycroftSkill):
         
         init(self) 
         status_device(self) # reload status of device
-        
-        self.log.error(status_power)
-        self.log.error(status_playing)
-        self.log.error(status_volume)
 
         self.log.error("DEBUG VOLUME")
-        
 
         # API POST data
         self.api_headers = {'X-SessionKey': session} 
         self.action = "volset"
-        self.volume = "+10"
+        self.volume = status_volume + 10
         
         # data to be sent to api 
         self.api_post = {'action':self.action,
