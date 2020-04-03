@@ -189,7 +189,7 @@ def status_device(self):
         
                 if status_power == 0:
                     self.log.info('Kuki DEVICE IS SLEEPing')
-                    return status_power = "OFF"
+                    status_power = "OFF"
 
                 else: 
                     status_playing = self.status['playing']
