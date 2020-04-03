@@ -238,7 +238,7 @@ class KukiSkill(MycroftSkill):
                 self.log.error(self.remote)
             
                 self.speak_dialog('Status',
-                                     {'prefered_device': ' '.join(prefered_device)})
+                                     {'prefered_device': .join(prefered_device)})
                                                     
     
     
