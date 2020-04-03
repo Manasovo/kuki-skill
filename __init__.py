@@ -315,8 +315,7 @@ class KukiSkill(MycroftSkill):
 
         init(self) 
         status_volume_check(self)
-
-        
+   
         if status_volume == "110":    # if volume is more than 110% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO HIGH more than 100")
             status_volume == 100
@@ -341,6 +340,44 @@ class KukiSkill(MycroftSkill):
             # sending post request and saving response as response object
             self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
             self.speak_dialog('VolumeUp')
+
+
+    # volume DOWN
+    @intent_handler(IntentBuilder('').require('VolumeDown'))
+    def volume_up_intent(self, message):
+
+        global status_volume
+        
+        self.log.error("DEBUG VOLUME")
+
+        init(self) 
+        status_volume_check(self)
+        
+        if status_volume == "-10":    # if volume is less than -10% - TODO 2 REFACTOR
+            self.log.info("DEBUG VOLUME IS TOO LOW less than 0")
+            status_volume == 0
+            self.speak_dialog('VolumeMin')
+
+        else:
+            self.log.info("DEBUG VOLUME IS OK between 0 and 100")
+            # API POST data
+            self.api_headers = {'X-SessionKey': session} 
+            self.action = "volset"
+            self.volume = str(int(status_volume) - 10)      # TODO - maximum 100
+        
+            self.log.info("SET VOLUME TO")
+            self.log.info(self.volume)
+        
+            status_volume = self.volume     # save volume
+        
+            # data to be sent to api 
+            self.api_post = {'action':self.action,
+                            'volume': self.volume}
+
+            # sending post request and saving response as response object
+            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+            self.speak_dialog('VolumeUp')
+
 
 
     # play live tv
