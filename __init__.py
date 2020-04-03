@@ -307,9 +307,9 @@ class KukiSkill(MycroftSkill):
         else:
             self.log.error("DEBUG VOLUME if cached")
 
-            if status_volume >= "100":    # if volume is more than 100%
-                    status_volume == 100
-            else:
+            #if status_volume >= "100":    # if volume is more than 100%
+            #        status_volume == 100
+            #else:
 
                 # API POST data
                 self.api_headers = {'X-SessionKey': session} 
