@@ -293,7 +293,6 @@ def init(self):
             self.log.info("PREFERED DEVICE FOUND ID - use cache")
 
 
-
   # ============================ Mycroft STARTs ============================ #
 
 
@@ -387,7 +386,7 @@ class KukiSkill(MycroftSkill):
         'quiet': 30 }
 
 
-    # Set Volume Percent Intent Handlers
+    # volume percent
     @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeLevel").require("Percent"))
     def handle_set_volume_percent(self, message):
         
@@ -398,26 +397,7 @@ class KukiSkill(MycroftSkill):
         percent = extract_number(message.data['utterance'].replace('%', ''))
         percent = int(percent)
         
-        #self._setvolume(percent)
-        #self.speak_dialog('set.volume.percent', data={'level': percent})
-
-
-        self.api_headers = {'X-SessionKey': session} 
-        self.action = "volset"
-        self.volume = str(int(status_volume) + 20)      # TODO - maximum 100
-        
-        self.log.info("SET VOLUME TO")
-        self.log.info(self.volume)
-        
-        status_volume = self.volume     # save volume
-        
-        # data to be sent to api 
-        self.api_post = {'action':self.action,
-                      'volume': self.volume}
-
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('Volume')
+    
    
 
     # volume UP
