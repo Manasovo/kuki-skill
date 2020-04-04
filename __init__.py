@@ -118,10 +118,10 @@ def kuki_reg(self):
             response = urlopen(link) 
         except HTTPError as e:
         
-        if e.code == 403:
-            self.log.error("CAN'T CONNECT TO KUKI SERVER")
-        else:
-            self.log.error(e)
+            if e.code == 403:
+                self.log.error("CAN'T CONNECT TO KUKI SERVER")
+            else:
+                self.log.error(e)
     
 
         if json.loads(api_post.text)['state'] == 'NOT_REGISTERED':
