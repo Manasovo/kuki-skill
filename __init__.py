@@ -72,7 +72,7 @@ def generate_serial(StringLength=56):
     LettersAndDigits = string.ascii_letters + string.digits
     serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
-    file_system = FileSystemAccess(str(self.skill_id))
+    file_system = FileSystemAccess(str("kuki_skill"))
     file = file_system.open("prdel", mode="r")
     file.write("prdel prdel")
     file.close()
