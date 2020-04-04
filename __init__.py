@@ -92,8 +92,9 @@ def serial(self):
         
 
 def kuki_reg(self):
-        global session       #cache session
-       
+        global session       # cache session
+        global paircode      # paircode 
+
         """ registration and session key """
         self.log.error("DEBUG REGISTER")
 
