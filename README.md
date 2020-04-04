@@ -19,7 +19,7 @@ Still in progres, but few word is already working:
 * "TV off"
 
 ## Credits
-**Manasovo** : apologies to everyone ! I'am not developer, coder, etc. and i never been. In my whole live i wrote some shell script :-)This project is my first try with Python, GitHub, Mycroft, etc. 
+**Manasovo** - apologies to everyone ! I'am not developer, coder, etc. and i never been. In my whole live i wrote some shell script :-)This project is my first try with Python, GitHub, Mycroft, etc. 
 
 ## Category
 Entertainment
