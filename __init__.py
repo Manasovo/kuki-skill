@@ -249,8 +249,7 @@ def status_volume_check(self):
             self.speak_dialog('VolumeMin')
         
         else:
-            break
-
+            
 
 def init(self):
         """ initialize first start """
