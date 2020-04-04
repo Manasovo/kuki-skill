@@ -110,7 +110,7 @@ def kuki_reg(self):
         # sending post request and saving response as response object
         self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
         self.log.debug("API POST")
-        self.log.debug(self.api_response)
+        self.log.error(self.api_response)
 
         if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
             self.result = self.api_response.json()
