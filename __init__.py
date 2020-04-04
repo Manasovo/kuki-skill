@@ -8,6 +8,7 @@ import socket                                           # hostname
 import random                                           # generate serial
 import string                                           # generate serial                                      
 from mycroft.filesystem import FileSystemAccess         # file operation
+import sys
 
 
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
@@ -33,7 +34,7 @@ status_volume = ''          # volume of device
 
 def failed_auth(self):
     self.speak_dialog("NotAuthorized", data={"paircode": paircode})
-    break
+    sys.exit()
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
