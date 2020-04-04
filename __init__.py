@@ -48,6 +48,7 @@ def generate_serial(StringLength=56):
     LettersAndDigits = string.ascii_letters + string.digits
     serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
     return serial_number
+    save_serial(self)
 
 
 def save_serial(self):
