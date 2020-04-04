@@ -249,7 +249,8 @@ def status_volume_check(self):
             self.speak_dialog('VolumeMin')
         
         else:
-            
+            self.log.debug("VOLUME IS OK between 1-99")
+
 
 def init(self):
         """ initialize first start """
