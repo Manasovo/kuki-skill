@@ -66,7 +66,7 @@ def serial(self):
         return data
 
     except Exception as e:
-        self.log.error("SERIAL NOT READ FROM FILE " + filename)
+        self.log.error("SERIAL NOT READ FROM FILE")
         LOG.error(e)
         return False    
 
@@ -79,7 +79,7 @@ def serial(self):
         return True
     
     except Exception as e:
-        self.log.error("SERIAL NOT SAVE TO FILE " + filename)
+        self.log.error("SERIAL NOT SAVE TO FILE")
         LOG.error(e)
         return False    
         
