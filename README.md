@@ -1,4 +1,4 @@
-# <img src="https://www.netbox.cz/static/images/kuki-logo.b64a29a801e2.png" style="vertical-align:center"/>
+# <img src="https://www.netbox.cz/static/images/kuki-logo.b64a29a801e2.png"/>
 Remote control of iptv services named kuki (like spotify in music)
 
 ## About
