@@ -385,8 +385,12 @@ class KukiSkill(MycroftSkill):
         'normal': 60,
         'quiet': 30 }
 
+        default = None
         level_str = message.data.get('VolumeLevel', default)
         level = self.volume_words[level_str]
+        level = int(extract_number(level_str))
+
+        self.log.error(level)
 
         # % from numbers
         percent = extract_number(message.data['utterance'].replace('%', ''))
