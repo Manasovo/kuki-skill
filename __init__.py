@@ -34,7 +34,7 @@ status_volume = ''          # volume of device
 
 
 def failed_auth(self):
-    self.speak_dialog("NotAuthorized", data={"paircode": paircode})
+    self.speak_dialog("not.authorized", data={"paircode": paircode})
     sys.exit()  # program end
 
 def generate_serial(StringLength=56):
@@ -243,11 +243,11 @@ def status_volume_check(self):
 
         if status_volume == "100":    # if volume is more than 100% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO HIGH")
-            self.speak_dialog('VolumeMax')
+            self.speak_dialog('volume.max')
         
         elif status_volume == "0":    # if volume is more than 100% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO LOW")
-            self.speak_dialog('VolumeMin')
+            self.speak_dialog('volume.min')
         
         else:
             self.log.debug("VOLUME IS OK between 1-99")
@@ -310,13 +310,13 @@ class KukiSkill(MycroftSkill):
             self.speak(devices[0])
 
         elif len(devices) > 1:
-            self.speak_dialog('AvailableDevices',
+            self.speak_dialog('available.devices',
                                 {'devices': ' '.join(devices[:-1]) + ' ' +
                                             self.translate('And') + ' ' +
                                             devices[-1]})
         else:
             self.log.debug("DEBUG NO DEVICE AVAILABLE")
-            self.speak_dialog('NoDevicesAvailable')
+            self.speak_dialog('no.devices.available')
 
 
     # status of device
@@ -329,10 +329,10 @@ class KukiSkill(MycroftSkill):
         status_device(self)
 
         if status_power == "OFF":
-            self.speak_dialog('PowerOff')
+            self.speak_dialog('power.off')
 
         else:
-            self.speak_dialog('WakeUp')
+            self.speak_dialog('wake.up')
             # TODO stats of playing and volume 
 
 
@@ -350,7 +350,7 @@ class KukiSkill(MycroftSkill):
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('PowerOn')
+        self.speak_dialog('power.on')
 
    
     # power OFF
@@ -367,14 +367,8 @@ class KukiSkill(MycroftSkill):
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('PowerOff')
-    
-
-    # testing playing tv intent
-    @intent_handler(IntentBuilder('').require('Set'))
-    def play_intent(self, message):
-        self.speak_dialog("Play")
-  
+        self.speak_dialog('power.off')
+ 
   
     # volume SET
     @intent_handler(IntentBuilder('').require('Volume'))
@@ -392,25 +386,21 @@ class KukiSkill(MycroftSkill):
         
         self.log.error("DEBUG VOLUME PERCENT")
         
-        init(self) 
+        init(self)
 
         percent = extract_number(message.data['utterance'].replace('%', ''))
         percent = int(percent)
         
         self.api_headers = {'X-SessionKey': session} 
-        
-        #self.action = "volset"
-        #self.volume = str(int(status_volume) + 20) 
 
-       # data to be sent to api 
+        # data to be sent to api 
         self.api_post = {'action':"volset",
-                      'volume': percent}
+                         'volume': percent}
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
 
-
-        #self.speak_dialog('set.volume.percent', data={'level': percent})
+        self.speak_dialog('set.volume.percent', data={'level': percent})
    
 
     # volume UP
@@ -444,7 +434,7 @@ class KukiSkill(MycroftSkill):
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('VolumeDown')
+        self.speak_dialog('volume.down')
 
 
  # channel UP
@@ -461,10 +451,9 @@ class KukiSkill(MycroftSkill):
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('ChannelUp')
 
 
-# channel Down
+# channel DOWN
     @intent_handler(IntentBuilder('').require('ChannelDown'))
     def channel_down_intent(self, message):
        
@@ -478,7 +467,6 @@ class KukiSkill(MycroftSkill):
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('ChannelDown')
 
 
     # play live tv
@@ -498,7 +486,7 @@ class KukiSkill(MycroftSkill):
 
             # sending post request and saving response as response object
             self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('PowerOn')
+            self.speak_dialog('power.on')
 
             # PLAY LIVE
             self.action = "playLive"
@@ -514,7 +502,7 @@ class KukiSkill(MycroftSkill):
 
             # sending post request and saving response as response object
             self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('PlayLive')
+            self.speak_dialog('play.live')
 
 
         else:
@@ -533,7 +521,7 @@ class KukiSkill(MycroftSkill):
 
             # sending post request and saving response as response object
             self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('PlayLive')
+            self.speak_dialog('play.live')
 
 
 
