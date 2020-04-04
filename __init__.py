@@ -55,7 +55,7 @@ def generate_serial(StringLength=56):
 def serial(self):
 
     global sernum       # save serial number
-    
+
     try:
         self.log.info("READING SERIAL NUMBER") 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
@@ -93,8 +93,8 @@ def kuki_reg(self):
         global session #cache session
 
         """ registration and session key """
-        log.error("DEBUG REGISTER")
-        log.error(sernum)
+        self.log.error("DEBUG REGISTER")
+        self.log.error(sernum)
 
         #self.serial = sernum
         self.deviceType = "fix"
