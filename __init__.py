@@ -393,7 +393,7 @@ class KukiSkill(MycroftSkill):
         try:
             level = self.volume_words[level_str]
         
-        except ValueError:
+        except KeyError:
             self.log.error('DEBUG VOLUME WORLDS')
         
 
