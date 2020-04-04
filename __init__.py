@@ -234,20 +234,6 @@ def status_device(self):
                     status_volume = int(self.status['audio']['volume'])
                     status_power = 'ON'
 
-# status of prefered device of volume
-def status_volume_check(self):
-
-        global status_volume # for saving volume
-
-        self.log.error("DEBUG VOLUME STATUS")
-        
-        if status_volume == "":     # if volume is not set
-            self.log.info("DEBUG VOLUME is not set")
-            status_device(self)     # reload status of device
-
-        else:
-            self.log.info("DEBUG VOLUME if cached")
-
 
 def init(self):
         """ initialize first start """
@@ -374,12 +360,10 @@ class KukiSkill(MycroftSkill):
   
   
     # volume UP
-    @intent_handler(IntentBuilder('').require('VolumeUp'))
-    def volume_up_intent(self, message):
+    @intent_handler(IntentBuilder('').require('Volume'))
+    def volume_intent(self, message):
 
-        global status_volume    # need for writing status of volume
-        
-        self.log.error("DEBUG VOLUME UP")
+        self.log.error("DEBUG VOLUME")
 
         init(self) 
         status_volume_check(self)
@@ -406,43 +390,41 @@ class KukiSkill(MycroftSkill):
 
             # sending post request and saving response as response object
             self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('VolumeUp')
+            self.speak_dialog('Volume')
+   
 
+    # volume UP
+    @intent_handler(IntentBuilder('').require('VolumeUp'))
+    def volume_up_intent(self, message):
 
+        self.log.error("DEBUG VOLUME UP")
+
+        init(self) 
+            
+        # API POST data
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"volup"}
+
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('VolumeUp')
+
+    
     # volume DOWN
     @intent_handler(IntentBuilder('').require('VolumeDown'))
     def volume_down_intent(self, message):
 
-        global status_volume    # need for writing status of volume
-        
         self.log.error("DEBUG VOLUME DOWN")
 
         init(self) 
-        status_volume_check(self)
-        
-        if status_volume == "0":    # if volume is less than 0% - TODO 2 REFACTOR
-            self.log.info("DEBUG VOLUME IS TOO LOW less than 0")
-            self.speak_dialog('VolumeMin')
+            
+        # API POST data
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"voldown"}
 
-        else:
-            self.log.info("DEBUG VOLUME IS OK between 0 and 100")
-            # API POST data
-            self.api_headers = {'X-SessionKey': session} 
-            self.action = "volset"
-            self.volume = str(int(status_volume) - 20)      # TODO - maximum 100
-        
-            self.log.info("SET VOLUME TO")
-            self.log.info(self.volume)
-        
-            status_volume = self.volume     # save volume
-        
-            # data to be sent to api 
-            self.api_post = {'action':self.action,
-                            'volume': self.volume}
-
-            # sending post request and saving response as response object
-            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('VolumeDown')
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('VolumeDown')
 
 
  # channel UP
