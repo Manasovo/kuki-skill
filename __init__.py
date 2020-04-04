@@ -10,14 +10,14 @@ import string                                           # generate serial
 from mycroft.filesystem import FileSystemAccess         # file operation
 
 
-API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-#API_URL = "https://as.kuki.cz/api-v2/"
+#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+API_URL = "https://as.kuki.cz/api-v2/"
 
-API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
-#API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
+#API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
+API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
 
-API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/"
-#API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
+#API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/"
+API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
 sernum = ''                 # uniq serial number
 session = ''                # token 
