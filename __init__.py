@@ -59,7 +59,8 @@ def serial(self):
         file = file_system.open("kuki.serial", mode="r")
         data = file.read()
         file.close()
-        #sernum = dat
+        
+        sernum = data   # save data to sernum
         self.log.info("SERIAL: " +sernum) 
         return sernum
 
