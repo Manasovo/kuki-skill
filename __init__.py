@@ -11,6 +11,8 @@ from mycroft.filesystem import FileSystemAccess         # file operation
 
 
 
+
+
 def load_data_file(self, filename, mode="r"):
     file_system = FileSystemAccess(str(self.skill_id))
     file = file_system.open(filename, mode)
