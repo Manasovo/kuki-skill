@@ -379,7 +379,7 @@ class KukiSkill(MycroftSkill):
         init(self)
         
         # % from words
-        volume_words = {
+        self.volume_words = {
         'max': 90,
         'loud': 90,
         'normal': 60,
