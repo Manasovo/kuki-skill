@@ -380,19 +380,28 @@ class KukiSkill(MycroftSkill):
         
         # % from words
         self.volume_words = {
-        'max': 90,
+        'max': 100,
+        'maximum': 100,
         'loud': 90,
         'normal': 60,
-        'quiet': 30 }
+        'quiet': 30,
+        'zero': 0  }
 
         default = None
         level_str = message.data.get('VolumeLevel', default)
         level = self.volume_words[level_str]
         
-        #level = int(extract_number(level_str))
+        elf.api_headers = {'X-SessionKey': session} 
 
-        self.log.error(level)
+        # data to be sent to api 
+        self.api_post = {'action':"volset",
+                         'volume': percent}
 
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('set.volume.percent', data={'level': level})
+
+        
         # % from numbers
         percent = extract_number(message.data['utterance'].replace('%', ''))
         percent = int(percent)
@@ -405,7 +414,6 @@ class KukiSkill(MycroftSkill):
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-
         self.speak_dialog('set.volume.percent', data={'level': percent})
    
 
