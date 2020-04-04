@@ -115,7 +115,7 @@ def kuki_reg(self):
 
         api_post = requests.post(url = API_URL + 'register' , data = self.api_post)
         try:
-            response = urlopen(link) 
+            response = urlopen(api_post) 
         except HTTPError as e:
         
             if e.code == 403:
