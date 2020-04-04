@@ -1,13 +1,34 @@
 from adapt.intent import IntentBuilder
 from mycroft import MycroftSkill, intent_file_handler, intent_handler
 
-import requests                       # http post & get
-import json                           # json :-)
-import uuid                           # mac
-import socket                         # hostname
-import random                         # generate serial
-import string                         # generate serial
-import sys                            # file operation
+import requests                                         # http post & get
+import json                                             # json :-)
+import uuid                                             # mac
+import socket                                           # hostname
+import random                                           # generate serial
+import string                                           # generate serial                                      
+from mycroft.filesystem import FileSystemAccess         # file operation
+
+
+
+def load_data_file(self, filename, mode="r"):
+    file_system = FileSystemAccess(str(self.skill_id))
+    file = file_system.open(filename, mode)
+    data = file.read()
+    file.close()
+    return data
+
+def save_data_file(self, filename, data, mode="w"):
+    try:
+        file_system = FileSystemAccess(str(self.skill_id))
+        file = file_system.open(filename, mode)
+        file.write(data)
+        file.close()
+        return True
+    except Exception as e:
+        LOG.warning("could not save skill file " + filename)
+        LOG.error(e)
+        return False
 
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
@@ -245,30 +266,7 @@ def init(self):
             self.log.info("PREFERED DEVICE FOUND ID - use cache")
 
 
-    
-    # import sys module
-    
-
-    # define the name of the output file
-    filename = "/tmp/helloworld.txt"
-
-    # preserve the stdout channel
-    original = sys.stdout
-
-    # define content
-    filecontent = ["Hello, world", "a second line", "and a third line"]
-
-    with open(filename, 'w') as filehandle:
-        # set the new output channel
-        sys.stdout = filehandle
-     
-        for line in filecontent:
-            print(line)
-     
-        # restore the old output channel
-        sys.stdout = original
-
-# ============================ Mycroft STARTs ============================ #
+  # ============================ Mycroft STARTs ============================ #
 
 
 class KukiSkill(MycroftSkill):
