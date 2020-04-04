@@ -397,9 +397,19 @@ class KukiSkill(MycroftSkill):
         percent = extract_number(message.data['utterance'].replace('%', ''))
         percent = int(percent)
         
-        self.log.error(percent)
+        self.api_headers = {'X-SessionKey': session} 
+        
+        #self.action = "volset"
+        #self.volume = str(int(status_volume) + 20) 
 
-        #self._setvolume(percent)
+       # data to be sent to api 
+        self.api_post = {'action':volset,
+                      'volume': percent}
+
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+
+
         #self.speak_dialog('set.volume.percent', data={'level': percent})
    
 
