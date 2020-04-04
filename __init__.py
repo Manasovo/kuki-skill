@@ -116,6 +116,7 @@ def kuki_reg(self):
         
         try:
             api_post = requests.post(url = API_URL + 'register' , data = self.api_post)
+            self.log.error(api_post)
             
         except HTTPError as e:
         
