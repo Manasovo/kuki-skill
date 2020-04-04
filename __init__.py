@@ -10,29 +10,6 @@ import string                                           # generate serial
 from mycroft.filesystem import FileSystemAccess         # file operation
 
 
-
-
-
-def load_data_file(self, filename, mode="r"):
-    file_system = FileSystemAccess(str(self.skill_id))
-    file = file_system.open(filename, mode)
-    data = file.read()
-    file.close()
-    return data
-
-def save_data_file(self, filename, data, mode="w"):
-    try:
-        file_system = FileSystemAccess(str(self.skill_id))
-        file = file_system.open(filename, mode)
-        file.write(data)
-        file.close()
-        return True
-    except Exception as e:
-        LOG.warning("could not save skill file " + filename)
-        LOG.error(e)
-        return False
-
-
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 API_URL = "https://as.kuki.cz/api-v2/"
 
@@ -68,6 +45,18 @@ def failed_auth(self):
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
+
+    file_system = FileSystemAccess(str("skills/KukiSkill/"))
+    file = file_system.open("kuki.serial", mode="r")
+    data = file.read()
+    file.close()
+
+    self.log.error("DATA FROM " + filename "IS " + data)
+
+    return data
+
+
+
 
     try: 
         LettersAndDigits = string.ascii_letters + string.digits
