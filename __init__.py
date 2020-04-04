@@ -50,19 +50,15 @@ def generate_serial(StringLength=56):
     LettersAndDigits = string.ascii_letters + string.digits
     sernum = "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
     return sernum
-    
 
 
 def serial(self):
     try:
-        self.log.error("READING SERIAL NUMBER") 
+        self.log.info("READING SERIAL NUMBER") 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
         file = file_system.open("kuki.serial", mode="r")
         data = file.read()
         file.close()
-
-        self.log.error(data)
-
         return data
 
     except Exception as e:
@@ -70,9 +66,9 @@ def serial(self):
         self.log.error(e)
         #return False    
 
-        self.log.error("GENERATING NEW SERIAL NUMBER AND SAVE") 
+        self.log.info("GENERATING NEW SERIAL NUMBER AND SAVE") 
         generate_serial(StringLength=56)   # generate new serial number and save
-        self.log.error("SERIAL: " +sernum) 
+        self.log.info("SERIAL: " +sernum) 
 
         try:           
             file_system = FileSystemAccess(str("skills/KukiSkill/"))
@@ -87,7 +83,6 @@ def serial(self):
             return False    
         
 
-  
 def kuki_reg(self):
         global session #cache session
 
@@ -253,7 +248,7 @@ def init(self):
         self.log.error("DEBUG INITIALIZE")
         
         if sernum == "":
-            self.log.error("SERIAL not found - reading from file")
+            self.log.error("SERIAL not found - reading from device")
             serial(self)
 
         else:
