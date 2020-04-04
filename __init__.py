@@ -68,20 +68,20 @@ def serial(self):
     except Exception as e:
         self.log.error("SERIAL NOT READ FROM FILE")
         self.log.error(e)
-        return False    
+        #return False    
 
-    try: 
-        self.log.error("WRITE SERIAL") 
-        file_system = FileSystemAccess(str("skills/KukiSkill/"))
-        file = file_system.open("kuki.serial", mode="w")
-        file.write(sernum)
-        file.close()
-        return True
+        try: 
+            self.log.error("WRITE SERIAL") 
+            file_system = FileSystemAccess(str("skills/KukiSkill/"))
+            file = file_system.open("kuki.serial", mode="w")
+            file.write(sernum)
+            file.close()
+            return True
     
-    except Exception as e:
-        self.log.error("SERIAL NOT SAVE TO FILE")
-        self.log.error(e)
-        return False    
+        except Exception as e:
+            self.log.error("SERIAL NOT SAVE TO FILE")
+            self.log.error(e)
+            return False    
         
 
   
