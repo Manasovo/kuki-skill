@@ -14,7 +14,7 @@ from mycroft.filesystem import FileSystemAccess         # file operation
 
 
 def load_data_file(filename, mode="r"):
-    file_system = FileSystemAccess(str(skill_id))
+    file_system = FileSystemAccess(str(self.skill_id))
     file = file_system.open(filename, mode)
     data = file.read()
     file.close()
@@ -22,7 +22,7 @@ def load_data_file(filename, mode="r"):
 
 def save_data_file(filename, data, mode="w"):
     try:
-        file_system = FileSystemAccess(str(skill_id))
+        file_system = FileSystemAccess(str(self.skill_id))
         file = file_system.open(filename, mode)
         file.write(data)
         file.close()
