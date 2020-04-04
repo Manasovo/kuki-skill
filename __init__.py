@@ -32,6 +32,7 @@ status_volume = ''          # volume of device
 
 
 def failed_auth(self, message):
+    self.log.error("PAIR")
     self.log.error(paircode)
     #self.speak_dialog('NotAuthorized'), {'paircode': ' '.join(paircode[0])}
 
