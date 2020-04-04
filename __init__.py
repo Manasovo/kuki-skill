@@ -72,6 +72,7 @@ def serial(self):
 
         self.log.error("GENERATING NEW SERIAL NUMBER AND SAVE") 
         generate_serial(StringLength=56)   # generate new serial number and save
+        self.log.error("SERIAL: " +sernum) 
 
         try:           
             file_system = FileSystemAccess(str("skills/KukiSkill/"))
