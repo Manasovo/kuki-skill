@@ -132,7 +132,7 @@ def kuki_reg(self):
             self.log.error(self.result['registration_url_web'])
             self.log.error(self.result['reg_token'])
             registration = "NO"
-            #return "NOT_REGISTERED"
+            
             failed_auth(self)
 
         else:
@@ -277,12 +277,12 @@ def init(self):
         else:
             self.log.info("SESSION FOUND - use cache")
 
-#        if registration == "":
-#            self.log.error("KUKI IS NOT REGISTERED")
-#            failed_auth(self)
+        if registration == "NO":
+            self.log.error("KUKI IS NOT REGISTERED")
+            failed_auth(self)
            
- #       else:
-  #          self.log.info("KUKI IS REGISTERED")
+        else:
+            self.log.info("KUKI IS REGISTERED")
         
         if devices == "":
             self.log.error("DEVICES not found - search for new")
