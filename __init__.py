@@ -90,7 +90,7 @@ def kuki_reg(self):
         self.log.error("DEBUG REGISTER")
 
         #serial = generate_serial(56)
-        self.serial = "Manas_test_12345678"
+        self.serial = sernum
         self.deviceType = "fix"
         self.deviceModel = (socket.gethostname())
         self.product_name = "Mycroft"
