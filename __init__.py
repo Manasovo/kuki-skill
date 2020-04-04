@@ -376,14 +376,19 @@ class KukiSkill(MycroftSkill):
         
         self.log.error("DEBUG VOLUME PERCENT")
 
+        init(self)
+        
+        # % from words
         volume_words = {
         'max': 90,
         'loud': 90,
         'normal': 60,
         'quiet': 30 }
-        
-        init(self)
 
+        level_str = message.data.get('VolumeLevel', default)
+        level = self.volume_words[level_str]
+
+        # % from numbers
         percent = extract_number(message.data['utterance'].replace('%', ''))
         percent = int(percent)
         
