@@ -8,7 +8,8 @@ import socket                                           # hostname
 import random                                           # generate serial
 import string                                           # generate serial                                      
 from mycroft.filesystem import FileSystemAccess         # file operation
-import sys
+from mycroft.util.parse import extract_number           # read numbers
+import sys                                              # exit app
 
 
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
