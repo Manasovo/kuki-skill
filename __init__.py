@@ -55,7 +55,7 @@ def generate_serial(StringLength=56):
 
 def serial(self):
     try:
-        self.log.error("READ SERIAL") 
+        self.log.error("READING SERIAL NUMBER") 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
         file = file_system.open("kuki.serial", mode="r")
         data = file.read()
@@ -66,7 +66,7 @@ def serial(self):
         return data
 
     except Exception as e:
-        log.error("SERIAL NOT READ FROM FILE " + filename)
+        self.log.error("SERIAL NOT READ FROM FILE " + filename)
         LOG.error(e)
         return False    
 
