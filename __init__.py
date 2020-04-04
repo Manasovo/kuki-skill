@@ -88,9 +88,9 @@ def kuki_reg(self):
 
         """ registration and session key """
         self.log.error("DEBUG REGISTER")
+        self.log.error(sernum)
 
-        #serial = generate_serial(56)
-        self.serial = sernum
+        #self.serial = sernum
         self.deviceType = "fix"
         self.deviceModel = (socket.gethostname())
         self.product_name = "Mycroft"
@@ -99,13 +99,13 @@ def kuki_reg(self):
         self.bootMode = "unknown"
 
         # data to be sent to api 
-        self.api_post = {'sn':self.serial,
+        self.api_post = {'sn':sernum,
                         'device_type':self.deviceType,
                         'device_model':self.deviceModel, 
                         'product_name':self.product_name,
                         'mac':self.mac,
                         'boot_mode':self.bootMode,
-                        'claimed_device_id':self.serial}
+                        'claimed_device_id':sernum}
 
         # sending post request and saving response as response object
 
@@ -117,7 +117,7 @@ def kuki_reg(self):
         try:
             api_post = requests.post(url = API_URL + 'register' , data = self.api_post)
             self.log.error(api_post)
-            
+
         except HTTPError as e:
         
             if e.code == 403:
