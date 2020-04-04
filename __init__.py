@@ -52,7 +52,7 @@ def generate_serial(StringLength=56):
     serial(self)
 
 
-def serialself):
+def serial(self):
     try:
         self.log.error("READ SERIAL") 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
