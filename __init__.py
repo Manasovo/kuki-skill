@@ -51,7 +51,7 @@ def generate_serial(StringLength=56):
     data = file.read()
     file.close()
 
-    self.log.error("DATA : " + data)
+    log.error("DATA : " + data)
 
     return data
 
@@ -66,7 +66,7 @@ def generate_serial(StringLength=56):
         return True
     
     except Exception as e:
-        self.log.error("SERIAL NOT SAVE TO FILE " + filename)
+        log.error("SERIAL NOT SAVE TO FILE " + filename)
         LOG.error(e)
         return False    
         
