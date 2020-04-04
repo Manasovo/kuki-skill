@@ -236,7 +236,7 @@ def status_device(self):
 
 
 # status of prefered device of volume
- def status_volume_check(self):
+def status_volume_check(self):
         self.log.error("DEBUG VOLUME CHECK")
         status_device(self)     # reload status of device
 
