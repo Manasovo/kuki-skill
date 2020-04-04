@@ -94,7 +94,6 @@ def kuki_reg(self):
 
         """ registration and session key """
         self.log.error("DEBUG REGISTER")
-        self.log.error(sernum)
 
         #self.serial = sernum
         self.deviceType = "fix"
@@ -113,16 +112,9 @@ def kuki_reg(self):
                         'boot_mode':self.bootMode,
                         'claimed_device_id':sernum}
 
-        # sending post request and saving response as response object
-
-            #self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
-            #self.log.debug("API POST")
-            #self.log.error(self.api_response)
-
-        
+        # sending post request and saving response as response object      
         try:
             api_post = requests.post(url = API_URL + 'register' , data = self.api_post)
-            self.log.error(api_post)
 
         except HTTPError as e:
         
@@ -138,7 +130,7 @@ def kuki_reg(self):
             self.log.error(self.result['registration_url_web'])
             self.log.error(self.result['reg_token'])
 
-            return "NOT_REGISTERED"
+            #return "NOT_REGISTERED"
             failed_auth(self)
 
         else:
