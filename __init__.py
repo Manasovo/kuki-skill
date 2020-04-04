@@ -277,12 +277,12 @@ def init(self):
         else:
             self.log.info("SESSION FOUND - use cache")
 
-        if registration == "":
-            self.log.error("KUKI IS NOT REGISTERED")
-            failed_auth(self)
+#        if registration == "":
+#            self.log.error("KUKI IS NOT REGISTERED")
+#            failed_auth(self)
            
-        else:
-            self.log.info("KUKI IS REGISTERED")
+ #       else:
+  #          self.log.info("KUKI IS REGISTERED")
         
         if devices == "":
             self.log.error("DEVICES not found - search for new")
