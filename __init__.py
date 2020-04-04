@@ -242,6 +242,10 @@ def init(self):
           
         else:
             self.log.info("PREFERED DEVICE FOUND ID - use cache")
+
+    filehandle = open('helloworld.txt', 'w')
+    filehandle.write('Hello, world!\n')
+    filehandle.close()
         
 
 # ============================ Mycroft STARTs ============================ #
