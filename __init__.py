@@ -243,11 +243,11 @@ def status_volume_check(self):
         if status_volume == "100":    # if volume is more than 100% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO HIGH")
             self.speak_dialog('VolumeMax')
-            break
-
-        if status_volume == "0":    # if volume is more than 100% - TODO 2 REFACTOR
+        elif 
+            status_volume == "0":    # if volume is more than 100% - TODO 2 REFACTOR
             self.log.info("DEBUG VOLUME IS TOO LOW")
             self.speak_dialog('VolumeMin')
+        else:
             break
 
 
