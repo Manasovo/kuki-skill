@@ -13,14 +13,14 @@ from mycroft.filesystem import FileSystemAccess         # file operation
 
 
 
-def load_data_file(filename, mode="r"):
+def load_data_file(self, filename, mode="r"):
     file_system = FileSystemAccess(str(self.skill_id))
     file = file_system.open(filename, mode)
     data = file.read()
     file.close()
     return data
 
-def save_data_file(filename, data, mode="w"):
+def save_data_file(self, filename, data, mode="w"):
     try:
         file_system = FileSystemAccess(str(self.skill_id))
         file = file_system.open(filename, mode)
@@ -72,7 +72,9 @@ def generate_serial(StringLength=56):
     LettersAndDigits = string.ascii_letters + string.digits
     serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
-    save_data_file(filename=['kuki_skill_serial.cfg'], data=['serial_number'])
+    self.save_data_file(filename=['kuki_skill_serial.cfg'], data=['serial_number'])
+
+        #self.load_data_files(dirname(__file__))
 
         #  self.start_playlist_playback(dev, data['name'],
         #                                     data['data'])
