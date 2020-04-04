@@ -35,18 +35,12 @@ def failed_auth(self):
     self.speak_dialog('NotAuthorized')
 
 
-        if len(devices) == 1:
-            self.speak(devices[0])
-
-        elif len(devices) > 1:
+    
             self.speak_dialog('AvailableDevices',
                                 {'devices': ' '.join(devices[:-1]) + ' ' +
                                             self.translate('And') + ' ' +
                                             devices[-1]})
-        else:
-            self.log.debug("DEBUG NO DEVICE AVAILABLE")
-            self.speak_dialog('NoDevicesAvailable')
-
+    
 
 
 
