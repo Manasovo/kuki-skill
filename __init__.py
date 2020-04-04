@@ -72,7 +72,10 @@ def generate_serial(StringLength=56):
     LettersAndDigits = string.ascii_letters + string.digits
     serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
 
-    save_data_file(filename=['kuki_skill_serial.cfg'], data=serial_number)
+    self.save_data_file(filename=['kuki_skill_serial.cfg'], data=serial_number)
+
+        #  self.start_playlist_playback(dev, data['name'],
+        #                                     data['data'])
   
 def kuki_reg(self):
         global session #cache session
