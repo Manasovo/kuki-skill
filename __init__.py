@@ -43,7 +43,7 @@ def failed_auth(self):
         self.speak_dialog('NotAuthorized')
 
 
-def generate_serial(StringLength=56):
+def generate_serial(self, StringLength=56):
     """Generate a random string of letters and digits """
 
     try: 
@@ -52,7 +52,7 @@ def generate_serial(StringLength=56):
         data = file.read()
         file.close()
 
-        log.error(data)
+        self.log.error(data)
 
         return data
 
