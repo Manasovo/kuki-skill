@@ -1,5 +1,6 @@
-# <img src="https://www.netbox.cz/static/images/kuki-logo.b64a29a801e2.png" class="center"/>
-Remote control of iptv services named kuki (like spotify in music)
+# <img src="https://www.netbox.cz/static/images/kuki-logo.b64a29a801e2.png" align="center"/>
+
+implemetation of voice remote control for IPTV services named Kuki at https://www.kuki.cz
 
 ## About
 Kuki is iptv servis for czech and slovak republic works in whole eu. kuki support lots of end devices like smart tv, set-top boxes, andoird tv, samsung, lg, ios, tvos, etc. today we have more than 140 tv channels with time shift, npvr, series library, etc
