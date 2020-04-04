@@ -19,7 +19,7 @@ API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
 #API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/(?P<pk>\d+)"
 API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
-
+serial = ''                 # uniq serial number
 session = ''                # token 
 devices = ''                # all devices
 prefered_device = ''        # alias
@@ -27,7 +27,6 @@ prefered_device_id = ''     # id
 status_power = ''           # power of end device
 status_playing = ''         # state of device
 status_volume = ''          # volume of device
-
 
 def failed_auth(self):
     if 'user' not in self.settings:
@@ -248,6 +247,13 @@ def init(self):
         """ initialize first start """
         self.log.error("DEBUG INITIALIZE")
         
+        if serial == "":
+        self.log.error("SERIAL not found - reading from file")
+            serial(self)
+
+        else:
+            self.log.info("SERIAL FOUND - use cache")       
+
         if session == "":
             self.log.error("SESSION not found - create new")
             kuki_reg(self)
@@ -276,7 +282,6 @@ def init(self):
         else:
             self.log.info("PREFERED DEVICE FOUND ID - use cache")
 
-            generate_serial(StringLength=56)
 
 
   # ============================ Mycroft STARTs ============================ #
