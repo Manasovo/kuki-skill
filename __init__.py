@@ -243,10 +243,29 @@ def init(self):
         else:
             self.log.info("PREFERED DEVICE FOUND ID - use cache")
 
-    filehandle = open('helloworld.txt', 'w')
-    filehandle.write('Hello, world!\n')
-    filehandle.close()
-        
+
+    
+    # import sys module
+    import sys
+
+    # define the name of the output file
+    filename = "helloworld.txt"
+
+    # preserve the stdout channel
+    original = sys.stdout
+
+    # define content
+    filecontent = ["Hello, world", "a second line", "and a third line"]
+
+    with open(filename, 'w') as filehandle:
+        # set the new output channel
+        sys.stdout = filehandle
+     
+        for line in filecontent:
+            print(line)
+     
+        # restore the old output channel
+        sys.stdout = original
 
 # ============================ Mycroft STARTs ============================ #
 
