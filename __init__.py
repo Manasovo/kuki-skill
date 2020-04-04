@@ -7,6 +7,7 @@ import uuid                           # mac
 import socket                         # hostname
 import random                         # generate serial
 import string                         # generate serial
+import sys                            # file operation
 
 #from .kuki import *
 #from .kuki import (KukiConnect, generate_serial)
@@ -246,7 +247,7 @@ def init(self):
 
     
     # import sys module
-    import sys
+    
 
     # define the name of the output file
     filename = "helloworld.txt"
