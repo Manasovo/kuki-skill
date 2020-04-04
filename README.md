@@ -8,7 +8,7 @@ Kuki is IPTV service mainly for people from Czech and Slovak Republic but works 
 ## Examples
 Still in progres, but few word is already working:
 
-* "what Kuki devices you have"
+* "What Kuki devices you have"
 * "Status of Kuki devices"
 * "Wake up Kuki"
 * "Play live tv"
@@ -19,10 +19,10 @@ Still in progres, but few word is already working:
 * "TV off"
 
 ## Credits
-Manasovo - apologies to everyone ! I'am not developer, coder, etc. and i never been. In my whole live i wrote some shell script :-)This project is my first try with Python, GitHub, Mycroft, etc. 
+**Manasovo** : apologies to everyone ! I'am not developer, coder, etc. and i never been. In my whole live i wrote some shell script :-)This project is my first try with Python, GitHub, Mycroft, etc. 
 
 ## Category
-**Entertainment**
+Entertainment
 Media
 
 ## Tags
