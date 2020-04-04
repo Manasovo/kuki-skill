@@ -92,8 +92,7 @@ def serial(self):
 
 def kuki_reg(self):
         global session       #cache session
-        global registration  #cache for others command
-
+       
         """ registration and session key """
         self.log.error("DEBUG REGISTER")
 
@@ -131,14 +130,12 @@ def kuki_reg(self):
             self.log.error('Kuki device is NOT REGISTERED try URL and pair code bellow:')
             self.log.error(self.result['registration_url_web'])
             self.log.error(self.result['reg_token'])
-            registration = "NO"
-            
-            failed_auth(self)
+                        
+            return failed_auth(self)
 
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
 
-                registration = "OK"
                 self.log.info('Kuki device is REGISTERED')
                   
                 session = json.loads(self.api_response.text)['session_key']
@@ -276,14 +273,7 @@ def init(self):
            
         else:
             self.log.info("SESSION FOUND - use cache")
-
-        if registration == "NO":
-            self.log.error("KUKI IS NOT REGISTERED")
-            failed_auth(self)
-           
-        else:
-            self.log.info("KUKI IS REGISTERED")
-        
+       
         if devices == "":
             self.log.error("DEVICES not found - search for new")
             kuki_devices(self)
