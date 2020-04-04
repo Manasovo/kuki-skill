@@ -108,18 +108,24 @@ def kuki_reg(self):
                         'claimed_device_id':self.serial}
 
         # sending post request and saving response as response object
+
+            #self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
+            #self.log.debug("API POST")
+            #self.log.error(self.api_response)
+
+        api_post = requests.post(url = API_URL + 'register' , data = self.api_post)
         try:
-            self.api_response = requests.post(url = API_URL + 'register' , data = self.api_post)
-            self.log.debug("API POST")
-            self.log.error(self.api_response)
-
-        except Exception as e:
+            response = urlopen(link) 
+        except HTTPError as e:
+        
+        if e.code == 403:
             self.log.error("CAN'T CONNECT TO KUKI SERVER")
+        else:
             self.log.error(e)
-            return False 
+    
 
-        if json.loads(self.api_response.text)['state'] == 'NOT_REGISTERED':
-            self.result = self.api_response.json()
+        if json.loads(api_post.text)['state'] == 'NOT_REGISTERED':
+            self.result = api_post.json()
             self.log.error('Kuki device is NOT REGISTERED try URL and pair code bellow:')
             self.log.error(self.result['registration_url_web'])
             self.log.error(self.result['reg_token'])
