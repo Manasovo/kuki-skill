@@ -378,7 +378,6 @@ class KukiSkill(MycroftSkill):
 
         init(self)
         
-        # % from words
         self.volume_words = {
         'max': 100,
         'maximum': 100,
@@ -389,19 +388,15 @@ class KukiSkill(MycroftSkill):
 
         default = None
         level_str = message.data.get('VolumeLevel', default)
-        
-        try:
+            
+        try:    # try use word
             percent = self.volume_words[level_str]
         
-        except KeyError:
-            self.log.error('DEBUG VOLUME WORLDS')
-        
-            # % from numbers
+        except KeyError:    # if error try numbers
             percent = extract_number(message.data['utterance'].replace('%', ''))
             percent = int(percent)
         
-        
-    
+        # we have data from worlds or numbers
         self.api_headers = {'X-SessionKey': session} 
 
         # data to be sent to api 
