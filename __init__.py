@@ -21,6 +21,7 @@ API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/"
 
 sernum = ''                 # uniq serial number
 session = ''                # token 
+registration = ''           # paired to the Kuki servers 
 devices = ''                # all devices
 prefered_device = ''        # alias
 prefered_device_id = ''     # id
@@ -90,7 +91,8 @@ def serial(self):
         
 
 def kuki_reg(self):
-        global session #cache session
+        global session       #cache session
+        global registration  #cache for others command
 
         """ registration and session key """
         self.log.error("DEBUG REGISTER")
@@ -135,12 +137,14 @@ def kuki_reg(self):
 
         else:
              if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
-                  self.log.info('Kuki device is REGISTERED')
-                  
-                  session = json.loads(self.api_response.text)['session_key']
-                  self.log.info(session)  
 
-                  return init(self)
+                registration = "OK"
+                self.log.info('Kuki device is REGISTERED')
+                  
+                session = json.loads(self.api_response.text)['session_key']
+                self.log.info(session)  
+
+                return init(self)
                   
 
 def kuki_devices(self):
@@ -272,6 +276,13 @@ def init(self):
            
         else:
             self.log.info("SESSION FOUND - use cache")
+
+        if registration == "":
+            self.log.error("KUKI IS NOT REGISTERED")
+            failed_auth(self)
+           
+        else:
+            self.log.info("KUKI IS REGISTERED")
         
         if devices == "":
             self.log.error("DEVICES not found - search for new")
