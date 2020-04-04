@@ -59,8 +59,9 @@ def serial(self):
         file = file_system.open("kuki.serial", mode="r")
         data = file.read()
         file.close()
+        #sernum = dat
         self.log.info("SERIAL: " +sernum) 
-        return data
+        return sernum
 
     except Exception as e:
         self.log.error("SERIAL NOT READ FROM FILE")
@@ -267,7 +268,6 @@ def init(self):
             serial(self)
 
         else:
-            self.log.error(sernum)
             self.log.info("SERIAL FOUND - use cache")       
 
         if session == "":
