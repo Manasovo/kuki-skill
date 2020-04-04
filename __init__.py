@@ -235,6 +235,22 @@ def status_device(self):
                     status_power = 'ON'
 
 
+# status of prefered device of volume
+ def status_volume_check(self):
+        self.log.error("DEBUG VOLUME CHECK")
+        status_device(self)     # reload status of device
+
+        if status_volume == "100":    # if volume is more than 100% - TODO 2 REFACTOR
+            self.log.info("DEBUG VOLUME IS TOO HIGH")
+            self.speak_dialog('VolumeMax')
+            break
+
+        if status_volume == "0":    # if volume is more than 100% - TODO 2 REFACTOR
+            self.log.info("DEBUG VOLUME IS TOO LOW")
+            self.speak_dialog('VolumeMin')
+            break
+
+
 def init(self):
         """ initialize first start """
         self.log.error("DEBUG INITIALIZE")
@@ -354,43 +370,52 @@ class KukiSkill(MycroftSkill):
     
 
     # testing playing tv intent
-    @intent_handler(IntentBuilder('').require('Play'))
+    @intent_handler(IntentBuilder('').require('Set'))
     def play_intent(self, message):
         self.speak_dialog("Play")
   
   
-    # volume UP
+    # volume SET
     @intent_handler(IntentBuilder('').require('Volume'))
     def volume_intent(self, message):
 
+        volume_words = {
+        'loud': 90,
+        'normal': 60,
+        'quiet': 30 }
+
+
+    # Set Volume Percent Intent Handlers
+    @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeLevel").require("Percent"))
+    def handle_set_volume_percent(self, message):
+        
         self.log.error("DEBUG VOLUME")
-
+        
         init(self) 
-        status_volume_check(self)
-   
-        if status_volume == "100":    # if volume is more than 100% - TODO 2 REFACTOR
-            self.log.info("DEBUG VOLUME IS TOO HIGH more than 100")
-            self.speak_dialog('VolumeMax')
 
-        else:
-            self.log.info("DEBUG VOLUME IS OK between 0 and 100")
-            # API POST data
-            self.api_headers = {'X-SessionKey': session} 
-            self.action = "volset"
-            self.volume = str(int(status_volume) + 20)      # TODO - maximum 100
+        percent = extract_number(message.data['utterance'].replace('%', ''))
+        percent = int(percent)
         
-            self.log.info("SET VOLUME TO")
-            self.log.info(self.volume)
-        
-            status_volume = self.volume     # save volume
-        
-            # data to be sent to api 
-            self.api_post = {'action':self.action,
-                            'volume': self.volume}
+        #self._setvolume(percent)
+        #self.speak_dialog('set.volume.percent', data={'level': percent})
 
-            # sending post request and saving response as response object
-            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('Volume')
+
+        self.api_headers = {'X-SessionKey': session} 
+        self.action = "volset"
+        self.volume = str(int(status_volume) + 20)      # TODO - maximum 100
+        
+        self.log.info("SET VOLUME TO")
+        self.log.info(self.volume)
+        
+        status_volume = self.volume     # save volume
+        
+        # data to be sent to api 
+        self.api_post = {'action':self.action,
+                      'volume': self.volume}
+
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('Volume')
    
 
     # volume UP
