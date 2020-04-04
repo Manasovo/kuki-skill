@@ -250,7 +250,7 @@ def init(self):
     
 
     # define the name of the output file
-    filename = "helloworld.txt"
+    filename = "/tmp/helloworld.txt"
 
     # preserve the stdout channel
     original = sys.stdout
