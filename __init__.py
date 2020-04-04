@@ -51,12 +51,9 @@ def generate_serial(StringLength=56):
     data = file.read()
     file.close()
 
-    self.log.error("DATA FROM " + filename "IS " + data)
+    self.log.error("DATA : " + data)
 
     return data
-
-
-
 
     try: 
         LettersAndDigits = string.ascii_letters + string.digits
