@@ -1,4 +1,4 @@
-# <img src="https://raw.githack.com/FortAwesome/Font-Awesome/master/svgs/solid/tv.svg" card_color="#E50B76" width="50" height="50" style="vertical-align:bottom"/> Kuki
+# <img src="https://www.netbox.cz/static/images/kuki-logo.b64a29a801e2.png" card_color="#E50B76" width="50" height="50" style="vertical-align:bottom"/>
 Remote control of iptv services named kuki (like spotify in music)
 
 ## About
