@@ -34,7 +34,7 @@ status_volume = ''          # volume of device
 
 def failed_auth(self):
     self.speak_dialog("NotAuthorized", data={"paircode": paircode})
-    sys.exit()
+    sys.exit()  # program end
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
@@ -129,11 +129,11 @@ def kuki_reg(self):
             return failed_auth(self)
 
         else:
-             if json.loads(self.api_response.text)['state'] != 'NOT_REGISTERED':
+             if json.loads(self.api_post.text)['state'] != 'NOT_REGISTERED':
 
                 self.log.info('Kuki device is REGISTERED')
                   
-                session = json.loads(self.api_response.text)['session_key']
+                session = json.loads(self.api_post.text)['session_key']
                 self.log.info(session)  
 
                 return init(self)
