@@ -390,14 +390,17 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeLevel").require("Percent"))
     def handle_set_volume_percent(self, message):
         
-        self.log.error("DEBUG VOLUME")
+        self.log.error("DEBUG VOLUME PERCENT")
         
         init(self) 
 
         percent = extract_number(message.data['utterance'].replace('%', ''))
         percent = int(percent)
         
-    
+        self.log.error(percent)
+
+        #self._setvolume(percent)
+        #self.speak_dialog('set.volume.percent', data={'level': percent})
    
 
     # volume UP
