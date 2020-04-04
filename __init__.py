@@ -67,7 +67,7 @@ def serial(self):
 
     except Exception as e:
         self.log.error("SERIAL NOT READ FROM FILE")
-        LOG.error(e)
+        self.log.error(e)
         return False    
 
     try: 
