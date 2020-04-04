@@ -31,7 +31,24 @@ status_volume = ''          # volume of device
 
 
 def failed_auth(self):
+    self.log.error(paircode)
     self.speak_dialog('NotAuthorized')
+
+
+        if len(devices) == 1:
+            self.speak(devices[0])
+
+        elif len(devices) > 1:
+            self.speak_dialog('AvailableDevices',
+                                {'devices': ' '.join(devices[:-1]) + ' ' +
+                                            self.translate('And') + ' ' +
+                                            devices[-1]})
+        else:
+            self.log.debug("DEBUG NO DEVICE AVAILABLE")
+            self.speak_dialog('NoDevicesAvailable')
+
+
+
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
@@ -119,7 +136,8 @@ def kuki_reg(self):
             self.result = api_post.json()
             self.log.error('Kuki device is NOT REGISTERED try URL and pair code bellow:')
             self.log.error(self.result['registration_url_web'])
-            self.log.error(self.result['reg_token'])
+            
+            paircode = self.result['reg_token']     #save pair code
                         
             return failed_auth(self)
 
