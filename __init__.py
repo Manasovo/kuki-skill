@@ -52,7 +52,7 @@ def generate_serial(StringLength=56):
         data = file.read()
         file.close()
 
-        self.log.error(data)
+        log.error(data)
 
         return data
 
