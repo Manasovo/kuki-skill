@@ -131,6 +131,8 @@ def kuki_reg(self):
         else:
              if json.loads(self.api_post.text)['state'] != 'NOT_REGISTERED':
 
+                self.log.error(api_post)
+
                 self.log.info('Kuki device is REGISTERED')
                   
                 session = json.loads(self.api_post.text)['session_key']
