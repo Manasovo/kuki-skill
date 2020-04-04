@@ -391,7 +391,7 @@ class KukiSkill(MycroftSkill):
         level_str = message.data.get('VolumeLevel', default)
         level = self.volume_words[level_str]
         
-        elf.api_headers = {'X-SessionKey': session} 
+        self.api_headers = {'X-SessionKey': session} 
 
         # data to be sent to api 
         self.api_post = {'action':"volset",
