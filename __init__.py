@@ -253,7 +253,6 @@ def init(self):
         self.log.error("DEBUG INITIALIZE")
         
         if sernum == "":
-            self.log.error(sernum)
             self.log.error("SERIAL not found - reading from file")
             serial(self)
 
