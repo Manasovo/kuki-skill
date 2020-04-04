@@ -80,7 +80,7 @@ def serial(self):
     
     except Exception as e:
         self.log.error("SERIAL NOT SAVE TO FILE")
-        LOG.error(e)
+        self.log.error(e)
         return False    
         
 
