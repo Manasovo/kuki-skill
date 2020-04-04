@@ -32,10 +32,8 @@ status_volume = ''          # volume of device
 
 
 def failed_auth(self):
-    paircode = "[prdel]"
-    #self.speak_dialog('NotAuthorized'), {'paircode': ' '.join(paircode[0])}
-
     self.speak_dialog("NotAuthorized", data={"paircode": paircode})
+
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
