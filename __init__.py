@@ -255,6 +255,7 @@ def init(self):
             serial(self)
 
         else:
+            self.log.error(serial)
             self.log.info("SERIAL FOUND - use cache")       
 
         if session == "":
