@@ -32,8 +32,6 @@ def save_data_file(self, filename, data, mode="w"):
         LOG.error(e)
         return False
 
-#from .kuki import *
-#from .kuki import (KukiConnect, generate_serial)
 
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
 API_URL = "https://as.kuki.cz/api-v2/"
@@ -72,7 +70,8 @@ def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
     
     LettersAndDigits = string.ascii_letters + string.digits
-    return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+    serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+    save_data_file(kuki_skill_serial.cfg, serial_number)
 
 
 def kuki_reg(self):
