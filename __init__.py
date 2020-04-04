@@ -131,7 +131,7 @@ def kuki_reg(self):
             self.log.error('Kuki device is NOT REGISTERED try URL and pair code bellow:')
             self.log.error(self.result['registration_url_web'])
             self.log.error(self.result['reg_token'])
-
+            registration = "NO"
             #return "NOT_REGISTERED"
             failed_auth(self)
 
