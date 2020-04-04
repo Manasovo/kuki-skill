@@ -34,10 +34,7 @@ def failed_auth(self):
     self.speak_dialog('NotAuthorized'),
                                 {'paircode': ' '.join(paircode[:-1]) + ' ' +
                                             self.translate('And') + ' ' +
-                                            paircode[-1]})
-
-    
-
+                                            paircode[-1]}
 
 
 
