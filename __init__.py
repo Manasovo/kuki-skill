@@ -48,8 +48,8 @@ def generate_serial(StringLength=56):
     global sernum       # save serial number
     
     LettersAndDigits = string.ascii_letters + string.digits
-    return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
-    
+    sernum = "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+    return sernum
     
 
 
@@ -70,8 +70,10 @@ def serial(self):
         self.log.error(e)
         #return False    
 
-        try: 
-            self.log.error("WRITE SERIAL") 
+        self.log.error("GENERATING NEW SERIAL NUMBER AND SAVE") 
+        generate_serial(StringLength=56):   #generate new serial number and save
+
+        try:           
             file_system = FileSystemAccess(str("skills/KukiSkill/"))
             file = file_system.open("kuki.serial", mode="w")
             file.write(sernum)
