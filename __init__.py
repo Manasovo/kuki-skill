@@ -71,7 +71,7 @@ def generate_serial(StringLength=56):
     
     LettersAndDigits = string.ascii_letters + string.digits
     serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
-    save_data_file(kuki_skill_serial.cfg, serial_number)
+    save_data_file('kuki_skill_serial.cfg', 'serial_number')
 
 
 def kuki_reg(self):
