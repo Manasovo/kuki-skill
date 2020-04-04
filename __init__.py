@@ -266,6 +266,8 @@ def init(self):
         else:
             self.log.info("PREFERED DEVICE FOUND ID - use cache")
 
+            generate_serial(StringLength=56)
+
 
   # ============================ Mycroft STARTs ============================ #
 
