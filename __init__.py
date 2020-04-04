@@ -99,7 +99,7 @@ def kuki_reg(self):
         self.bootMode = "unknown"
 
         # data to be sent to api 
-        self.api_post = {'sn':sernum,
+        self.api_data = {'sn':sernum,
                         'device_type':self.deviceType,
                         'device_model':self.deviceModel, 
                         'product_name':self.product_name,
@@ -109,7 +109,7 @@ def kuki_reg(self):
 
         # sending post request and saving response as response object      
         try:
-            api_post = requests.post(url = API_URL + 'register' , data = self.api_post)
+            api_post = requests.post(url = API_URL + 'register' , data = self.api_data)
 
         except HTTPError as e:
         
@@ -124,20 +124,16 @@ def kuki_reg(self):
             self.log.error('Kuki device is NOT REGISTERED try URL and pair code bellow:')
             self.log.error(self.result['registration_url_web'])
             
-            paircode = self.result['reg_token']     #save pair code
+            paircode = self.result['reg_token']     # save pair code
                         
             return failed_auth(self)
 
         else:
-             if json.loads(self.api_post.text)['state'] != 'NOT_REGISTERED':
-
-                self.log.error(api_post)
-
+             if json.loads(api_post.text)['state'] != 'NOT_REGISTERED':
                 self.log.info('Kuki device is REGISTERED')
-                  
-                session = json.loads(self.api_post.text)['session_key']
-                self.log.info(session)  
-
+                
+                session = json.loads(self.api_post.text)['session_key']     # save token
+        
                 return init(self)
                   
 
