@@ -250,6 +250,7 @@ def init(self):
         self.log.error("DEBUG INITIALIZE")
         
         if serial == "":
+            self.log.error(serial)
             self.log.error("SERIAL not found - reading from file")
             serial(self)
 
