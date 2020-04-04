@@ -51,6 +51,9 @@ def generate_serial(StringLength=56):
         file = file_system.open("kuki.serial", mode="r")
         data = file.read()
         file.close()
+
+        self.log.error(data)
+
         return data
 
     except Exception as e:
