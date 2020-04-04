@@ -31,7 +31,7 @@ status_playing = ''         # state of device
 status_volume = ''          # volume of device
 
 
-def failed_auth(self):
+def failed_auth(self, message):
     self.log.error(paircode)
     self.speak_dialog('NotAuthorized'),
                                 {'paircode': ' '.join(paircode[:-1]) + ' ' + self.translate('And') + ' ' + paircode[-1]}
