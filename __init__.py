@@ -252,7 +252,7 @@ def init(self):
         if sernum == "":
             self.log.error(sernum)
             self.log.error("SERIAL not found - reading from file")
-            #serial(self)
+            serial(self)
 
         else:
             self.log.error(sernum)
