@@ -33,9 +33,7 @@ status_volume = ''          # volume of device
 
 def failed_auth(self, message):
     self.log.error(paircode)
-    self.speak_dialog('NotAuthorized'),
-                                {'paircode': ' '.join(paircode[0])}
-
+    #self.speak_dialog('NotAuthorized'), {'paircode': ' '.join(paircode[0])}
 
 
 def generate_serial(StringLength=56):
