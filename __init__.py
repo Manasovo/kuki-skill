@@ -22,6 +22,7 @@ API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 sernum = ''                 # uniq serial number
 session = ''                # token 
 registration = ''           # paired to the Kuki servers 
+paircode = ''               # code for registration
 devices = ''                # all devices
 prefered_device = ''        # alias
 prefered_device_id = ''     # id
