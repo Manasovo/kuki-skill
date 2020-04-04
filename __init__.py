@@ -43,9 +43,14 @@ def failed_auth(self):
         self.speak_dialog('NotAuthorized')
 
 
-def generate_serial(self, StringLength=56):
+def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
+    LettersAndDigits = string.ascii_letters + string.digits
+    serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+    return serial_number
 
+
+def save_serial(self):
     try: 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
         file = file_system.open("kuki.serial", mode="r")
@@ -62,8 +67,7 @@ def generate_serial(self, StringLength=56):
         return False    
 
     try: 
-        LettersAndDigits = string.ascii_letters + string.digits
-        serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+
 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
         file = file_system.open("kuki.serial", mode="w")
