@@ -1,4 +1,4 @@
-# <img src="https://www.netbox.cz/static/images/kuki-logo.b64a29a801e2.png" align="center"/>
+# <img src="https://github.com/Manasovo/kuki-skill/blob/master/kuki_logo.jpg" align="center"/>
 
 https://mycroft.ai implemetation of voice remote control for IPTV service named Kuki at https://www.kuki.cz
 
