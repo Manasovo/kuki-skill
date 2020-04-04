@@ -36,10 +36,10 @@ def failed_auth(self):
 
 
     
-            self.speak_dialog('AvailableDevices',
-                                {'devices': ' '.join(devices[:-1]) + ' ' +
-                                            self.translate('And') + ' ' +
-                                            devices[-1]})
+          #  self.speak_dialog('AvailableDevices',
+           #                     {'devices': ' '.join(devices[:-1]) + ' ' +
+            #                                self.translate('And') + ' ' +
+             #                               devices[-1]})
     
 
 
