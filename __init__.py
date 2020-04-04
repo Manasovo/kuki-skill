@@ -45,14 +45,16 @@ def failed_auth(self):
 
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
+    self.log.error("DEBUG GENERATING SERIAL")
     LettersAndDigits = string.ascii_letters + string.digits
     serial_number =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
     return serial_number
-    save_serial(self)
+    serial(self)
 
 
-def save_serial(self):
-    try: 
+def serialself):
+    try:
+        self.log.error("READ SERIAL") 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
         file = file_system.open("kuki.serial", mode="r")
         data = file.read()
@@ -68,8 +70,7 @@ def save_serial(self):
         return False    
 
     try: 
-
-
+        self.log.error("WRITE SERIAL") 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
         file = file_system.open("kuki.serial", mode="w")
         file.write(serial_number)
@@ -77,7 +78,7 @@ def save_serial(self):
         return True
     
     except Exception as e:
-        log.error("SERIAL NOT SAVE TO FILE " + filename)
+        self.log.error("SERIAL NOT SAVE TO FILE " + filename)
         LOG.error(e)
         return False    
         
