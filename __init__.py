@@ -59,6 +59,7 @@ def serial(self):
         file = file_system.open("kuki.serial", mode="r")
         data = file.read()
         file.close()
+        self.log.info("SERIAL: " +sernum) 
         return data
 
     except Exception as e:
