@@ -389,7 +389,13 @@ class KukiSkill(MycroftSkill):
 
         default = None
         level_str = message.data.get('VolumeLevel', default)
+        
+        try:
         level = self.volume_words[level_str]
+        
+        except ValueError:
+        self.log.error('DEBUG VOLUME WORLDS')
+        
         
         self.api_headers = {'X-SessionKey': session} 
 
