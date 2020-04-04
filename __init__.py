@@ -46,16 +46,17 @@ def failed_auth(self):
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
 
-    file_system = FileSystemAccess(str("skills/KukiSkill/"))
-    file = file_system.open("kuki.serial", mode="r")
-    data = file.read()
-    file.close()
+    try: 
+        file_system = FileSystemAccess(str("skills/KukiSkill/"))
+        file = file_system.open("kuki.serial", mode="r")
+        data = file.read()
+        file.close()
+        return data
 
-
-    self.log.error("DEBUG DEVICES")  
-    log.error("DATA : " + data)
-
-    return data
+    except Exception as e:
+        log.error("SERIAL NOT READ FROM FILE " + filename)
+        LOG.error(e)
+        return False    
 
     try: 
         LettersAndDigits = string.ascii_letters + string.digits
