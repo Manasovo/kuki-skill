@@ -8,7 +8,6 @@ import socket                                           # hostname
 import random                                           # generate serial
 import string                                           # generate serial                                      
 from mycroft.filesystem import FileSystemAccess         # file operation
-import urllib                                           # open http url
 
 
 API_URL = "https://as.kukacka.netbox.cz/api-v2/"
@@ -114,9 +113,10 @@ def kuki_reg(self):
             #self.log.debug("API POST")
             #self.log.error(self.api_response)
 
-        api_post = requests.post(url = API_URL + 'register' , data = self.api_post)
+        
         try:
-            response = urlopen(api_post) 
+            api_post = requests.post(url = API_URL + 'register' , data = self.api_post)
+            
         except HTTPError as e:
         
             if e.code == 403:
