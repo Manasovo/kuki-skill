@@ -19,7 +19,7 @@ API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
 #API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/(?P<pk>\d+)"
 API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
-serial = ''                 # uniq serial number
+sernum = ''                 # uniq serial number
 session = ''                # token 
 devices = ''                # all devices
 prefered_device = ''        # alias
@@ -45,12 +45,12 @@ def failed_auth(self):
 def generate_serial(StringLength=56):
     """Generate a random string of letters and digits """
 
-    global serial       # save serial number
+    global sernum       # save serial number
     
     LettersAndDigits = string.ascii_letters + string.digits
-    serial =  "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
+    return "kuki2.0_" + ''.join(random.choice(LettersAndDigits) for i in range(StringLength))
     
-    return serial
+    
 
 
 def serial(self):
@@ -74,7 +74,7 @@ def serial(self):
         self.log.error("WRITE SERIAL") 
         file_system = FileSystemAccess(str("skills/KukiSkill/"))
         file = file_system.open("kuki.serial", mode="w")
-        file.write(serial)
+        file.write(sernum)
         file.close()
         return True
     
@@ -249,13 +249,13 @@ def init(self):
         """ initialize first start """
         self.log.error("DEBUG INITIALIZE")
         
-        if serial == "":
-            self.log.error(serial)
+        if sernum == "":
+            self.log.error(sernum)
             self.log.error("SERIAL not found - reading from file")
-            serial(self)
+            #serial(self)
 
         else:
-            self.log.error(serial)
+            self.log.error(sernum)
             self.log.info("SERIAL FOUND - use cache")       
 
         if session == "":
