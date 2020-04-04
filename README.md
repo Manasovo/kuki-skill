@@ -1,6 +1,6 @@
 # <img src="https://www.netbox.cz/static/images/kuki-logo.b64a29a801e2.png" align="center"/>
 
-https://mycroft.ai implemetation of voice remote control for IPTV services named Kuki at https://www.kuki.cz
+https://mycroft.ai implemetation of voice remote control for IPTV service named Kuki at https://www.kuki.cz
 
 ## About
 Kuki is IPTV service mainly for people from Czech and Slovak Republic but works in whole EU of course. Today Kuki supports lots of end devices like smart tv, set-top boxes, Android and Android TV, Samsung, LG, Apple family - iOS and tvOS, etc. Kuki have more than 160 TV channelsin SD, Full HD and 4K streamed over internet with HLS protocol. Kuki offering advanced function like  time shift, nPVR - video recording, series library, search, profiles, etc.
@@ -11,7 +11,7 @@ Still in progres, but few word is already working:
 * "What Kuki devices you have"
 * "Status of Kuki devices"
 * "Wake up Kuki"
-* "Play live tv"
+* "Play live TV"
 * "Channel UP"
 * "Channel DOWN"
 * "Volume UP"
