@@ -51,6 +51,8 @@ def generate_serial(StringLength=56):
     data = file.read()
     file.close()
 
+
+    self.log.error("DEBUG DEVICES")  
     log.error("DATA : " + data)
 
     return data
