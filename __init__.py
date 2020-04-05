@@ -10,6 +10,7 @@ import string                                           # generate serial
 from mycroft.filesystem import FileSystemAccess         # file operation
 from mycroft.util.parse import extract_number           # read numbers
 import sys                                              # exit app
+import re                                               # clean alias from numbers, etc
 
 
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
@@ -26,8 +27,8 @@ session = ''                # token
 registration = ''           # paired to the Kuki servers 
 paircode = ''               # code for registration
 devices = ''                # all devices
-prefered_device = ''        # alias
-prefered_device_id = ''     # id
+preferred_device = ''        # alias
+preferred_device_id = ''     # id
 status_power = ''           # power of end device
 status_playing = ''         # state of device
 status_volume = ''          # volume of device
@@ -157,12 +158,12 @@ def kuki_devices(self):
         return init(self)
 
 
-def prefered_device(self):
+def preferred_device(self):
         """ select of of many Kuki devices from contract """
-        global prefered_device #cache prefered device alias
-        global prefered_device_id #cache prefered device id
+        global preferred_device #cache preferred device alias
+        global preferred_device_id #cache preferred device id
 
-        self.log.error("DEBUG PREFERED DEVICES")   
+        self.log.error("DEBUG PREFERRED DEVICES")   
         
         default_device = self.settings.get('default_device')    # load setting from Mycroft backend
 
@@ -170,24 +171,24 @@ def prefered_device(self):
             self.log.error("NO DEFAULT DEVICE SELECED in Mycroft settings")
 
             self.log.debug(devices)
-            prefered_device = devices[0]    # choose frist device from list
-            self.log.info(prefered_device)
+            preferred_device = devices[0]    # choose frist device from list
+            self.log.info(preferred_device)
 
-            # API get - get id from prefered alias
+            # API get - get id from preferred alias
             self.api_headers = {'X-SessionKey': session}  
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers) # show all devices on contract
             self.result = json.loads(self.api_get.text)
-            prefered_device_id = str(list(filter(lambda item: item['alias'] == prefered_device, self.result))[0]['id']) # select prefered device
+            preferred_device_id = str(list(filter(lambda item: item['alias'] == preferred_device, self.result))[0]['id']) # select preferred device
 
             self.log.info("DEFAULT DEVICE ID")
-            self.log.info(prefered_device_id)
+            self.log.info(preferred_device_id)
 
             return init(self)
         
         else:
             self.log.info("DEFAULT DEVICE SELECED from Mycroft settings")
             self.log.info(default_device)
-            prefered_device = default_device    # save default device like prefered           
+            preferred_device = default_device    # save default device like preferred           
            
             # API get - get all devices
             self.api_headers = {'X-SessionKey': session}  
@@ -196,28 +197,28 @@ def prefered_device(self):
             
             try:
                 # select alias from setting - default device
-                prefered_device_id = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
+                preferred_device_id = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
                 self.log.info("DEFAULT DEVICE ID")
-                self.log.info(prefered_device_id)
+                self.log.info(preferred_device_id)
                 return init(self)
 
             except IndexError:
                 self.log.error("DEVICE " + default_device + " NOT FOUND")        
-                self.speak_dialog('prefered.device.not.found', data={'named': default_device})
+                self.speak_dialog('preferred.device.not.found', data={'named': default_device})
                 sys.exit()   # program end
 
 
-# status of prefered device
+# status of preferred device
 def status_device(self):
         
         global status_power # power of end device
         global status_playing # state of device
         global status_volume # volume of device
 
-        self.log.error("DEBUG STATUS OF PREFERED DEVICE")
+        self.log.error("DEBUG STATUS OF PREFERRED DEVICE")
         
         # API GET
-        self.api_status = requests.get(API_REMOTE_STATE_URL + prefered_device_id + ".json", headers = self.api_headers)
+        self.api_status = requests.get(API_REMOTE_STATE_URL + preferred_device_id + ".json", headers = self.api_headers)
         
         if self.api_status:
    
@@ -225,7 +226,7 @@ def status_device(self):
                 self.status = json.loads(self.api_status.text)
 
             except ValueError:
-                self.log.error('Kuki PREFERED DEVICE IS POWER DOWN')
+                self.log.error('Kuki PREFERRED DEVICE IS POWER DOWN')
                 status_power = 'OFF'
                 self.speak_dialog('power.off')
                 sys.exit()  # program end
@@ -258,12 +259,12 @@ def power_on(self):
             self.log.info("TRYING TO WAKEUP")  
             self.api_headers = {'X-SessionKey': session} 
             self.api_post = {'action':"poweron"}
-            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         else:
             self.log.info("DEVICE IS ALREADY WAKEUP")  
 
 
-# status of prefered device of volume
+# status of preferred device of volume
 def status_volume_check(self):
         self.log.error("DEBUG VOLUME CHECK")
         status_device(self)     # reload status of device
@@ -306,19 +307,19 @@ def init(self):
         else:
             self.log.info("DEVICES FOUND - use cache")
 
-        if prefered_device == "":
-            self.log.error("PREFERED DEVICE not found - choose new")
-            prefered_device(self)
+        if preferred_device == "":
+            self.log.error("PREFERRED DEVICE not found - choose new")
+            preferred_device(self)
           
         else:
-            self.log.info("PREFERED DEVICE FOUND - use cache")
+            self.log.info("PREFERRED DEVICE FOUND - use cache")
         
-        if prefered_device_id == "":
-            self.log.error("PREFERED DEVICE ID not found - choose new")
-            prefered_device(self)
+        if preferred_device_id == "":
+            self.log.error("PREFERRED DEVICE ID not found - choose new")
+            preferred_device(self)
           
         else:
-            self.log.info("PREFERED DEVICE FOUND ID - use cache")
+            self.log.info("PREFERRED DEVICE FOUND ID - use cache")
 
 
   # ============================ Mycroft STARTs ============================ #
@@ -347,16 +348,40 @@ class KukiSkill(MycroftSkill):
             self.speak_dialog('no.devices.available')
 
 
-    # what is prefered device
-    @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Prefered').optionally('Device'))
-    def prefered_device_intent(self, message):
+    # what is preferred device
+    @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('preferred').optionally('Device'))
+    def preferred_device_intent(self, message):
         
-        self.log.error("DEBUG WHAT IS PREFERED DEVICE")
+        self.log.error("DEBUG WHAT IS preferred DEVICE")
 
         init(self)
-        
-        self.speak_dialog('prefered.device', data={'named': prefered_device})
 
+        self.speak_dialog('preferred.device', data={'named': preferred_device})
+
+
+    # change preferred device
+    @intent_handler(IntentBuilder('').require('Change').require('Kuki').optionally('preferred').optionally('Device'))
+    def change_device_intent(self, message):
+        
+        global preferred_device
+
+        self.log.error("DEBUG CHANGE preferred DEVICE")
+
+        init(self)
+
+        devices_list = list(enumerate(devices))     # generate list of aliases and numbers
+
+        self.speak_dialog('available.devices', data={'devices': devices_list})
+        
+        preferred_device_id = self.get_response('select.device.number', validator=extract_number) # choice number of preferred aliases
+
+        preferred_alias = str(devices_list[preferred_device_id])   #from number extract alias
+        preferred_device = " ".join(re.findall("[a-zA-Z]+", preferred_alias))    # clean alias from numbers and characters and save to global variables
+
+        self.settings['default_device'] = preferred_device       # save preferred device as default to settings on Mycroft servers
+        
+        self.speak_dialog('preferred.device', data={'named': preferred_device})
+  
 
     # status of device
     @intent_handler(IntentBuilder('').require('Status').require('Kuki').optionally('Device'))
@@ -367,7 +392,7 @@ class KukiSkill(MycroftSkill):
         init(self)
         status_device(self)
 
-        self.speak_dialog('status.of.kuki.device', data={'named': prefered_device, 'power': status_power, 'playing': status_playing, 'volume': status_volume})
+        self.speak_dialog('status.of.kuki.device', data={'named': preferred_device, 'power': status_power, 'playing': status_playing, 'volume': status_volume})
 
 
     # power ON
@@ -383,7 +408,7 @@ class KukiSkill(MycroftSkill):
         self.api_post = {'action':"poweron"}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('power.on')
 
    
@@ -400,7 +425,7 @@ class KukiSkill(MycroftSkill):
         self.api_post = {'action':"poweroff"}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('power.off')
  
   
@@ -439,7 +464,7 @@ class KukiSkill(MycroftSkill):
                          'volume': percent}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('set.volume.percent', data={'level': percent})
    
 
@@ -456,7 +481,7 @@ class KukiSkill(MycroftSkill):
         self.api_post = {'action':"volup"}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('VolumeUp')
 
     
@@ -473,7 +498,7 @@ class KukiSkill(MycroftSkill):
         self.api_post = {'action':"voldown"}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('volume.down')
 
 
@@ -490,7 +515,7 @@ class KukiSkill(MycroftSkill):
         self.api_post = {'action':"chup"}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
 
 
 # channel DOWN
@@ -506,7 +531,7 @@ class KukiSkill(MycroftSkill):
         self.api_post = {'action':"chdown"}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
 
 
     # play live tv
@@ -532,7 +557,7 @@ class KukiSkill(MycroftSkill):
                          'channel_id': self.channel}
 
         # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('play.live')
 
 
@@ -553,7 +578,7 @@ class KukiSkill(MycroftSkill):
                          'type':"live",
                          'channel_id': channel_number}
 
-        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
    
 
