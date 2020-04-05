@@ -347,6 +347,17 @@ class KukiSkill(MycroftSkill):
             self.speak_dialog('no.devices.available')
 
 
+    # what is prefered device
+    @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Prefered').optionally('Device'))
+    def prefered_device_intent(self, message):
+        
+        self.log.error("DEBUG WHAT IS PREFERED DEVICE")
+
+        init(self)
+        
+        self.speak_dialog('prefered.device', data={'named': prefered_device})
+
+
     # status of device
     @intent_handler(IntentBuilder('').require('Status').require('Kuki').optionally('Device'))
     def status_intent(self, message):
