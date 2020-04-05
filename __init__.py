@@ -169,6 +169,10 @@ def prefered_device(self):
 
         if default_device not in self.settings:
             self.log.error("NO DEFAULT DEVICE SELECED in Mycroft settings")
+
+        elif not self.settings.get("default_device"):
+            self.log.error('User info has not been set.')
+        
             
             self.log.debug(devices)
             prefered_device = devices[0]    # choose frist device from list
@@ -356,7 +360,7 @@ class KukiSkill(MycroftSkill):
         self.log.error(status_power)
         self.log.error(prefered_device)
 
-        self.speak_dialog('status.of.kuki.device', data={'named': prefered_device} {'power': status_power} )
+        self.speak_dialog('status.of.kuki.device', data={'named': prefered_device} + {'power': status_power} )
 
     # power ON
     @intent_handler(IntentBuilder('').require('PowerOn'))
