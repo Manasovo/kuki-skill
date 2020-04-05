@@ -167,7 +167,7 @@ def prefered_device(self):
         default_device = self.settings.get('default_device')    # load setting from Mycroft backend
         self.log.error(default_device)   
 
-        if default_device not in self.settings:
+        if 'default_device' not in self.settings:
             self.log.error("NO DEFAULT DEVICE SELECED in Mycroft settings")
 
         elif not self.settings.get("default_device"):
