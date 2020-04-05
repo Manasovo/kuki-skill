@@ -59,7 +59,7 @@ def serial(self):
         file.close()
         
         sernum = data   # save data to sernum
-        self.log.info("SERIAL: " +sernum) 
+        self.log.info("SERIAL: " + sernum) 
         return sernum
 
     except Exception as e:
@@ -69,7 +69,7 @@ def serial(self):
 
         self.log.info("GENERATING NEW SERIAL NUMBER AND SAVE") 
         generate_serial(StringLength=56)   # generate new serial number and save
-        self.log.info("SERIAL: " +sernum) 
+        self.log.info("SERIAL: " + sernum) 
 
         try:           
             file_system = FileSystemAccess(str("skills/KukiSkill/"))
@@ -165,15 +165,10 @@ def prefered_device(self):
         self.log.error("DEBUG PREFERED DEVICES")   
         
         default_device = self.settings.get('default_device')    # load setting from Mycroft backend
-        self.log.error(default_device)   
 
         if 'default_device' not in self.settings:
             self.log.error("NO DEFAULT DEVICE SELECED in Mycroft settings")
 
-        elif not self.settings.get("default_device"):
-            self.log.error('User info has not been set.')
-        
-            
             self.log.debug(devices)
             prefered_device = devices[0]    # choose frist device from list
             self.log.info(prefered_device)
@@ -192,18 +187,24 @@ def prefered_device(self):
         else:
             self.log.info("DEFAULT DEVICE SELECED from Mycroft settings")
             self.log.info(default_device)
-            #prefered_device = default_device
-
-            # API get - get id from default alias
+            prefered_device = default_device    # save default device like prefered           
+           
+            # API get - get all devices
             self.api_headers = {'X-SessionKey': session}  
             self.api_get = requests.get(API_URL + 'device', headers = self.api_headers) # show all devices on contract
             self.result = json.loads(self.api_get.text)
-            prefered_device_id = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
+            
+            try:
+                # select alias from setting - default device
+                prefered_device_id = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
+                self.log.info("DEFAULT DEVICE ID")
+                self.log.info(prefered_device_id)
+                return init(self)
 
-            self.log.info("DEFAULT DEVICE ID")
-            self.log.info(prefered_device_id)
-
-            return init(self)
+            except IndexError:
+                self.log.error("DEVICE " + default_device + " NOT FOUND")        
+                self.speak_dialog('prefered.device.not.found', data={'named': default_device})
+                sys.exit()   # program end
 
 
 # status of prefered device
@@ -227,7 +228,7 @@ def status_device(self):
                 self.log.error('Kuki PREFERED DEVICE IS POWER DOWN')
                 status_power = 'OFF'
                 self.speak_dialog('power.off')
-                ####sys.exit()  # program end
+                sys.exit()  # program end
                 
             else:
                 self.log.info('KUKI DEVICE IS POWER ON - reading settings')
@@ -355,12 +356,8 @@ class KukiSkill(MycroftSkill):
         init(self)
         status_device(self)
 
-        self.log.error(status_playing)
-        self.log.error(status_volume)
-        self.log.error(status_power)
-        self.log.error(prefered_device)
+        self.speak_dialog('status.of.kuki.device', data={'named': prefered_device, 'power': status_power, 'playing': status_playing, 'volume': status_volume})
 
-        self.speak_dialog('status.of.kuki.device', data={'named': prefered_device} + {'power': status_power} )
 
     # power ON
     @intent_handler(IntentBuilder('').require('PowerOn'))
