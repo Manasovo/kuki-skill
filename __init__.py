@@ -322,7 +322,7 @@ class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""    
 
     @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Device'))
-    def list_devices(self):
+    def list_devices_intent(self):
         """ List available devices. """
         self.log.debug("DEBUG voice LIST DEVICES")
 
@@ -387,7 +387,7 @@ class KukiSkill(MycroftSkill):
   
     # volume SET percent
     @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
-    def handle_set_volume_percent(self, message):
+    def handle_set_volume_percent_intent(self, message):
         
         self.log.error("DEBUG VOLUME PERCENT")
 
@@ -425,7 +425,7 @@ class KukiSkill(MycroftSkill):
    
 
     # volume UP
-    @intent_handler(IntentBuilder('').require('VolumeUp'))
+    @intent_handler(IntentBuilder('').require('Kuki').require('Volume').require('Up'))
     def volume_up_intent(self, message):
 
         self.log.error("DEBUG VOLUME UP")
@@ -442,7 +442,7 @@ class KukiSkill(MycroftSkill):
 
     
     # volume DOWN
-    @intent_handler(IntentBuilder('').require('VolumeDown'))
+    @intent_handler(IntentBuilder('').require('Kuki').require('Volume').require('Down'))
     def volume_down_intent(self, message):
 
         self.log.error("DEBUG VOLUME DOWN")
@@ -459,7 +459,7 @@ class KukiSkill(MycroftSkill):
 
 
  # channel UP
-    @intent_handler(IntentBuilder('').require('ChannelUp'))
+    @intent_handler(IntentBuilder('').require('Kuki').require('Channel').require('Up'))
     def channel_up_intent(self, message):
        
         self.log.error("DEBUG CHANNEL UP")
@@ -475,7 +475,7 @@ class KukiSkill(MycroftSkill):
 
 
 # channel DOWN
-    @intent_handler(IntentBuilder('').require('ChannelDown'))
+    @intent_handler(IntentBuilder('').require('Kuki').require('Channel').require('Down'))
     def channel_down_intent(self, message):
        
         self.log.error("DEBUG CHANNEL DOWN")
@@ -515,6 +515,28 @@ class KukiSkill(MycroftSkill):
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('play.live')
+
+
+    @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').require("Channel").require("Numbers").optionally("To").optionally("Device").optionally("Kuki"))
+    def play_channel_intent(self, message):
+   
+        init(self)
+        power_on(self)
+
+        self.log.error("DEBUG SET CHANNEL NUMBER")
+
+        channel_number = extract_number(message.data['utterance'])
+        channel_number = int(channel_number)
+
+        # we have data from numbers
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"playLive",
+                         'type':"live",
+                         'channel_id': channel_number}
+
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
+   
 
 
     def stop(self):
