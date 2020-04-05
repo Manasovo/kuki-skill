@@ -165,7 +165,8 @@ def prefered_device(self):
         self.log.error("DEBUG PREFERED DEVICES")   
         
         default_device = self.settings.get('default_device')    # load setting from Mycroft backend
-    
+        self.log.error(default_device)   
+
         if default_device not in self.settings:
             self.log.error("NO DEFAULT DEVICE SELECED in Mycroft settings")
             
@@ -222,7 +223,7 @@ def status_device(self):
                 self.log.error('Kuki PREFERED DEVICE IS POWER DOWN')
                 status_power = 'OFF'
                 self.speak_dialog('power.off')
-                sys.exit()  # program end
+                ####sys.exit()  # program end
                 
             else:
                 self.log.info('KUKI DEVICE IS POWER ON - reading settings')
@@ -350,6 +351,12 @@ class KukiSkill(MycroftSkill):
         init(self)
         status_device(self)
 
+        self.log.error(status_playing)
+        self.log.error(status_volume)
+        self.log.error(status_power)
+        self.log.error(prefered_device)
+
+        self.speak_dialog('status.of.kuki.device', data={'named': prefered_device} {'power': status_power} )
 
     # power ON
     @intent_handler(IntentBuilder('').require('PowerOn'))
