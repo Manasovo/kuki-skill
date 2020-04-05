@@ -165,17 +165,7 @@ def prefered_device(self):
         self.log.error("DEBUG PREFERED DEVICES")   
         
         default_device = self.settings.get('default_device')    # load setting from Mycroft backend
-
-
-        if 'default_device' not in self.settings:
-            self.log.error('Settings hasn\'t been received yet')
-            #self.speak_dialog('NoSettingsReceived')
-        elif not self.settings.get("default_device"):
-            self.log.error('User info has not been set.')
-            # Assume this is initial setup
-            #self.speak_dialog('NotConfigured')
-
-     
+    
         if default_device not in self.settings:
             self.log.error("NO DEFAULT DEVICE SELECED in Mycroft settings")
             
@@ -381,7 +371,7 @@ class KukiSkill(MycroftSkill):
  
   
     # volume SET percent
-    @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("Numbers").require("VolumeWords").optionally("Percent"))
+    @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("Numbers").optionally("VolumeWords").optionally("Percent"))
     def handle_set_volume_percent(self, message):
         
         self.log.error("DEBUG VOLUME PERCENT")
