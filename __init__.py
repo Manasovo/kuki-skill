@@ -384,6 +384,7 @@ class KukiSkill(MycroftSkill):
         'loud': 90,
         'normal': 60,
         'quiet': 30,
+        'mute': 0,
         'zero': 0  }
 
         default = None
