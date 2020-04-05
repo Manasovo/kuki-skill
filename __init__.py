@@ -220,20 +220,41 @@ def status_device(self):
 
             except ValueError:
                 self.log.error('Kuki PREFERED DEVICE IS POWER DOWN')
+                status_power = 'OFF'
+                self.speak_dialog('power.off')
+                sys.exit()  # program end
                 
             else:
-                self.log.info('Kuki DEVICE IS UP - reading settings')
+                self.log.info('KUKI DEVICE IS POWER ON - reading settings')
                 self.status = json.loads(self.api_status.text)
                 status_power = int(self.status['power'])
         
                 if status_power == 0:
                     self.log.info('Kuki DEVICE IS SLEEPing')
                     status_power = 'OFF'
+                    self.speak_dialog('power.off')
+                    sys.exit()   # program end
 
                 else: 
                     status_playing = self.status['playing']
                     status_volume = int(self.status['audio']['volume'])
                     status_power = 'ON'
+                    self.speak_dialog('wake.up')
+
+
+# power ON
+def power_on(self):  
+        self.log.error("DEBUG POWER ON")
+
+        status_device(self)
+
+        if status_power == "OFF":
+            self.log.info("TRYING TO WAKEUP")  
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"poweron"}
+            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        else:
+            self.log.info("DEVICE IS ALREADY WAKEUP")  
 
 
 # status of prefered device of volume
@@ -251,6 +272,7 @@ def status_volume_check(self):
         
         else:
             self.log.debug("VOLUME IS OK between 1-99")
+
 
 
 def init(self):
@@ -320,20 +342,13 @@ class KukiSkill(MycroftSkill):
 
 
     # status of device
-    @intent_handler(IntentBuilder('').require('Status').require('Kuki').require('Device'))
+    @intent_handler(IntentBuilder('').require('Status').require('Kuki').optionally('Device'))
     def status_intent(self, message):
         
-        self.log.error("DEBUG STATUS")
+        self.log.error("DEBUG STATUS OF DEVICE")
 
         init(self)
         status_device(self)
-
-        if status_power == "OFF":
-            self.speak_dialog('power.off')
-
-        else:
-            self.speak_dialog('wake.up')
-            # TODO stats of playing and volume 
 
 
     # power ON
@@ -371,7 +386,7 @@ class KukiSkill(MycroftSkill):
  
   
     # volume SET percent
-    @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("Numbers").optionally("VolumeWords").optionally("Percent"))
+    @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
     def handle_set_volume_percent(self, message):
         
         self.log.error("DEBUG VOLUME PERCENT")
@@ -385,13 +400,13 @@ class KukiSkill(MycroftSkill):
         'normal': 60,
         'quiet': 30,
         'mute': 0,
-        'zero': 0  }
+        'zero': 0 }
 
         default = None
-        level_str = message.data.get('VolumeWords', default)
+        level_word = message.data.get('VolumeNumbers', default)
             
         try:    # try use word
-            percent = self.volume_words[level_str]
+            percent = self.volume_words[level_word]
         
         except KeyError:    # if error try numbers
             percent = extract_number(message.data['utterance'].replace('%', ''))
@@ -476,59 +491,30 @@ class KukiSkill(MycroftSkill):
 
 
     # play live tv
-    @intent_handler(IntentBuilder('').require('PlayLive'))
+    @intent_handler(IntentBuilder('').require('Play').require('Live').optionally("To").optionally("Device").optionally("Kuki"))
     def live_intent(self, message):  
 
         self.log.error("DEBUG PLAY LIVE")
 
         init(self)
-        status_device(self)
+        power_on(self)
 
-        if status_power == "OFF":
-            
-            # WAKE UP
-            self.api_headers = {'X-SessionKey': session} 
-            self.api_post = {'action':"poweron"}
-
-            # sending post request and saving response as response object
-            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('power.on')
-
-            # PLAY LIVE
-            self.action = "playLive"
-            self.op = "play"
-            self.type = "live"
-            self.channel = "1";
+        # API POST data
+        self.api_headers = {'X-SessionKey': session}
+        self.action = "playLive"
+        self.op = "play"
+        self.type = "live"
+        self.channel = "1";
         
-            # data to be sent to api 
-            self.api_post = {'action':self.action,
-                             'op': self.op,
-                             'type':self.type,
-                             'channel_id': self.channel}
+        # data to be sent to api 
+        self.api_post = {'action':self.action,
+                         'op': self.op,
+                         'type':self.type,
+                         'channel_id': self.channel}
 
-            # sending post request and saving response as response object
-            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('play.live')
-
-
-        else:
-            # API POST data
-            self.api_headers = {'X-SessionKey': session}
-            self.action = "playLive"
-            self.op = "play"
-            self.type = "live"
-            self.channel = "1";
-        
-            # data to be sent to api 
-            self.api_post = {'action':self.action,
-                             'op': self.op,
-                             'type':self.type,
-                             'channel_id': self.channel}
-
-            # sending post request and saving response as response object
-            self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('play.live')
-
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + prefered_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('play.live')
 
 
     def stop(self):
