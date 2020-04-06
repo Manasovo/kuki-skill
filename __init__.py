@@ -507,6 +507,9 @@ class KukiSkill(MycroftSkill):
         #channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", test))[0]['id'])
 
         #self.log.error(channel_id)
+        
+        #for channel_list in test:
+        #    self.log.error(channel_list["id"], channel_list["name"])
          
         return out
        
