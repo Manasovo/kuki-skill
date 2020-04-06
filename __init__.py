@@ -485,8 +485,8 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
    
 
-    # channel list
-    @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').optionally('Show'))
+    # play from channel list
+    @intent_handler(IntentBuilder('').require('Play').require('Channel').require('ChannelsList'))
     def channel_list_intent(self):
        
         self.log.error("DEBUG CHANNEL LIST")
@@ -512,8 +512,7 @@ class KukiSkill(MycroftSkill):
         #    self.log.error(channel_list["id"], channel_list["name"])
          
         return out
-    
-    
+
 
     # channel UP
     @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Up'))
