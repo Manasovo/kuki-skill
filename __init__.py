@@ -497,20 +497,23 @@ class KukiSkill(MycroftSkill):
         self.api_headers = {'X-SessionKey': session}
         self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)
 
-        test = json.loads(self.api_get.text)
+        data = json.loads(self.api_get.content.decode())
         
-        channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", test))[0]['id'])
+        out = {}
+        
+        for ch in data:
+            out[ch['id']] = ch['name']
+        
+        #channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", test))[0]['id'])
 
-        self.log.error(channel_id)
+        #self.log.error(channel_id)
         
         #for channel_list in test:
         #    self.log.error(channel_list["id"], channel_list["name"])
          
-      
-
-       
-
-
+        return out
+    
+    
 
     # channel UP
     @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Up'))
