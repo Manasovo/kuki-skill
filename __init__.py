@@ -33,6 +33,7 @@ preferred_device_id = ''     # id
 status_power = ''           # power of end device
 status_playing = ''         # state of device
 status_volume = ''          # volume of device
+time_actual = ''            # actual postition in timeshift
 
 
 def failed_auth(self):
@@ -241,13 +242,11 @@ def status_device(self):
                     self.log.info('Kuki DEVICE IS SLEEPing')
                     status_power = 'OFF'
                     self.speak_dialog('power.off')
-                    sys.exit()   # program end
 
                 else: 
                     status_playing = self.status['playing']
                     status_volume = int(self.status['audio']['volume'])
                     status_power = 'ON'
-                    self.speak_dialog('wake.up')
 
 
 # power ON
@@ -426,6 +425,8 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('PowerOff').require('Kuki').optionally('Device'))
     def power_off_intent(self, message):
        
+        global status_power
+
         self.log.error("DEBUG POWER OFF")
 
         init(self) 
@@ -433,9 +434,9 @@ class KukiSkill(MycroftSkill):
         # API POST data
         self.api_headers = {'X-SessionKey': session} 
         self.api_post = {'action': "poweroff"}
-
-        # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+        
+        status_power = 'OFF'
         self.speak_dialog('power.off')
  
   
@@ -449,14 +450,10 @@ class KukiSkill(MycroftSkill):
         power_on(self)
 
         # API POST data
-        self.api_headers = {'X-SessionKey': session}
-        self.channel = "1";
-        
-        # data to be sent to api 
+        self.api_headers = {'X-SessionKey': session} 
         self.api_post = {'action':"playLive",
                          'op': "play",
-                         'type':"live",
-                         'channel_id': self.channel}
+                         'type':"live"}
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
@@ -467,20 +464,17 @@ class KukiSkill(MycroftSkill):
     def play_channel_intent(self, message):
    
         init(self)
-        #power_on(self)
+        power_on(self)
 
         self.log.error("DEBUG SET CHANNEL NUMBER")
 
         channel_number = extract_number(message.data['utterance'])
         channel_number = int(channel_number)
-        channel_number = 5
-
-
+        
         # we have data from numbers
         self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"keypress",
-                         'op':"keypress",
-                         'keycode': channel_number}
+        self.api_post = {'action':"typeKey",
+                         'key': channel_number}
 
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
@@ -521,29 +515,60 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder("SeekIntent").require('Numbers').optionally("Time").require("Seek"))
     def seek_intent(self, message):
    
+        global time_actual      # actual position in time shift
+
         init(self)
        
         self.log.error("DEBUG CHANNEL SEEK")
        
-        time = extract_duration(message.data['utterance'])
-        self.log.error(time)
-
-    
-        time_now = datetime.utcnow().timestamp()
-        self.log.error(time_now)
-        #time_position = time_now - time
-
+        move = extract_duration(message.data['utterance'])[1]       # seek direction
+        time = extract_duration(message.data['utterance'])[0]       # seek duration in second
+        time_clean = int(time.seconds)                              # duration like integer
+        time_now = datetime.now().timestamp()                       # time UTC
         
-        #self.log.error(time_position)
+        if time_actual == "":
+            time_actual = (time_now - 5)  # set actual time right now minus 5 sec (one chunk protection)
+            self.log.info("USE TIME NOW")
         
-        # we have data from numbers
-        #self.api_headers = {'X-SessionKey': session} 
-        #self.api_post = {'action':"seek",
-         #                'position': time_position}
+        else:
+            if time_actual > time_now:
+                time_actual = (time_now - 5)
 
-        #self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            else:
+                self.log.info("USE ACTUAL POSITION")
+
+        # words of seek direction
+        self.move_word = {
+                            'back': "back",
+                            'rewind': "back",
+                            'forward': "forward",
+                            'fast forward': "forward",
+                            'ahead': "forward"}
+
+        move_direction = self.move_word[move]   # select move from word
         
-        #self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
+        if move_direction == "forward":
+            self.log.info("SEEK FORWARD")
+            time_position = (time_actual * 1000) + (time_clean * 1000)
+            time_actual = (time_position / 1000)    # save actual position
+
+        elif move_direction == "back":
+            self.log.info("SEEK BACK")
+            time_position = (time_actual * 1000) - (time_clean * 1000)
+            time_actual = (time_position / 1000)     # save actual position
+
+        else:
+            self.log.error("ERROR IN SEEKING")
+            sys.exit() 
+        
+        #API POST
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"seek",
+                        'position': time_position}
+
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+        
+        self.speak_dialog('shifting', data={'move': move_direction})
 
 
 # volume SET percent

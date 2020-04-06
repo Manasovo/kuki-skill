@@ -1,6 +1,6 @@
 # <img src="https://github.com/Manasovo/kuki-skill/blob/master/kuki_logo.jpg" width="100" height="100"/>
 
-https://mycroft.ai implemetation of voice remote control for IPTV service named Kuki at https://www.kuki.cz
+PROOF OF CONCEPT - Mycroft at https://mycroft.ai implemetation of voice remote control for IPTV service Kuki at https://www.kuki.cz
 
 ## About
 Kuki is IPTV service mainly for people from Czech and Slovak Republic but works in whole EU of course. Today Kuki supports lots of end devices like smart tv, set-top boxes, Android and Android TV, Samsung, LG, Apple family - iOS and tvOS, etc. Kuki have more than 160 TV channelsin SD, Full HD and 4K streamed over internet with HLS protocol. Kuki offering advanced function like  time shift, nPVR - video recording, series library, search, profiles, etc.
@@ -15,10 +15,10 @@ Still in progres, but few words is already working:
 * "Show status of Kuki device"
 * "Wake up Kuki / Sleep Kuki"
 * "Play live"
-* "Play channel one"
+* "Play channel 5"
 * "Five minutes back"
 * "Channel up / down"
-* "Kuki volume to fifty percent"
+* "Kuki volume to 50 percent"
 * "Kuki volume up / down"
 
 ## Credits
