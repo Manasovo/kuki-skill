@@ -1,16 +1,17 @@
 from adapt.intent import IntentBuilder
 from mycroft import MycroftSkill, intent_file_handler, intent_handler
 
-import requests                                         # http post & get
-import json                                             # json :-)
-import uuid                                             # mac
-import socket                                           # hostname
-import random                                           # generate serial
-import string                                           # generate serial                                      
-from mycroft.filesystem import FileSystemAccess         # file operation
-from mycroft.util.parse import extract_number           # read numbers
-import sys                                              # exit app
-import re                                               # clean alias from numbers, etc
+import requests                                                         # http post & get
+import json                                                             # json :-)
+import uuid                                                             # mac
+import socket                                                           # hostname
+import random                                                           # generate serial
+import string                                                           # generate serial                                      
+from mycroft.filesystem import FileSystemAccess                         # file operation
+from mycroft.util.parse import extract_datetime, extract_number, extract_duration         # read numbers
+import sys                                                              # exit app
+import re                                                               # clean alias from numbers, etc
+from datetime import datetime                                           # pro seeky
 
 
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
@@ -328,6 +329,14 @@ def init(self):
 class KukiSkill(MycroftSkill):
     """Kuki control through the Kuki API."""    
 
+
+    # how to register Kuki device
+    @intent_handler(IntentBuilder('').require('HowTo').require('Register').optionally('New').optionally('Kuki').optionally('Device'))
+    def howto_register_intent(self):
+    
+        self.speak_dialog('how.to.register')
+
+
     @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Device'))
     def list_devices_intent(self):
         """ List available devices. """
@@ -349,7 +358,7 @@ class KukiSkill(MycroftSkill):
 
 
     # what is preferred device
-    @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('preferred').optionally('Device'))
+    @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Preferred').optionally('Device'))
     def preferred_device_intent(self, message):
         
         self.log.error("DEBUG WHAT IS preferred DEVICE")
@@ -360,7 +369,7 @@ class KukiSkill(MycroftSkill):
 
 
     # change preferred device
-    @intent_handler(IntentBuilder('').require('Change').require('Kuki').optionally('preferred').optionally('Device'))
+    @intent_handler(IntentBuilder('').require('Change').require('Kuki').optionally('Preferred').optionally('Device'))
     def change_device_intent(self, message):
         
         global preferred_device
@@ -373,18 +382,19 @@ class KukiSkill(MycroftSkill):
 
         self.speak_dialog('available.devices', data={'devices': devices_list})
         
-        preferred_device_id = self.get_response('select.device.number', validator=extract_number) # choice number of preferred aliases
+        preferred_device_id = self.get_response('select.device.number') # choice number of preferred aliases
+        preferred_device_id = int(preferred_device_id)
 
         preferred_alias = str(devices_list[preferred_device_id])   #from number extract alias
         preferred_device = " ".join(re.findall("[a-zA-Z]+", preferred_alias))    # clean alias from numbers and characters and save to global variables
 
-        self.settings['default_device'] = preferred_device       # save preferred device as default to settings on Mycroft servers
+        self.settings['default_device'] = preferred_device       # save preferred device as default to settings (setting will persist until a new setting is assigned locally by the Skill, or remotely by the user clicking save on the web view.)
         
         self.speak_dialog('preferred.device', data={'named': preferred_device})
   
 
     # status of device
-    @intent_handler(IntentBuilder('').require('Status').require('Kuki').optionally('Device'))
+    @intent_handler(IntentBuilder('').optionally('Show').require('Status').require('Kuki').optionally('Device'))
     def status_intent(self, message):
         
         self.log.error("DEBUG STATUS OF DEVICE")
@@ -396,7 +406,7 @@ class KukiSkill(MycroftSkill):
 
 
     # power ON
-    @intent_handler(IntentBuilder('').require('PowerOn'))
+    @intent_handler(IntentBuilder('').require('PowerOn').require('Kuki').optionally('Device'))
     def power_on_intent(self, message):
        
         self.log.error("DEBUG POWER ON")
@@ -405,7 +415,7 @@ class KukiSkill(MycroftSkill):
             
         # API POST data
         self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"poweron"}
+        self.api_post = {'action': "poweron"}
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
@@ -413,7 +423,7 @@ class KukiSkill(MycroftSkill):
 
    
     # power OFF
-    @intent_handler(IntentBuilder('').require('PowerOff'))
+    @intent_handler(IntentBuilder('').require('PowerOff').require('Kuki').optionally('Device'))
     def power_off_intent(self, message):
        
         self.log.error("DEBUG POWER OFF")
@@ -422,14 +432,121 @@ class KukiSkill(MycroftSkill):
             
         # API POST data
         self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"poweroff"}
+        self.api_post = {'action': "poweroff"}
 
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('power.off')
  
   
-    # volume SET percent
+    # play live tv
+    @intent_handler(IntentBuilder('').require('Play').require('Live').optionally("To").optionally("Device").optionally("Kuki"))
+    def live_intent(self, message):  
+
+        self.log.error("DEBUG PLAY LIVE")
+
+        init(self)
+        power_on(self)
+
+        # API POST data
+        self.api_headers = {'X-SessionKey': session}
+        self.channel = "1";
+        
+        # data to be sent to api 
+        self.api_post = {'action':"playLive",
+                         'op': "play",
+                         'type':"live",
+                         'channel_id': self.channel}
+
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('play.live')
+
+
+    @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').require("Channel").require("Numbers").optionally("To").optionally("Device").optionally("Kuki"))
+    def play_channel_intent(self, message):
+   
+        init(self)
+        #power_on(self)
+
+        self.log.error("DEBUG SET CHANNEL NUMBER")
+
+        channel_number = extract_number(message.data['utterance'])
+        channel_number = int(channel_number)
+        channel_number = 5
+
+
+        # we have data from numbers
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"keypress",
+                         'op':"keypress",
+                         'keycode': channel_number}
+
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+        self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
+   
+
+# channel UP
+    @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Up'))
+    def channel_up_intent(self, message):
+       
+        self.log.error("DEBUG CHANNEL UP")
+
+        init(self) 
+            
+        # API POST data
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"chup"}
+
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+
+
+# channel DOWN
+    @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Down'))
+    def channel_down_intent(self, message):
+       
+        self.log.error("DEBUG CHANNEL DOWN")
+
+        init(self) 
+            
+        # API POST data
+        self.api_headers = {'X-SessionKey': session} 
+        self.api_post = {'action':"chdown"}
+
+        # sending post request and saving response as response object
+        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+
+
+    @intent_handler(IntentBuilder("SeekIntent").require('Numbers').optionally("Time").require("Seek"))
+    def seek_intent(self, message):
+   
+        init(self)
+       
+        self.log.error("DEBUG CHANNEL SEEK")
+       
+        time = extract_duration(message.data['utterance'])
+        self.log.error(time)
+
+    
+        time_now = datetime.utcnow().timestamp()
+        self.log.error(time_now)
+        #time_position = time_now - time
+
+        
+        #self.log.error(time_position)
+        
+        # we have data from numbers
+        #self.api_headers = {'X-SessionKey': session} 
+        #self.api_post = {'action':"seek",
+         #                'position': time_position}
+
+        #self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+        
+        #self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
+
+
+# volume SET percent
     @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
     def handle_set_volume_percent_intent(self, message):
         
@@ -500,87 +617,6 @@ class KukiSkill(MycroftSkill):
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('volume.down')
-
-
- # channel UP
-    @intent_handler(IntentBuilder('').require('Kuki').require('Channel').require('Up'))
-    def channel_up_intent(self, message):
-       
-        self.log.error("DEBUG CHANNEL UP")
-
-        init(self) 
-            
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"chup"}
-
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-
-
-# channel DOWN
-    @intent_handler(IntentBuilder('').require('Kuki').require('Channel').require('Down'))
-    def channel_down_intent(self, message):
-       
-        self.log.error("DEBUG CHANNEL DOWN")
-
-        init(self) 
-            
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"chdown"}
-
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-
-
-    # play live tv
-    @intent_handler(IntentBuilder('').require('Play').require('Live').optionally("To").optionally("Device").optionally("Kuki"))
-    def live_intent(self, message):  
-
-        self.log.error("DEBUG PLAY LIVE")
-
-        init(self)
-        power_on(self)
-
-        # API POST data
-        self.api_headers = {'X-SessionKey': session}
-        self.action = "playLive"
-        self.op = "play"
-        self.type = "live"
-        self.channel = "1";
-        
-        # data to be sent to api 
-        self.api_post = {'action':self.action,
-                         'op': self.op,
-                         'type':self.type,
-                         'channel_id': self.channel}
-
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('play.live')
-
-
-    @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').require("Channel").require("Numbers").optionally("To").optionally("Device").optionally("Kuki"))
-    def play_channel_intent(self, message):
-   
-        init(self)
-        power_on(self)
-
-        self.log.error("DEBUG SET CHANNEL NUMBER")
-
-        channel_number = extract_number(message.data['utterance'])
-        channel_number = int(channel_number)
-
-        # we have data from numbers
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"playLive",
-                         'type':"live",
-                         'channel_id': channel_number}
-
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
-   
 
 
     def stop(self):

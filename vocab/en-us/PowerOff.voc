@@ -1,12 +1,6 @@
-shutdown Kuki
-shutdown cookie
-poweroff Kuki
-poweroff cookie
-Kuki poweroff
-cookie Kuki poweroff
-Kuki shutdown
-cookie shutdown
-Kuki off
-cookie off
-tv off
-television off
+shutdown
+power off
+poweroff
+off
+sleep
+hasta la vista
