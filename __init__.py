@@ -508,10 +508,8 @@ class KukiSkill(MycroftSkill):
 
         #self.log.error(channel_id)
          
-      
-
+        return out
        
-
 
 
     # channel UP
