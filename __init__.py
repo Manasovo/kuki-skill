@@ -23,6 +23,10 @@ API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
 #API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/"
 API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
+#API_CHANNEL_URL = "https://aas.kukacka.netbox.cz/channel-list"
+API_CHANNEL_URL = "https://as.kuki.cz/api-v2/channel-list"
+
+
 sernum = ''                 # uniq serial number
 session = ''                # token 
 registration = ''           # paired to the Kuki servers 
@@ -460,6 +464,7 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog('play.live')
 
 
+    # play channel number
     @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').require("Channel").require("Numbers").optionally("To").optionally("Device").optionally("Kuki"))
     def play_channel_intent(self, message):
    
@@ -480,7 +485,34 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
    
 
-# channel UP
+    # channel list
+    @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').optionally('Show'))
+    def channel_list_intent(self):
+       
+        self.log.error("DEBUG CHANNEL LIST")
+
+        init(self) 
+
+        # API get
+        self.api_headers = {'X-SessionKey': session}
+        self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)
+
+        test = json.loads(self.api_get.text)
+        
+        channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", test))[0]['id'])
+
+        self.log.error(channel_id)
+        
+        #for channel_list in test:
+        #    self.log.error(channel_list["id"], channel_list["name"])
+         
+      
+
+       
+
+
+
+    # channel UP
     @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Up'))
     def channel_up_intent(self, message):
        
@@ -496,7 +528,7 @@ class KukiSkill(MycroftSkill):
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
 
 
-# channel DOWN
+    # channel DOWN
     @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Down'))
     def channel_down_intent(self, message):
        
@@ -512,6 +544,7 @@ class KukiSkill(MycroftSkill):
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
 
 
+    # seeking
     @intent_handler(IntentBuilder("SeekIntent").require('Numbers').optionally("Time").require("Seek"))
     def seek_intent(self, message):
    
