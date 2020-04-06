@@ -497,22 +497,16 @@ class KukiSkill(MycroftSkill):
         self.api_headers = {'X-SessionKey': session}
         self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)
 
-        # channels word
-        self.move_word = {
-                            'back': "back",
-                            'rewind': "back",
-                            'forward': "forward",
-                            'fast forward': "forward",
-                            'ahead': "forward"}
-
-        move_direction = self.move_word[move]   # select move from word
-
-        channel_id = json.loads(self.api_get.text)
-        channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", channel_id))[0]['id'])
-
+        data = json.loads(self.api_get.content.decode())
         
-        #for channel_list in test:
-        #    self.log.error(channel_list["id"], channel_list["name"])
+        out = {}
+        
+        for ch in data:
+            out[ch['id']] = ch['name']
+        
+        #channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", test))[0]['id'])
+
+        #self.log.error(channel_id)
          
       
 
