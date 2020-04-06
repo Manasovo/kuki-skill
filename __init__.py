@@ -485,8 +485,8 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
    
 
-    # channel list
-    @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').optionally('Show'))
+    # play from channel list
+    @intent_handler(IntentBuilder('').require('Play').require('Channel').require('ChannelsList'))
     def channel_list_intent(self):
        
         self.log.error("DEBUG CHANNEL LIST")
@@ -497,11 +497,19 @@ class KukiSkill(MycroftSkill):
         self.api_headers = {'X-SessionKey': session}
         self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)
 
-        test = json.loads(self.api_get.text)
-        
-        channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", test))[0]['id'])
+        # channels word
+        self.move_word = {
+                            'back': "back",
+                            'rewind': "back",
+                            'forward': "forward",
+                            'fast forward': "forward",
+                            'ahead': "forward"}
 
-        self.log.error(channel_id)
+        move_direction = self.move_word[move]   # select move from word
+
+        channel_id = json.loads(self.api_get.text)
+        channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", channel_id))[0]['id'])
+
         
         #for channel_list in test:
         #    self.log.error(channel_list["id"], channel_list["name"])
