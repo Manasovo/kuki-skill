@@ -486,7 +486,7 @@ class KukiSkill(MycroftSkill):
    
 
     # play from channel list
-    @intent_handler(IntentBuilder('').require('Play').require('Channel').require('ChannelsList'))
+    @intent_handler(IntentBuilder('').optionally('Play').require('Channel').optionally('ChannelsList'))
     def channel_list_intent(self):
        
         self.log.error("DEBUG CHANNEL LIST")
@@ -504,16 +504,9 @@ class KukiSkill(MycroftSkill):
         for ch in data:
             out[ch['id']] = ch['name']
         
-        #channel_id = str(list(filter(lambda item: item['name'] == "Nova HD", test))[0]['id'])
-
-        #self.log.error(channel_id)
-        
-        #for channel_list in test:
-        #    self.log.error(channel_list["id"], channel_list["name"])
-         
         return out
-       
 
+        
 
     # channel UP
     @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Up'))
