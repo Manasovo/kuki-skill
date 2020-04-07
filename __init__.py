@@ -14,17 +14,17 @@ import re                                                               # clean 
 from datetime import datetime                                           # pro seeky
 
 
-API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-#API_URL = "https://as.kuki.cz/api-v2/"
+#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+API_URL = "https://as.kuki.cz/api-v2/"
 
-API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
-#API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
+#API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
+API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
 
-API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/"
-#API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
+#API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/"
+API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
-API_CHANNEL_URL = "https://aas.kukacka.netbox.cz/channel-list"
-#API_CHANNEL_URL = "https://as.kuki.cz/api-v2/channel-list"
+#API_CHANNEL_URL = "https://aas.kukacka.netbox.cz/channel-list"
+API_CHANNEL_URL = "https://as.kuki.cz/api-v2/channel-list"
 
 
 sernum = ''                 # uniq serial number
