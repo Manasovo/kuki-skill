@@ -14,17 +14,17 @@ import re                                                               # clean 
 from datetime import datetime                                           # pro seeky
 
 
-#API_URL = "https://as.kukacka.netbox.cz/api-v2/"
-API_URL = "https://as.kuki.cz/api-v2/"
+API_URL = "https://as.kukacka.netbox.cz/api-v2/"
+#API_URL = "https://as.kuki.cz/api-v2/"
 
-#API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
-API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
+API_REMOTE_URL =  "https://as.kukacka.netbox.cz/api/remote/"
+#API_REMOTE_URL = "https://as.kuki.cz/api/remote/"
 
-#API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/"
-API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
+API_REMOTE_STATE_URL =  "https://as.kukacka.netbox.cz/api/device-state/"
+#API_REMOTE_STATE_URL = "https://as.kuki.cz/api/device-state/"
 
-#API_CHANNEL_URL = "https://aas.kukacka.netbox.cz/channel-list"
-API_CHANNEL_URL = "https://as.kuki.cz/api-v2/channel-list"
+API_CHANNEL_URL = "https://aas.kukacka.netbox.cz/channel-list"
+#API_CHANNEL_URL = "https://as.kuki.cz/api-v2/channel-list"
 
 
 sernum = ''                 # uniq serial number
@@ -269,36 +269,32 @@ def power_on(self):
 
 
 def init(self):
-        """ initialize first start """
-        self.log.error("DEBUG INITIALIZE")
+        """ initialize all data for perfect work """
+        self.log.debug("INITIALIZE")
         
         if sernum == "":
-            self.log.error("SERIAL not found - reading from device")
+            self.log.info("SERIAL not found - reading from device")
             serial(self)
-
         else:
-            self.log.info("SERIAL FOUND - use cache")       
+            return sernum
 
         if session == "":
-            self.log.error("SESSION not found - create new")
-            kuki_reg(self)
-           
+            self.log.info("SESSION not found - create new")
+            kuki_reg(self)       
         else:
-            self.log.info("SESSION FOUND - use cache")
+            return session
 
         if preferred_device == "":
-            self.log.error("PREFERRED DEVICE not found - choose new")
-            preferred_device(self)
-          
+            self.log.info("PREFERRED DEVICE not found - choose new")
+            preferred_device(self)        
         else:
-            self.log.info("PREFERRED DEVICE FOUND - use cache")
+            return preferred_device
         
         if preferred_device_id == "":
-            self.log.error("PREFERRED DEVICE ID not found - choose new")
-            preferred_device(self)
-          
+            self.log.info("PREFERRED DEVICE ID not found - choose new")
+            preferred_device(self)       
         else:
-            self.log.info("PREFERRED DEVICE FOUND ID - use cache")
+            return preferred_device_id
 
 
   # ============================ Mycroft STARTs ============================ #
@@ -595,7 +591,7 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog('shifting', data={'move': move_direction})
 
 
-# volume SET percent
+    # volume SET percent
     @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
     def handle_set_volume_percent_intent(self, message):
         
