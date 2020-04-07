@@ -541,7 +541,6 @@ class KukiSkill(MycroftSkill):
         self.log.error("DEBUG CHANNEL SEEK")
         
         move = extract_duration(message.data["utterance"])[1]      # seek direction
-        
         duration = message.data.get('duration') 
         duration = duration.replace("-", " ")                       # some STT engines return "5-minutes" not "5 minutes"
         time = extract_duration(duration)[0]                        # seek duration in secon
