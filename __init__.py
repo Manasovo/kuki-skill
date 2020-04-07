@@ -381,7 +381,10 @@ class KukiSkill(MycroftSkill):
         init(self)
         status_device(self)
 
-        self.speak_dialog('status.of.kuki.device', data={'named': preferred_device, 'power': status_power, 'playing': status_playing, 'volume': status_volume})
+        if status_power == "OFF":
+            return False
+        else:
+            self.speak_dialog('status.of.kuki.device', data={'named': preferred_device, 'power': status_power, 'playing': status_playing, 'volume': status_volume})
 
 
     # power ON
