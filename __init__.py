@@ -531,7 +531,7 @@ class KukiSkill(MycroftSkill):
 
 
     # seeking
-    @intent_handler(IntentBuilder("SeekIntent").require('Numbers').optionally("Time").require("Seek"))
+    @intent_handler('seek.intent')
     def seek_intent(self, message):
    
         global time_actual      # actual position in time shift
@@ -539,9 +539,12 @@ class KukiSkill(MycroftSkill):
         init(self)
        
         self.log.error("DEBUG CHANNEL SEEK")
-       
-        move = extract_duration(message.data['utterance'])[1]       # seek direction
-        time = extract_duration(message.data['utterance'])[0]       # seek duration in second
+        
+        move = extract_duration(message.data["utterance"])[1]      # seek direction
+        
+        duration = message.data.get('duration') 
+        duration = duration.replace("-", " ")                       # some STT engines return "5-minutes" not "5 minutes"
+        time = extract_duration(duration)[0]                        # seek duration in secon
         time_clean = int(time.seconds)                              # duration like integer
         time_now = datetime.now().timestamp()                       # time UTC
         
