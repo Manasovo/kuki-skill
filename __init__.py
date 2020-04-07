@@ -594,6 +594,8 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
     def handle_set_volume_percent_intent(self, message):
         
+        global status_volume
+
         self.log.error("DEBUG VOLUME PERCENT")
 
         init(self)
@@ -627,6 +629,7 @@ class KukiSkill(MycroftSkill):
         # sending post request and saving response as response object
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         self.speak_dialog('set.volume.percent', data={'level': percent})
+        status_volume = percent
    
 
     # volume UP
