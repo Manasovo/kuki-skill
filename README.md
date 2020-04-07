@@ -12,7 +12,7 @@ Still in progres, but few words is already working:
 * "Show Kuki devices"
 * "Show Kuki preferred device"
 * "Switch Kuki preferred device"
-* "Show status of Kuki device"
+* "Show device status"
 * "Wake up Kuki / Sleep Kuki / Hasta la vista Baby"
 * "Play live"
 * "Play channel 5"
