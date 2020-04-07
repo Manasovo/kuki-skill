@@ -13,12 +13,13 @@ Still in progres, but few words is already working:
 * "Show Kuki preferred device"
 * "Switch Kuki preferred device"
 * "Show status of Kuki device"
-* "Wake up Kuki / Sleep Kuki"
+* "Wake up Kuki / Sleep Kuki / Hasta la vista Baby"
 * "Play live"
 * "Play channel 5"
+* "Play channel Prima Cool HD"
 * "Five minutes back"
 * "Channel up / down"
-* "Kuki volume to 50 percent"
+* "Kuki volume to 50 percent / max / mute"
 * "Kuki volume up / down"
 
 ## Credits
