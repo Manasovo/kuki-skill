@@ -268,24 +268,6 @@ def power_on(self):
             self.log.info("DEVICE IS ALREADY WAKEUP")  
 
 
-# status of preferred device of volume
-def status_volume_check(self):
-        self.log.error("DEBUG VOLUME CHECK")
-        status_device(self)     # reload status of device
-
-        if status_volume == "100":    # if volume is more than 100% - TODO 2 REFACTOR
-            self.log.info("DEBUG VOLUME IS TOO HIGH")
-            self.speak_dialog('volume.max')
-        
-        elif status_volume == "0":    # if volume is more than 100% - TODO 2 REFACTOR
-            self.log.info("DEBUG VOLUME IS TOO LOW")
-            self.speak_dialog('volume.min')
-        
-        else:
-            self.log.debug("VOLUME IS OK between 1-99")
-
-
-
 def init(self):
         """ initialize first start """
         self.log.error("DEBUG INITIALIZE")
@@ -303,13 +285,6 @@ def init(self):
            
         else:
             self.log.info("SESSION FOUND - use cache")
-       
-        if devices == "":
-            self.log.error("DEVICES not found - search for new")
-            kuki_devices(self)
-           
-        else:
-            self.log.info("DEVICES FOUND - use cache")
 
         if preferred_device == "":
             self.log.error("PREFERRED DEVICE not found - choose new")
@@ -346,6 +321,7 @@ class KukiSkill(MycroftSkill):
         self.log.debug("DEBUG voice LIST DEVICES")
 
         init(self)
+        kuki_devices(self)
            
         if len(devices) == 1:
             self.speak(devices[0])
@@ -361,7 +337,7 @@ class KukiSkill(MycroftSkill):
 
 
     # what is preferred device
-    @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Preferred').optionally('Device'))
+    @intent_handler(IntentBuilder('').require('Show').optionally('Kuki').require('Preferred').optionally('Device'))
     def preferred_device_intent(self, message):
         
         self.log.error("DEBUG WHAT IS preferred DEVICE")
@@ -456,7 +432,7 @@ class KukiSkill(MycroftSkill):
         # API POST data
         self.api_headers = {'X-SessionKey': session} 
         self.api_post = {'action':"playLive",
-                         'op': "play",
+                         'channel_id': 1,
                          'type':"live"}
 
         # sending post request and saving response as response object
@@ -486,27 +462,41 @@ class KukiSkill(MycroftSkill):
    
 
     # play from channel list
-    @intent_handler(IntentBuilder('').optionally('Play').require('Channel').optionally('ChannelsList'))
-    def channel_list_intent(self):
-       
+    @intent_handler('play.channel.intent')
+    def channel_list_intent(self, message):
+    
         self.log.error("DEBUG CHANNEL LIST")
 
         init(self) 
 
+        channel_name = message.data.get('channels')     # extract channel name
+
         # API get
         self.api_headers = {'X-SessionKey': session}
-        self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)
+        self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)       # load all channels on contract
 
-        data = json.loads(self.api_get.content.decode())
+        self.result = json.loads(self.api_get.content.decode())     # decoding name and id from list of channels
         
-        out = {}
+        channel_list = {}
+        for ch in self.result:
+            channel_list[ch['name']] = ch['id']
         
-        for ch in data:
-            out[ch['id']] = ch['name']
-        
-        return out
+        channel_list_lower_case =  {k.lower(): v for k, v in channel_list.items()}  # all channel names to lower case
 
-        
+        try:
+            channel_id = channel_list_lower_case[channel_name]   # select channel_id from channel_list by utterance name
+
+            # API POST data
+            self.api_post = {'action':"playLive",
+                             'channel_id': channel_id,
+                             'type':"live"}
+
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            self.speak_dialog('channel.play', data={'channel_name': channel_name})
+
+        except KeyError:
+            self.speak_dialog('channel.not.found', data={'channel_name': channel_name})
+
 
     # channel UP
     @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Up'))
@@ -643,34 +633,62 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Kuki').require('Volume').require('Up'))
     def volume_up_intent(self, message):
 
+        global status_volume
+        
         self.log.error("DEBUG VOLUME UP")
 
-        init(self) 
-            
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"volup"}
+        init(self)
+        
+        if status_volume == "":
+            status_device(self)     # reload status of device
+        else:
+          self.log.info("USING CACHE VOLUME STATUS")    
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('VolumeUp')
+        if status_volume == 100:
+            status_volume = 100
+            self.log.info("DEBUG VOLUME IS TOO HIGH")
+            self.speak_dialog('volume.max')
+            sys.exit()
+        else:
+            status_volume = status_volume + 10
 
-    
+            # API POST data
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"volup"}
+      
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            self.speak_dialog('volume.up')
+
+
     # volume DOWN
     @intent_handler(IntentBuilder('').require('Kuki').require('Volume').require('Down'))
     def volume_down_intent(self, message):
 
+        global status_volume
+
         self.log.error("DEBUG VOLUME DOWN")
 
-        init(self) 
-            
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"voldown"}
+        init(self)
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('volume.down')
+        if status_volume == "":
+            status_device(self)     # reload status of device
+        else:
+          self.log.info("USING CACHE VOLUME STATUS")  
+        
+        if status_volume == 0:
+            status_volume = 0
+            self.log.info("DEBUG VOLUME IS TOO LOW")
+            self.speak_dialog('volume.min')
+            sys.exit()
+        else:
+            status_volume = status_volume - 10
+
+            # API POST data
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"voldown"}
+        
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            self.speak_dialog('volume.down')
 
 
     def stop(self):
