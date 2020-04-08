@@ -11,7 +11,7 @@ from mycroft.filesystem import FileSystemAccess                         # file o
 from mycroft.util.parse import extract_datetime, extract_number, extract_duration         # read numbers
 import sys                                                              # exit app
 import re                                                               # clean alias from numbers, etc
-from datetime import datetime                                           # pro seeky
+from datetime import datetime, timezone                                 # for video seeking
 
 
 #API_URL = "https://as.kukacka.netbox.cz/api-v2/"
@@ -32,12 +32,13 @@ session = ''                # token
 registration = ''           # paired to the Kuki servers 
 paircode = ''               # code for registration
 devices = ''                # all devices
-preferred_device = ''        # alias
-preferred_device_id = ''     # id
+preferred_device = ''       # alias
+preferred_device_id = ''    # id
 status_power = ''           # power of end device
 status_playing = ''         # state of device
 status_volume = ''          # volume of device
 time_actual = ''            # actual postition in timeshift
+channel_list = ''           # list of all channels on contract
 
 
 def failed_auth(self):
@@ -164,7 +165,7 @@ def kuki_devices(self):
         return init(self)
 
 
-def preferred_device(self):
+def preferred_dev(self):
         """ select of of many Kuki devices from contract """
         global preferred_device #cache preferred device alias
         global preferred_device_id #cache preferred device id
@@ -217,9 +218,11 @@ def preferred_device(self):
 # status of preferred device
 def status_device(self):
         
-        global status_power # power of end device
-        global status_playing # state of device
-        global status_volume # volume of device
+        global status_power     # power of end device
+        global status_playing   # state of device
+        global status_volume    # volume of device
+        global time_actual      # time position of video
+        global channel_play     # id of playing channel
 
         self.log.error("DEBUG STATUS OF PREFERRED DEVICE")
         
@@ -232,18 +235,18 @@ def status_device(self):
                 self.status = json.loads(self.api_status.text)
 
             except ValueError:
-                self.log.error('Kuki PREFERRED DEVICE IS POWER DOWN')
+                self.log.error("Kuki PREFERRED DEVICE IS POWER DOWN")
                 status_power = 'OFF'
                 self.speak_dialog('power.off')
                 sys.exit()  # program end
                 
             else:
-                self.log.info('KUKI DEVICE IS POWER ON - reading settings')
+                self.log.info("KUKI DEVICE IS POWER ON - reading settings")
                 self.status = json.loads(self.api_status.text)
                 status_power = int(self.status['power'])
         
                 if status_power == 0:
-                    self.log.info('Kuki DEVICE IS SLEEPing')
+                    self.log.info("KUKI DEVICE IS SLEEPIMG")
                     status_power = 'OFF'
                     self.speak_dialog('power.off')
 
@@ -251,6 +254,14 @@ def status_device(self):
                     status_playing = self.status['playing']
                     status_volume = int(self.status['audio']['volume'])
                     status_power = 'ON'
+
+                    try:
+                        time_actual = int(self.status['player']['position'] / 1000)     # platform have a miliecond
+                        channel_play = int(self.status['player']['nowplaying']['channelId'])
+                    
+                    except KeyError:
+                        self.log.error("KUKI DEVICE NOT PLAYING - skip data read")
+                        return "NOPLAY"
 
 
 # power ON
@@ -286,8 +297,9 @@ def init(self):
 
         if preferred_device == "":
             self.log.info("PREFERRED DEVICE not found - choose new")
-            preferred_device(self)        
+            preferred_dev(self)        
         else:
+            self.log.error(preferred_device)
             return preferred_device
         
         if preferred_device_id == "":
@@ -314,7 +326,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Device'))
     def list_devices_intent(self):
         """ List available devices. """
-        self.log.debug("DEBUG voice LIST DEVICES")
+        self.log.error("DEBUG LIST OF KUKI DEVICES")
 
         init(self)
         kuki_devices(self)
@@ -336,7 +348,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Show').optionally('Kuki').require('Preferred').optionally('Device'))
     def preferred_device_intent(self, message):
         
-        self.log.error("DEBUG WHAT IS preferred DEVICE")
+        self.log.error("DEBUG WHAT IS PREFERRED DEVICE")
 
         init(self)
 
@@ -463,6 +475,8 @@ class KukiSkill(MycroftSkill):
     # play from channel list
     @intent_handler('play.channel.intent')
     def channel_list_intent(self, message):
+
+        global channel_list
     
         self.log.error("DEBUG CHANNEL LIST")
 
@@ -532,59 +546,90 @@ class KukiSkill(MycroftSkill):
     # seeking
     @intent_handler('seek.intent')
     def seek_intent(self, message):
-   
-        global time_actual      # actual position in time shift
 
-        init(self)
-       
+        global time_actual
+
         self.log.error("DEBUG CHANNEL SEEK")
         
-        move = extract_duration(message.data["utterance"])[1]      # seek direction
-        duration = message.data.get('duration') 
-        duration = duration.replace("-", " ")                       # some STT engines return "5-minutes" not "5 minutes"
-        time = extract_duration(duration)[0]                        # seek duration in secon
-        time_clean = int(time.seconds)                              # duration like integer
-        time_now = datetime.now().timestamp()                       # time UTC
-        
+        init(self)
+        status_device(self)                                      # TODO solve API delay in fast seeking
+
+        if status_device(self) == "NOPLAY":
+            self.log.info("KUKI IS NOT PLAYING ANY VIDEO")
+            self.speak_dialog('shifting.no.play')
+            sys.exit() 
+
+        # check where actual video time is
+        time_now = datetime.now().timestamp()                 # actual time in UTC
+
         if time_actual == "":
-            time_actual = (time_now - 5)  # set actual time right now minus 5 sec (one chunk protection)
-            self.log.info("USE TIME NOW")
+            time_actual = time_now - 5                        # set actual time right now minus 5 sec (one chunk protection)
+            self.log.info("USE UTC TIME")
         
         else:
-            if time_actual > time_now:
-                time_actual = (time_now - 5)
+            if time_actual / 1000 > time_now:
+                time_actual = time_now - 5
+                self.log.info("BACK FROM FUTURE")
 
             else:
-                self.log.info("USE ACTUAL POSITION")
+                actual_time_position = datetime.fromtimestamp(time_actual)
+                self.log.error(actual_time_position)
+                self.log.info("USE ACTUAL TIME POSITION")
 
-        # words of seek direction
-        self.move_word = {
-                            'back': "back",
-                            'rewind': "back",
-                            'forward': "forward",
-                            'fast forward': "forward",
-                            'ahead': "forward"}
+        # check if duration of datetime is present
+        duration = message.data.get('duration')
+        date_or_time = message.data.get('datetime')
 
-        move_direction = self.move_word[move]   # select move from word
+        if duration is not None:
+            self.log.info("DURATION FOUND")
+            move = extract_duration(message.data["utterance"])[1]       # seek direction
+            duration = duration.replace("-", " ")                       # some STT engines return "5-minutes" not "5 minutes"
+            time = extract_duration(duration)[0]                        # seek duration in seconds
+            time_clean = int(time.seconds)                              # duration like integer
+
+             # words of seek direction
+            self.move_word = {
+                              'back': "back",
+                              'rewind': "back",
+                              'forward': "forward",
+                              'fast forward': "forward",
+                              'ahead': "forward"}
+
+            move_direction = self.move_word[move]   # select move from word
         
-        if move_direction == "forward":
-            self.log.info("SEEK FORWARD")
-            time_position = (time_actual * 1000) + (time_clean * 1000)
-            time_actual = (time_position / 1000)    # save actual position
+            if move_direction == "forward":
+                self.log.info("SEEK FORWARD")
+                time_position = time_actual + time_clean
+                
 
-        elif move_direction == "back":
-            self.log.info("SEEK BACK")
-            time_position = (time_actual * 1000) - (time_clean * 1000)
-            time_actual = (time_position / 1000)     # save actual position
+            elif move_direction == "back":
+                self.log.info("SEEK BACK")
+                time_position = time_actual - time_clean
 
+            else:
+                self.log.error("ERROR IN SEEKING")
+                sys.exit() 
+
+
+        elif date_or_time is not None:
+            self.log.info("DATETIME FOUND")
+
+            when = message.data.get('utterance').lower()
+            when = extract_datetime(when)[0]
+            time_position = datetime.timestamp(when)
+            move_direction = "time"    
+            
+            self.log.info(when)
+        
         else:
-            self.log.error("ERROR IN SEEKING")
-            sys.exit() 
+            self.log.error("SEEK DATA NOT FOUND")
+            sys.exit()
+
         
         #API POST
         self.api_headers = {'X-SessionKey': session} 
         self.api_post = {'action':"seek",
-                        'position': time_position}
+                        'position': time_position * 1000}   # Kuki platform needs milisecond
 
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         

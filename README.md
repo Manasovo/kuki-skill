@@ -18,6 +18,7 @@ Still in progres, but few words is already working:
 * "Play channel 5"
 * "Play channel Prima Cool HD"
 * "Five minutes back"
+* "Return to last monday at 9:30" 
 * "Channel up / down"
 * "Kuki volume to 50 percent / max / mute"
 * "Kuki volume up / down"
