@@ -15,7 +15,7 @@ Still in progres, but few words is already working:
 * "Show device status"
 * "Wake up Kuki / Sleep Kuki / Hasta la vista Baby"
 * "Play live"
-* "Play channel 5"
+* "Play number 5"
 * "Play channel Prima Cool HD"
 * "Five minutes back"
 * "Return to last monday at 9:30" 

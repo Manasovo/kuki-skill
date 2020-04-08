@@ -452,7 +452,7 @@ class KukiSkill(MycroftSkill):
 
 
     # play channel number
-    @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').require("Channel").require("Numbers").optionally("To").optionally("Device").optionally("Kuki"))
+    @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').require("Number").require("Numbers").optionally("To").optionally("Device").optionally("Kuki"))
     def play_channel_intent(self, message):
    
         init(self)
@@ -465,7 +465,7 @@ class KukiSkill(MycroftSkill):
         
         # we have data from numbers
         self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"typeKey",
+        self.api_post = {'action':"playChannelByNumber",
                          'key': channel_number}
 
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
