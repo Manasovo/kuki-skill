@@ -24,7 +24,7 @@ Still in progres, but few words is already working:
 * "Kuki volume up / down"
 
 ## Credits
-**Manasovo** - apologies to everyone ! I'am not developer, coder, etc. and i never been. In my whole live i wrote some shell script :-)This project is my first try with Python, GitHub, Mycroft, etc. 
+**Manasovo** - apologies to everyone ! I'am not developer, coder, etc. and never been. In my whole live i wrote few shell script :-) This project is my first try with Python, GitHub, Mycroft, etc. Be gentle :-)
 
 ## Category
 Entertainment

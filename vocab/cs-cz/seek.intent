@@ -1,0 +1,4 @@
+{duration} (zpět|doazdu|přetočit dozadu|vrátit|dopředu|přetočit dopředu)
+(přeskoč|vrať|přesuň) {datetime}
+(přeskoč|vrať|přesuň) at {datetime}
+(přeskoč|vrať|přesuň) to {datetime}
