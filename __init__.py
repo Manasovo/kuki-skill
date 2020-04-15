@@ -28,7 +28,7 @@ API_CHANNEL_URL = "https://as.kuki.cz/api-v2/channel-list"
 
 
 sernum = ''                 # uniq serial number
-session = ''                # token 
+session = ''  # token 
 registration = ''           # paired to the Kuki servers 
 paircode = ''               # code for registration
 devices = ''                # all devices
@@ -97,7 +97,7 @@ def kuki_reg(self):
         global paircode      # paircode 
 
         """ registration and session key """
-        self.log.error("DEBUG REGISTER")
+        self.log.debug("DEBUG REGISTER")
 
         #self.serial = sernum
         self.deviceType = "fix"
@@ -134,7 +134,7 @@ def kuki_reg(self):
             self.log.error(self.result['registration_url_web'])
             
             paircode = self.result['reg_token']     # save pair code
-                        
+            
             return failed_auth(self)
 
         else:
@@ -170,7 +170,7 @@ def preferred_dev(self):
         global preferred_device #cache preferred device alias
         global preferred_device_id #cache preferred device id
 
-        self.log.error("DEBUG PREFERRED DEVICES")   
+        self.log.debug("DEBUG PREFERRED DEVICES")   
         
         default_device = self.settings.get('default_device')    # load setting from Mycroft backend
 
@@ -224,7 +224,7 @@ def status_device(self):
         global time_actual      # time position of video
         global channel_play     # id of playing channel
 
-        self.log.error("DEBUG STATUS OF PREFERRED DEVICE")
+        self.log.debug("DEBUG STATUS OF PREFERRED DEVICE")
         
         # API GET
         self.api_status = requests.get(API_REMOTE_STATE_URL + preferred_device_id + ".json", headers = self.api_headers)
@@ -266,7 +266,7 @@ def status_device(self):
 
 # power ON
 def power_on(self):  
-        self.log.error("DEBUG POWER ON")
+        self.log.debug("DEBUG POWER ON")
 
         status_device(self)
 
@@ -287,26 +287,28 @@ def init(self):
             self.log.info("SERIAL not found - reading from device")
             serial(self)
         else:
-            return sernum
+            self.log.debug("SERIAL found")
+
 
         if session == "":
             self.log.info("SESSION not found - create new")
             kuki_reg(self)       
         else:
-            return session
+            self.log.debug("SESSION found")
+
 
         if preferred_device == "":
             self.log.info("PREFERRED DEVICE not found - choose new")
             preferred_dev(self)        
         else:
-            self.log.error(preferred_device)
-            return preferred_device
+            self.log.debug("PREFERRED DEVICE found")
+
         
         if preferred_device_id == "":
             self.log.info("PREFERRED DEVICE ID not found - choose new")
             preferred_device(self)       
         else:
-            return preferred_device_id
+            self.log.debug("PREFERRED DEVICE ID found")
 
 
   # ============================ Mycroft STARTs ============================ #
@@ -326,7 +328,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Device'))
     def list_devices_intent(self):
         """ List available devices. """
-        self.log.error("DEBUG LIST OF KUKI DEVICES")
+        self.log.debug("DEBUG LIST OF KUKI DEVICES")
 
         init(self)
         kuki_devices(self)
@@ -348,7 +350,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Show').optionally('Kuki').require('Preferred').optionally('Device'))
     def preferred_device_intent(self, message):
         
-        self.log.error("DEBUG WHAT IS PREFERRED DEVICE")
+        self.log.debug("DEBUG WHAT IS PREFERRED DEVICE")
 
         init(self)
 
@@ -361,7 +363,7 @@ class KukiSkill(MycroftSkill):
         
         global preferred_device
 
-        self.log.error("DEBUG CHANGE preferred DEVICE")
+        self.log.debug("DEBUG CHANGE preferred DEVICE")
 
         init(self)
 
@@ -384,7 +386,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').optionally('Show').optionally('Kuki').require('Device').require('Status'))
     def status_intent(self, message):
         
-        self.log.error("DEBUG STATUS OF DEVICE")
+        self.log.debug("DEBUG STATUS OF DEVICE")
 
         init(self)
         status_device(self)
@@ -399,7 +401,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('PowerOn').require('Kuki').optionally('Device'))
     def power_on_intent(self, message):
        
-        self.log.error("DEBUG POWER ON")
+        self.log.debug("DEBUG POWER ON")
 
         init(self) 
             
@@ -418,7 +420,7 @@ class KukiSkill(MycroftSkill):
        
         global status_power
 
-        self.log.error("DEBUG POWER OFF")
+        self.log.debug("DEBUG POWER OFF")
 
         init(self) 
             
@@ -435,7 +437,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').require('Play').require('Live').optionally("To").optionally("Device").optionally("Kuki"))
     def live_intent(self, message):  
 
-        self.log.error("DEBUG PLAY LIVE")
+        self.log.debug("DEBUG PLAY LIVE")
 
         init(self)
         power_on(self)
@@ -458,7 +460,7 @@ class KukiSkill(MycroftSkill):
         init(self)
         power_on(self)
 
-        self.log.error("DEBUG SET CHANNEL NUMBER")
+        self.log.debug("DEBUG SET CHANNEL NUMBER")
 
         channel_number = extract_number(message.data['utterance'])
         channel_number = int(channel_number)
@@ -478,7 +480,7 @@ class KukiSkill(MycroftSkill):
 
         global channel_list
     
-        self.log.error("DEBUG CHANNEL LIST")
+        self.log.debug("DEBUG CHANNEL LIST")
 
         init(self) 
 
@@ -515,7 +517,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Up'))
     def channel_up_intent(self, message):
        
-        self.log.error("DEBUG CHANNEL UP")
+        self.log.debug("DEBUG CHANNEL UP")
 
         init(self) 
             
@@ -531,7 +533,7 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Down'))
     def channel_down_intent(self, message):
        
-        self.log.error("DEBUG CHANNEL DOWN")
+        self.log.debug("DEBUG CHANNEL DOWN")
 
         init(self) 
             
@@ -549,7 +551,7 @@ class KukiSkill(MycroftSkill):
 
         global time_actual
 
-        self.log.error("DEBUG CHANNEL SEEK")
+        self.log.debug("DEBUG CHANNEL SEEK")
         
         init(self)
         status_device(self)                                      # TODO solve API delay in fast seeking
@@ -573,7 +575,6 @@ class KukiSkill(MycroftSkill):
 
             else:
                 actual_time_position = datetime.fromtimestamp(time_actual)
-                self.log.error(actual_time_position)
                 self.log.info("USE ACTUAL TIME POSITION")
 
         # check if duration of datetime is present
@@ -642,7 +643,7 @@ class KukiSkill(MycroftSkill):
         
         global status_volume
 
-        self.log.error("DEBUG VOLUME PERCENT")
+        self.log.debug("DEBUG VOLUME PERCENT")
 
         init(self)
         
@@ -685,7 +686,7 @@ class KukiSkill(MycroftSkill):
 
         global status_volume
         
-        self.log.error("DEBUG VOLUME UP")
+        self.log.debug("DEBUG VOLUME UP")
 
         init(self)
         
@@ -716,7 +717,7 @@ class KukiSkill(MycroftSkill):
 
         global status_volume
 
-        self.log.error("DEBUG VOLUME DOWN")
+        self.log.debug("DEBUG VOLUME DOWN")
 
         init(self)
 
