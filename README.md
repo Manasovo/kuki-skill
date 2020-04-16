@@ -8,13 +8,13 @@ Kuki is IPTV service mainly for people from Czech and Slovak Republic but works 
 ## Examples
 Still in progres, but few words is already working:
 
-* "How to register Kuki devices"
-* "Show Kuki devices"
-* "Show Kuki preferred device"
-* "Switch Kuki preferred device"
-* "Show device status"
-* "Wake up Kuki / Sleep Kuki / Hasta la vista Baby"
-* "Play live"
+* "Jak registrovat Kuki zařízení ?" "How to register Kuki devices ?"
+* "Ukaž mi Kuki zařízení" "Show Kuki devices"
+* "Ukaž preferované zařízení" "Show Kuki preferred device"
+* "Zmeň preferované zařízení" "Switch Kuki preferred device"
+* "Ukaž stav zařízení" "Show device status"
+* "Vzbuď Kuki / Vypni Kuki / Dobrou noc Kuki" "Wake up Kuki / Sleep Kuki / Hasta la vista Baby"
+* "Spusť živou telku" "Play live"
 * "Play number 5"
 * "Play channel Prima Cool HD"
 * "Five minutes back"

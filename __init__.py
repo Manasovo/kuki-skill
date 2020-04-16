@@ -281,7 +281,7 @@ def power_on(self):
 
 def init(self):
         """ initialize all data for perfect work """
-        self.log.debug("INITIALIZE")
+        self.log.info("KUKI INITIALIZE")
         
         if sernum == "":
             self.log.info("SERIAL not found - reading from device")
@@ -295,6 +295,13 @@ def init(self):
             kuki_reg(self)       
         else:
             self.log.debug("SESSION found")
+
+
+        if devices == "":
+            self.log.info("DEVICES not found - looking for new")
+            kuki_devices(self)       
+        else:
+            self.log.debug("DEVICES found")
 
 
         if preferred_device == "":
@@ -339,7 +346,7 @@ class KukiSkill(MycroftSkill):
         elif len(devices) > 1:
             self.speak_dialog('available.devices',
                                 {'devices': ' '.join(devices[:-1]) + ' ' +
-                                            self.translate('And') + ' ' +
+                                            self.translate('and') + ' ' +
                                             devices[-1]})
         else:
             self.log.debug("DEBUG NO DEVICE AVAILABLE")
@@ -358,7 +365,7 @@ class KukiSkill(MycroftSkill):
 
 
     # change preferred device
-    @intent_handler(IntentBuilder('').require('Change').require('Kuki').optionally('Preferred').optionally('Device'))
+    @intent_handler(IntentBuilder('').require('Change').optionally('Kuki').optionally('Preferred').optionally('Device'))
     def change_device_intent(self, message):
         
         global preferred_device
@@ -367,20 +374,25 @@ class KukiSkill(MycroftSkill):
 
         init(self)
 
-        devices_list = list(enumerate(devices))     # generate list of aliases and numbers
+        devices_list = list(enumerate(devices))                                         # generate list of aliases and numbers
 
         self.speak_dialog('available.devices', data={'devices': devices_list})
         
-        preferred_device_id = self.get_response('select.device.number') # choice number of preferred aliases
-        preferred_device_id = int(preferred_device_id)
-
-        preferred_alias = str(devices_list[preferred_device_id])   #from number extract alias
-        preferred_device = " ".join(re.findall("[a-zA-Z]+", preferred_alias))    # clean alias from numbers and characters and save to global variables
-
-        self.settings['default_device'] = preferred_device       # save preferred device as default to settings (setting will persist until a new setting is assigned locally by the Skill, or remotely by the user clicking save on the web view.)
+        try:
+            preferred_device_id = self.get_response('select.device.number')             # choice number of preferred aliases
+            preferred_device_id = int(preferred_device_id)
         
-        self.speak_dialog('preferred.device', data={'named': preferred_device})
-  
+            preferred_alias = str(devices_list[preferred_device_id])                    # from number extract alias
+            preferred_device = " ".join(re.findall("[a-zA-Z]+", preferred_alias))       # clean alias from numbers and characters and save to global variables
+
+            self.settings['default_device'] = preferred_device                          # save preferred device as default to settings (setting will persist until a new setting is assigned locally by the Skill, or remotely by the user clicking save on the web view.)
+        
+            self.speak_dialog('preferred.device', data={'named': preferred_device})
+           
+        except:
+            self.log.error("NUMBER ERROR")
+            self.speak_dialog('no.device.number.found', data={'device_number': preferred_device_id})
+        
 
     # status of device
     @intent_handler(IntentBuilder('').optionally('Show').optionally('Kuki').require('Device').require('Status'))
