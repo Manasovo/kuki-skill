@@ -1,4 +1,4 @@
-{duration} (zpět|doazdu|přetočit dozadu|vrátit|dopředu|přetočit dopředu)
-(přeskoč|vrať|přesuň) {datetime}
-(přeskoč|vrať|přesuň) at {datetime}
-(přeskoč|vrať|přesuň) to {datetime}
+{duration} (zpět|doazdu|přetoč|přetočit dozadu|vrátit|dopředu|přetočit dopředu|vpřed)
+(zpět|doazdu|přetoč|přetočit dozadu|vrátit|dopředu|přetočit dopředu|vpřed) {duration} 
+(pusť|spusť|přeskoč|přetoč|vrať|vrať se|přesuň|přesuň se) {datetime}
+(pusť|spusť|přeskoč|přetoč|vrať|vrať se|přesuň|přesuň se) (na|do) {datetime}

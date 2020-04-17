@@ -234,7 +234,7 @@ def status_device(self):
             try:
                 self.status = json.loads(self.api_status.text)
 
-            except ValueError:
+            except:
                 self.log.error("Kuki PREFERRED DEVICE IS POWER DOWN")
                 status_power = 'OFF'
                 self.speak_dialog('power.off')
@@ -246,20 +246,21 @@ def status_device(self):
                 status_power = int(self.status['power'])
         
                 if status_power == 0:
-                    self.log.info("KUKI DEVICE IS SLEEPIMG")
-                    status_power = 'OFF'
+                    self.log.info("KUKI DEVICE IS SLEEPING")
+                    status_power = 'OFF'                                                        # save power state
                     self.speak_dialog('power.off')
 
-                else: 
-                    status_playing = self.status['playing']
-                    status_volume = int(self.status['audio']['volume'])
-                    status_power = 'ON'
+                else:
+                    self.log.info("KUKI DEVICE IS AWAKE")
 
                     try:
-                        time_actual = int(self.status['player']['position'] / 1000)     # platform have a miliecond
+                        status_playing = self.status['playing']                                  # read data from device
+                        status_volume = int(self.status['audio']['volume'])
+                        time_actual = int(self.status['player']['position'] / 1000)              # platform have a miliecond
                         channel_play = int(self.status['player']['nowplaying']['channelId'])
+                        status_power = 'ON'                                                      # save power state
                     
-                    except KeyError:
+                    except:
                         self.log.error("KUKI DEVICE NOT PLAYING - skip data read")
                         return "NOPLAY"
 
@@ -446,7 +447,7 @@ class KukiSkill(MycroftSkill):
  
   
     # play live tv
-    @intent_handler(IntentBuilder('').require('Play').require('Live').optionally("To").optionally("Device").optionally("Kuki"))
+    @intent_handler('play.live.intent')
     def live_intent(self, message):  
 
         self.log.debug("DEBUG PLAY LIVE")
@@ -466,13 +467,13 @@ class KukiSkill(MycroftSkill):
 
 
     # play channel number
-    @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').require("Number").require("Numbers").optionally("To").optionally("Device").optionally("Kuki"))
+    @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').optionally('To').require("Number").require("Numbers"))
     def play_channel_intent(self, message):
    
         init(self)
         power_on(self)
 
-        self.log.debug("DEBUG SET CHANNEL NUMBER")
+        self.log.error("DEBUG SET CHANNEL NUMBER")
 
         channel_number = extract_number(message.data['utterance'])
         channel_number = int(channel_number)
@@ -492,26 +493,26 @@ class KukiSkill(MycroftSkill):
 
         global channel_list
     
-        self.log.debug("DEBUG CHANNEL LIST")
+        self.log.error("DEBUG CHANNEL LIST")
 
         init(self) 
 
-        channel_name = message.data.get('channels')     # extract channel name
+        channel_name = message.data.get('channels')                                     # extract channel name
 
         # API get
         self.api_headers = {'X-SessionKey': session}
-        self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)       # load all channels on contract
+        self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)        # load all channels on contract
 
-        self.result = json.loads(self.api_get.content.decode())     # decoding name and id from list of channels
+        self.result = json.loads(self.api_get.content.decode())                         # decoding name and id from list of channels
         
         channel_list = {}
         for ch in self.result:
             channel_list[ch['name']] = ch['id']
         
-        channel_list_lower_case =  {k.lower(): v for k, v in channel_list.items()}  # all channel names to lower case
+        channel_list_lower_case =  {k.lower(): v for k, v in channel_list.items()}      # all channel names to lower case
 
         try:
-            channel_id = channel_list_lower_case[channel_name]   # select channel_id from channel_list by utterance name
+            channel_id = channel_list_lower_case[channel_name]                          # select channel_id from channel_list by utterance name
 
             # API POST data
             self.api_post = {'action':"playLive",
@@ -526,7 +527,7 @@ class KukiSkill(MycroftSkill):
 
 
     # channel UP
-    @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Up'))
+    @intent_handler(IntentBuilder('').optionally('Play').require('Channel').require('Up'))
     def channel_up_intent(self, message):
        
         self.log.debug("DEBUG CHANNEL UP")
@@ -542,7 +543,7 @@ class KukiSkill(MycroftSkill):
 
 
     # channel DOWN
-    @intent_handler(IntentBuilder('').optionally('Kuki').require('Channel').require('Down'))
+    @intent_handler(IntentBuilder('').optionally('Play').require('Channel').require('Down'))
     def channel_down_intent(self, message):
        
         self.log.debug("DEBUG CHANNEL DOWN")
@@ -563,7 +564,7 @@ class KukiSkill(MycroftSkill):
 
         global time_actual
 
-        self.log.debug("DEBUG CHANNEL SEEK")
+        self.log.error("DEBUG CHANNEL SEEK")
         
         init(self)
         status_device(self)                                      # TODO solve API delay in fast seeking
@@ -600,8 +601,13 @@ class KukiSkill(MycroftSkill):
             time = extract_duration(duration)[0]                        # seek duration in seconds
             time_clean = int(time.seconds)                              # duration like integer
 
-             # words of seek direction
+            # words of seek direction. TODO need refactor to detect locales and read data from localized files, etc.
             self.move_word = {
+                              'zpět': "zpět",
+                              'nazpět': "zpět",
+                              'zpátky': "zpět",
+                              'dopředu': "dopředu",
+                              'vpřed': "dopředu",
                               'back': "back",
                               'rewind': "back",
                               'forward': "forward",
@@ -609,16 +615,16 @@ class KukiSkill(MycroftSkill):
                               'ahead': "forward"}
 
             move_direction = self.move_word[move]   # select move from word
-        
-            if move_direction == "forward":
-                self.log.info("SEEK FORWARD")
-                time_position = time_actual + time_clean
-                
-
-            elif move_direction == "back":
+ 
+            if move_direction == "zpět" or "back":
                 self.log.info("SEEK BACK")
                 time_position = time_actual - time_clean
 
+
+            elif move_direction == "dopředu" or "forward":
+                self.log.info("SEEK FORWARD")
+                time_position = time_actual + time_clean
+                
             else:
                 self.log.error("ERROR IN SEEKING")
                 sys.exit() 
@@ -630,8 +636,8 @@ class KukiSkill(MycroftSkill):
             when = message.data.get('utterance').lower()
             when = extract_datetime(when)[0]
             time_position = datetime.timestamp(when)
-            move_direction = "time"    
-            
+            move_direction = "time"    # TODO : support cs-cz "čas"
+        
             self.log.info(when)
         
         else:
@@ -650,24 +656,17 @@ class KukiSkill(MycroftSkill):
 
 
     # volume SET percent
-    @intent_handler(IntentBuilder("SetVolumePercent").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
+    @intent_handler(IntentBuilder("SetVolume").require("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
+    
     def handle_set_volume_percent_intent(self, message):
         
         global status_volume
 
-        self.log.debug("DEBUG VOLUME PERCENT")
+        self.log.error("DEBUG VOLUME PERCENT")
 
         init(self)
         
-        self.volume_words = {
-        'max': 100,
-        'maximum': 100,
-        'loud': 90,
-        'normal': 60,
-        'medium': 50,
-        'quiet': 30,
-        'mute': 0,
-        'zero': 0 }
+        self.volume_words = {'VolumeWords'}
 
         default = None
         level_word = message.data.get('VolumeNumbers', default)

@@ -1,2 +1,2 @@
-Play channel {channels}
-Switch to channel {channels}
+(play|show|switch|change) channel {channels}
+(play|show|switch|change) channel to {channels}

@@ -36,13 +36,13 @@ Stále v procesu výroby. Hlavně je nutná podpora češtiny pro Mycroft tzn to
 * "Ukaž stav zařízení"
 * "Vzbuď Kuki / Vypni Kuki / Dobrou noc Kuki"
 * "Spusť živou telku"
-* "Play number 5"
-* "Play channel Prima Cool HD"
-* "Five minutes back"
-* "Return to last monday at 9:30" 
-* "Channel up / down"
-* "Kuki volume to 50 percent / max / mute"
-* "Kuki volume up / down"
+* "Kanál nahoru / dolů"
+* "Přepni na kanál čílo 5"
+* "Přehrej kanál Prima Cool HD"
+* "5 minut zpět"
+* "Vrať se na poslední úterý 9:30 / Přesuň se na včerejšek 14:33" 
+* "Kuki hlasitost na 50% / na max / ztlumit"
+* "Kuki hlasitost nahoru / zesílit / dolů / zeslabit"
 
 
 ## Credits
