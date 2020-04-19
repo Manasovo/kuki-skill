@@ -601,7 +601,7 @@ class KukiSkill(MycroftSkill):
             time = extract_duration(duration)[0]                        # seek duration in seconds
             time_clean = int(time.seconds)                              # duration like integer
 
-            # words of seek direction. TODO need refactor to detect locales and read data from localized files, etc.
+            # words of seek direction. TODO need refactor to detect locales and read data from localized files, self.lang etc.
             self.move_word = {
                               'zpět': "zpět",
                               'nazpět': "zpět",
@@ -636,9 +636,7 @@ class KukiSkill(MycroftSkill):
             when = message.data.get('utterance').lower()
             when = extract_datetime(when)[0]
             time_position = datetime.timestamp(when)
-            move_direction = "time"    # TODO : support cs-cz "čas"
-        
-            self.log.info(when)
+            move_direction = ''
         
         else:
             self.log.error("SEEK DATA NOT FOUND")
