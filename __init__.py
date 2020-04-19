@@ -37,6 +37,7 @@ preferred_device_id = ''    # id
 status_power = ''           # power of end device
 status_playing = ''         # state of device
 status_volume = ''          # volume of device
+channel_play = ''           # ID of tv channel
 time_actual = ''            # actual postition in timeshift
 channel_list = ''           # list of all channels on contract
 
@@ -187,8 +188,8 @@ def preferred_dev(self):
             self.result = json.loads(self.api_get.text)
             preferred_device_id = str(list(filter(lambda item: item['alias'] == preferred_device, self.result))[0]['id']) # select preferred device
 
-            self.log.info("DEFAULT DEVICE ID")
-            self.log.info(preferred_device_id)
+            self.log.debug("DEFAULT DEVICE ID")
+            self.log.debug(preferred_device_id)
 
             return init(self)
         
@@ -205,8 +206,8 @@ def preferred_dev(self):
             try:
                 # select alias from setting - default device
                 preferred_device_id = str(list(filter(lambda item: item['alias'] == default_device, self.result))[0]['id']) # select default device
-                self.log.info("DEFAULT DEVICE ID")
-                self.log.info(preferred_device_id)
+                self.log.debug("DEFAULT DEVICE ID")
+                self.log.debug(preferred_device_id)
                 return init(self)
 
             except IndexError:
@@ -241,17 +242,17 @@ def status_device(self):
                 sys.exit()  # program end
                 
             else:
-                self.log.info("KUKI DEVICE IS POWER ON - reading settings")
+                self.log.debug("KUKI DEVICE IS POWER ON - reading settings")
                 self.status = json.loads(self.api_status.text)
                 status_power = int(self.status['power'])
         
                 if status_power == 0:
-                    self.log.info("KUKI DEVICE IS SLEEPING")
+                    self.log.debug("KUKI DEVICE IS SLEEPING")
                     status_power = 'OFF'                                                        # save power state
                     self.speak_dialog('power.off')
 
                 else:
-                    self.log.info("KUKI DEVICE IS AWAKE")
+                    self.log.debug("KUKI DEVICE IS AWAKE")
 
                     try:
                         status_playing = self.status['playing']                                  # read data from device
@@ -406,8 +407,23 @@ class KukiSkill(MycroftSkill):
 
         if status_power == "OFF":
             return False
+
         else:
-            self.speak_dialog('status.of.kuki.device', data={'named': preferred_device, 'power': status_power, 'playing': status_playing, 'volume': status_volume})
+            self.api_headers = {'X-SessionKey': session}
+            self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)        # load all channels on contract
+
+            self.result = json.loads(self.api_get.content.decode())                         # get name from id
+        
+            channel_list = {}
+            for ch in self.result:
+                channel_list[ch['id']] = ch['name']
+
+            if status_playing == 1:
+                channel_name = channel_list[channel_play] 
+                self.speak_dialog('status.play.of.kuki.device', data={'named': preferred_device, 'channel': channel_name, 'volume': status_volume})
+
+            else:
+                self.speak_dialog('status.noplay.of.kuki.device', data={'named': preferred_device})
 
 
     # power ON
@@ -493,7 +509,7 @@ class KukiSkill(MycroftSkill):
 
         global channel_list
     
-        self.log.error("DEBUG CHANNEL LIST")
+        self.log.debug("DEBUG CHANNEL LIST")
 
         init(self) 
 
@@ -564,7 +580,7 @@ class KukiSkill(MycroftSkill):
 
         global time_actual
 
-        self.log.error("DEBUG CHANNEL SEEK")
+        self.log.debug("DEBUG CHANNEL SEEK")
         
         init(self)
         status_device(self)                                      # TODO solve API delay in fast seeking
