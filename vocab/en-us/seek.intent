@@ -1,4 +1,3 @@
 {duration} (back|rewind|return|forward|fast forward|ahead)
 (go to|return|move|seek) {datetime}
 (go to|return|move|seek) (at|to) {datetime}
-{datetime}

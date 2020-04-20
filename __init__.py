@@ -670,17 +670,33 @@ class KukiSkill(MycroftSkill):
 
 
     # volume SET percent
-    @intent_handler(IntentBuilder("SetVolume").require("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
+    @intent_handler(IntentBuilder("SetVolume").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
     
     def handle_set_volume_percent_intent(self, message):
         
         global status_volume
 
-        self.log.error("DEBUG VOLUME PERCENT")
+        self.log.debug("DEBUG VOLUME PERCENT")
 
         init(self)
-        
-        self.volume_words = {'VolumeWords'}
+
+        self.volume_words = {                           # need to refactor to support locales
+                            'max': 100,
+                            'maximum': 100,
+                            'loud': 90,
+                            'normal': 60,
+                            'medium': 50,
+                            'quiet': 30,
+                            'mute': 0,
+                            'zero': 0,
+                            'nahlas': 90,
+                            'normalně': 60,
+                            'střed': 50,
+                            'středně': 50,
+                            'ticho': 30,
+                            'potichu': 30,
+                            'ztlumit': 0,
+                            'nula': 0}
 
         default = None
         level_word = message.data.get('VolumeNumbers', default)
@@ -706,7 +722,7 @@ class KukiSkill(MycroftSkill):
    
 
     # volume UP
-    @intent_handler(IntentBuilder('').require('Kuki').require('Volume').require('Up'))
+    @intent_handler(IntentBuilder('volup').require('Kuki').require('Volume').require('Up'))
     def volume_up_intent(self, message):
 
         global status_volume
@@ -718,7 +734,7 @@ class KukiSkill(MycroftSkill):
         if status_volume == "":
             status_device(self)     # reload status of device
         else:
-          self.log.info("USING CACHE VOLUME STATUS")    
+          self.log.debug("USING CACHE VOLUME STATUS")    
 
         if status_volume == 100:
             status_volume = 100
@@ -749,7 +765,7 @@ class KukiSkill(MycroftSkill):
         if status_volume == "":
             status_device(self)     # reload status of device
         else:
-          self.log.info("USING CACHE VOLUME STATUS")  
+          self.log.debug("USING CACHE VOLUME STATUS")  
         
         if status_volume == 0:
             status_volume = 0
