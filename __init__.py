@@ -28,7 +28,7 @@ API_CHANNEL_URL = "https://as.kuki.cz/api-v2/channel-list"
 
 
 sernum = ''                 # uniq serial number
-session = ''  # token 
+session = ''                # token 
 registration = ''           # paired to the Kuki servers 
 paircode = ''               # code for registration
 devices = ''                # all devices
@@ -101,7 +101,7 @@ def kuki_reg(self):
         self.log.debug("DEBUG REGISTER")
 
         #self.serial = sernum
-        self.deviceType = "fix"
+        self.deviceType = "mobile"
         self.deviceModel = (socket.gethostname())
         self.product_name = "Mycroft"
         self.mac = (':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) 
