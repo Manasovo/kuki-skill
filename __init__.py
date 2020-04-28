@@ -118,18 +118,12 @@ def kuki_reg(self):
                         'claimed_device_id':sernum}
 
         # sending post request and saving response as response object      
-        try:
-            api_post = requests.post(url = API_URL + 'register' , data = self.api_data)
+ 
+        api_post = requests.post(url = API_URL + 'register' , data = self.api_data)
 
-        except HTTPError as e:
-        
-            if e.code == 403:
-                self.log.error("CAN'T CONNECT TO KUKI SERVER")
-            else:
-                self.log.error(e)
-    
 
         if json.loads(api_post.text)['state'] == 'NOT_REGISTERED':
+
             self.result = api_post.json()
             self.log.error('Kuki device is NOT REGISTERED try URL and pair code bellow:')
             self.log.error(self.result['registration_url_web'])
@@ -139,13 +133,13 @@ def kuki_reg(self):
             return failed_auth(self)
 
         else:
-             if json.loads(api_post.text)['state'] != 'NOT_REGISTERED':
+            if json.loads(api_post.text)['state'] != 'NOT_REGISTERED':
                 self.log.info('Kuki device is REGISTERED')
                 
                 session = json.loads(api_post.text)['session_key']     # save token
         
                 return init(self)
-                  
+  
 
 def kuki_devices(self):
         """ availabla device list from Kuki contract """
@@ -174,8 +168,8 @@ def preferred_dev(self):
         self.log.debug("DEBUG PREFERRED DEVICES")   
         
         default_device = self.settings.get('default_device')    # load setting from Mycroft backend
-
-        if 'default_device' not in self.settings:
+        
+        if default_device not in self.settings:
             self.log.error("NO DEFAULT DEVICE SELECED in Mycroft settings")
 
             self.log.debug(devices)
