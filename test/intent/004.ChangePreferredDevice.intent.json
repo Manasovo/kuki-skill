@@ -1,0 +1,7 @@
+{
+  "utterance": "změň preferované zařízení",
+  "intent_type": "ChangePreferredDevice.intent",
+  "expected_dialog": "select.device.number",
+  "responses": ["0"],
+  "expected_dialog": "preferred.device"
+}

@@ -1,0 +1,9 @@
+{
+  "utterance": "vypni telku",
+  "intent_type": "PowerOff.intent",
+  "intent": {
+    "PowerOff": "vypni",
+    "Kuki": "telku"
+  },
+  "expected_dialog": "power.off"
+}

@@ -1,0 +1,9 @@
+{
+  "utterance": "ukaž stav kuki zařízení",
+  "intent_type": "StatusOfDevice.intent",
+  "intent": {
+    "Status": "stav",
+    "Device": "zařízení"
+  },
+  "expected_response": ".*([Kk]uki).*"
+}

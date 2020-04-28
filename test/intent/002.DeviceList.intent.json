@@ -1,0 +1,9 @@
+{
+  "utterance": "zobraz kuki zařízení",
+  "intent_type": "ListOfDevices.intent",
+  "intent": {
+    "Show": "zobraz",
+    "Kuki": "kuki",
+    "Device": "zařízení"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "utterance": "jak je možné zaregistrovat kuki",
+  "intent_type": "HowToRegister.intent",
+  "expected_dialog": "how.to.register"
+}

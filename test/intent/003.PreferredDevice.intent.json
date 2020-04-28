@@ -1,0 +1,5 @@
+{
+  "utterance": "ukaž mi preferované zařízení",
+  "intent_type": "ShowPreferredDevice.intent",
+  "expected_dialog": "preferred.device"
+}

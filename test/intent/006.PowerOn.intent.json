@@ -1,0 +1,9 @@
+{
+  "utterance": "zapni telku",
+  "intent_type": "PowerOn.intent",
+  "intent": {
+    "PowerOn": "zapni",
+    "Kuki": "telku"
+  },
+  "expected_dialog": "power.on"
+}

@@ -230,11 +230,11 @@ def status_device(self):
                 self.status = json.loads(self.api_status.text)
 
             except:
-                self.log.error("Kuki PREFERRED DEVICE IS POWER DOWN")
-                status_power = 'OFF'
-                self.speak_dialog('power.off')
-                sys.exit()  # program end
-                
+                self.log.error("KUKI PREFFERED DEVICE IS POWER DOWN")
+                status_power = 'POWERDOWN'
+                self.speak_dialog('power.down')
+                #sys.exit()  # program end - TODO: better solution without exit program
+
             else:
                 self.log.debug("KUKI DEVICE IS POWER ON - reading settings")
                 self.status = json.loads(self.api_status.text)
@@ -262,6 +262,9 @@ def status_device(self):
 
 # power ON
 def power_on(self):  
+        
+        global status_power 
+        
         self.log.debug("DEBUG POWER ON")
 
         status_device(self)
@@ -271,6 +274,8 @@ def power_on(self):
             self.api_headers = {'X-SessionKey': session} 
             self.api_post = {'action':"poweron"}
             self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            status_power = 'ON' 
+
         else:
             self.log.info("DEVICE IS ALREADY WAKEUP")  
 
@@ -322,13 +327,13 @@ class KukiSkill(MycroftSkill):
 
 
     # how to register Kuki device
-    @intent_handler(IntentBuilder('').require('HowTo').require('Register').optionally('New').optionally('Kuki').optionally('Device'))
+    @intent_handler(IntentBuilder('HowToRegister.intent').require('HowTo').require('Register').optionally('New').optionally('Kuki').optionally('Device'))
     def howto_register_intent(self):
     
         self.speak_dialog('how.to.register')
 
 
-    @intent_handler(IntentBuilder('').require('Show').require('Kuki').require('Device'))
+    @intent_handler(IntentBuilder('ListOfDevices.intent').require('Show').require('Kuki').require('Device'))
     def list_devices_intent(self):
         """ List available devices. """
         self.log.debug("DEBUG LIST OF KUKI DEVICES")
@@ -350,7 +355,7 @@ class KukiSkill(MycroftSkill):
 
 
     # what is preferred device
-    @intent_handler(IntentBuilder('').require('Show').optionally('Kuki').require('Preferred').optionally('Device'))
+    @intent_handler(IntentBuilder('ShowPreferredDevice.intent').require('Show').optionally('Kuki').require('Preferred').optionally('Device'))
     def preferred_device_intent(self, message):
         
         self.log.debug("DEBUG WHAT IS PREFERRED DEVICE")
@@ -361,7 +366,7 @@ class KukiSkill(MycroftSkill):
 
 
     # change preferred device
-    @intent_handler(IntentBuilder('').require('Change').optionally('Kuki').optionally('Preferred').optionally('Device'))
+    @intent_handler(IntentBuilder('ChangePreferredDevice.intent').require('Change').optionally('Kuki').require('Preferred').optionally('Device'))
     def change_device_intent(self, message):
         
         global preferred_device
@@ -391,7 +396,7 @@ class KukiSkill(MycroftSkill):
         
 
     # status of device
-    @intent_handler(IntentBuilder('').optionally('Show').optionally('Kuki').require('Device').require('Status'))
+    @intent_handler(IntentBuilder('StatusOfDevice.intent').optionally('Show').optionally('Kuki').require('Device').require('Status'))
     def status_intent(self, message):
         
         self.log.debug("DEBUG STATUS OF DEVICE")
@@ -399,7 +404,7 @@ class KukiSkill(MycroftSkill):
         init(self)
         status_device(self)
 
-        if status_power == "OFF":
+        if status_power == "POWERDOWN" or "OFF":
             return False
 
         else:
@@ -421,24 +426,22 @@ class KukiSkill(MycroftSkill):
 
 
     # power ON
-    @intent_handler(IntentBuilder('').require('PowerOn').require('Kuki').optionally('Device'))
+    @intent_handler(IntentBuilder('PowerOn.intent').require('PowerOn').require('Kuki').optionally('Device'))
     def power_on_intent(self, message):
        
         self.log.debug("DEBUG POWER ON")
 
-        init(self) 
-            
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action': "poweron"}
+        init(self)
+        power_on(self)
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('power.on')
+        self.log.error(status_power)
+
+        if status_power == "ON":
+            self.speak_dialog('power.on')
 
    
     # power OFF
-    @intent_handler(IntentBuilder('').require('PowerOff').require('Kuki').optionally('Device'))
+    @intent_handler(IntentBuilder('PowerOff.intent').require('PowerOff').require('Kuki').optionally('Device'))
     def power_off_intent(self, message):
        
         global status_power
@@ -453,6 +456,7 @@ class KukiSkill(MycroftSkill):
         self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         
         status_power = 'OFF'
+
         self.speak_dialog('power.off')
  
   
