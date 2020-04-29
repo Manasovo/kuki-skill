@@ -1,0 +1,4 @@
+{
+  "utterance": "5 minut zpět",
+  "expected_response": ".*([Kk]uki|[Pp]řetáčím|).*"
+}

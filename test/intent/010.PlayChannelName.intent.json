@@ -1,0 +1,4 @@
+{
+  "utterance": "přehrej kanál prima cool hd",
+  "expected_response": ".*([Kk]uki|[Kk]anál).*"
+}

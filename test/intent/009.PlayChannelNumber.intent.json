@@ -1,0 +1,5 @@
+{
+  "utterance": "přepni na kanál čílo 1",
+  "intent_type": "PlayChannel.intent",
+  "expected_response": ".*([Kk]uki|[Kk]anál).*"
+}

@@ -5,5 +5,5 @@
     "PowerOn": "zapni",
     "Kuki": "telku"
   },
-  "expected_dialog": "power.on"
+  "expected_response": ".*([Kk]uki|).*"
 }

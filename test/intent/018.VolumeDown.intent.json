@@ -1,0 +1,5 @@
+{
+  "utterance": "zeslab kuki",
+  "intent_type": "VolumeDown.intent",
+  "expected_response": ".*([Kk]uki|[Hh]lasitost).*"
+}

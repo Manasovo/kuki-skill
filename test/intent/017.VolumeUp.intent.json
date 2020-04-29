@@ -1,0 +1,5 @@
+{
+  "utterance": "zesil kuki",
+  "intent_type": "VolumeUp.intent",
+  "expected_response": ".*([Kk]uki|[Hh]lasitost).*"
+}

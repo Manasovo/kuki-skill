@@ -1,0 +1,4 @@
+{
+  "utterance": "vrať se na včerejší den 12:00 ",
+  "expected_response": ".*([Kk]uki|[Pp]řetáčím|).*"
+}

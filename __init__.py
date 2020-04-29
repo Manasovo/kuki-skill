@@ -145,7 +145,7 @@ def kuki_devices(self):
         """ availabla device list from Kuki contract """
         global devices # cache connected devices
 
-        self.log.debug("DEBUG DEVICES")   
+        self.log.debug("DEBUG DEVICES")
  
         # API get
         self.api_headers = {'X-SessionKey': session}
@@ -154,8 +154,11 @@ def kuki_devices(self):
         self.result = json.loads(self.api_get.text)
 
         # only devices can play TV, only fix or smarrtv
-        devices = list(map(lambda item: item['alias'], filter(lambda item: item['canPlay'] and item['deviceType'] in ['smarttv', 'fix'], self.result)))
-        self.log.debug(devices) 
+        try:
+            devices = list(map(lambda item: item['alias'], filter(lambda item: item['canPlay'] and item['deviceType'] in ['smarttv', 'fix'], self.result)))
+        
+        except:
+            self.log.error("ERROR IN LOAD STATE")
         
         return init(self)
 
@@ -233,7 +236,6 @@ def status_device(self):
                 self.log.error("KUKI PREFFERED DEVICE IS POWER DOWN")
                 status_power = 'POWERDOWN'
                 self.speak_dialog('power.down')
-                #sys.exit()  # program end - TODO: better solution without exit program
 
             else:
                 self.log.debug("KUKI DEVICE IS POWER ON - reading settings")
@@ -333,6 +335,7 @@ class KukiSkill(MycroftSkill):
         self.speak_dialog('how.to.register')
 
 
+    # show Kuki device connected on contract
     @intent_handler(IntentBuilder('ListOfDevices.intent').require('Show').require('Kuki').require('Device'))
     def list_devices_intent(self):
         """ List available devices. """
@@ -404,18 +407,25 @@ class KukiSkill(MycroftSkill):
         init(self)
         status_device(self)
 
-        if status_power == "POWERDOWN" or "OFF":
-            return False
+        if status_power == "POWERDOWN":
+            self.log.error("DEVICE IS POWERDOWN")
+
+        elif status_power == "OFF":
+            self.log.error("DEVICE IS OFF")
 
         else:
             self.api_headers = {'X-SessionKey': session}
             self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)        # load all channels on contract
 
             self.result = json.loads(self.api_get.content.decode())                         # get name from id
-        
-            channel_list = {}
-            for ch in self.result:
-                channel_list[ch['id']] = ch['name']
+            
+            try:
+                channel_list = {}
+                for ch in self.result:
+                    channel_list[ch['id']] = ch['name']
+            except:
+                self.log.error("ERROR IN CHANNEL LIST")
+
 
             if status_playing == 1:
                 channel_name = channel_list[channel_play] 
@@ -429,12 +439,10 @@ class KukiSkill(MycroftSkill):
     @intent_handler(IntentBuilder('PowerOn.intent').require('PowerOn').require('Kuki').optionally('Device'))
     def power_on_intent(self, message):
        
-        self.log.debug("DEBUG POWER ON")
+        self.log.error("DEBUG POWER ON")
 
         init(self)
         power_on(self)
-
-        self.log.error(status_power)
 
         if status_power == "ON":
             self.speak_dialog('power.on')
@@ -464,41 +472,43 @@ class KukiSkill(MycroftSkill):
     @intent_handler('play.live.intent')
     def live_intent(self, message):  
 
-        self.log.debug("DEBUG PLAY LIVE")
+        self.log.error("DEBUG PLAY LIVE")
 
         init(self)
         power_on(self)
 
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"playLive",
-                         'channel_id': 1,
-                         'type':"live"}
+        if status_power == "ON":
+            # API POST data
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"playLive",
+                             'channel_id': 1,
+                             'type':"live"}
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('play.live')
+            # sending post request and saving response as response object
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            self.speak_dialog('play.live')
 
 
     # play channel number
-    @intent_handler(IntentBuilder("PlayChannelIntent").require('Play').optionally('To').require("Number").require("Numbers"))
+    @intent_handler(IntentBuilder('PlayChannel.intent').require('Play').optionally('To').require("Number").require("Numbers"))
     def play_channel_intent(self, message):
    
         init(self)
         power_on(self)
 
-        self.log.error("DEBUG SET CHANNEL NUMBER")
+        if status_power == "ON":
+            self.log.error("DEBUG SET CHANNEL NUMBER")
 
-        channel_number = extract_number(message.data['utterance'])
-        channel_number = int(channel_number)
+            channel_number = extract_number(message.data['utterance'])
+            channel_number = int(channel_number)
         
-        # we have data from numbers
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"playChannelByNumber",
-                         'key': channel_number}
+            # we have data from numbers
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"playChannelByNumber",
+                             'key': channel_number}
 
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            self.speak_dialog('set.channel.number', data={'channel_number': channel_number})
    
 
     # play from channel list
@@ -506,70 +516,76 @@ class KukiSkill(MycroftSkill):
     def channel_list_intent(self, message):
 
         global channel_list
-    
-        self.log.debug("DEBUG CHANNEL LIST")
 
-        init(self) 
+        init(self)
+        power_on(self)
 
-        channel_name = message.data.get('channels')                                     # extract channel name
+        if status_power == "ON":
+            self.log.debug("DEBUG CHANNEL LIST")
 
-        # API get
-        self.api_headers = {'X-SessionKey': session}
-        self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)        # load all channels on contract
+            channel_name = message.data.get('channels')                                     # extract channel name
 
-        self.result = json.loads(self.api_get.content.decode())                         # decoding name and id from list of channels
+            # API get
+            self.api_headers = {'X-SessionKey': session}
+            self.api_get = requests.get(API_CHANNEL_URL, headers = self.api_headers)        # load all channels on contract
+
+            self.result = json.loads(self.api_get.content.decode())                         # decoding name and id from list of channels
         
-        channel_list = {}
-        for ch in self.result:
-            channel_list[ch['name']] = ch['id']
+            channel_list = {}
+            for ch in self.result:
+                channel_list[ch['name']] = ch['id']
         
-        channel_list_lower_case =  {k.lower(): v for k, v in channel_list.items()}      # all channel names to lower case
+            channel_list_lower_case =  {k.lower(): v for k, v in channel_list.items()}      # all channel names to lower case
 
-        try:
-            channel_id = channel_list_lower_case[channel_name]                          # select channel_id from channel_list by utterance name
+            try:
+                channel_id = channel_list_lower_case[channel_name]                          # select channel_id from channel_list by utterance name
 
-            # API POST data
-            self.api_post = {'action':"playLive",
-                             'channel_id': channel_id,
-                             'type':"live"}
+                # API POST data
+                self.api_post = {'action':"playLive",
+                                 'channel_id': channel_id,
+                                 'type':"live"}
 
-            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('channel.play', data={'channel_name': channel_name})
+                self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+                self.speak_dialog('channel.play', data={'channel_name': channel_name})
 
-        except KeyError:
-            self.speak_dialog('channel.not.found', data={'channel_name': channel_name})
+            except KeyError:
+                self.speak_dialog('channel.not.found', data={'channel_name': channel_name})
 
 
     # channel UP
-    @intent_handler(IntentBuilder('').optionally('Play').require('Channel').require('Up'))
+    @intent_handler(IntentBuilder('ChannelUp.intent').optionally('Play').require('Channel').require('Up'))
     def channel_up_intent(self, message):
-       
-        self.log.debug("DEBUG CHANNEL UP")
 
         init(self) 
-            
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"chup"}
+        power_on(self)
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+        if status_power == "ON":
+            self.log.debug("DEBUG CHANNEL UP")
+            
+            # API POST data
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"chup"}
+
+            # sending post request and saving response as response object
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
 
 
     # channel DOWN
-    @intent_handler(IntentBuilder('').optionally('Play').require('Channel').require('Down'))
+    @intent_handler(IntentBuilder('ChannelDown.intent').optionally('Play').require('Channel').require('Down'))
     def channel_down_intent(self, message):
-       
-        self.log.debug("DEBUG CHANNEL DOWN")
 
-        init(self) 
+        init(self)
+        power_on(self)
+
+        if status_power == "ON":
+            self.log.debug("DEBUG CHANNEL DOWN")
             
-        # API POST data
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"chdown"}
+            # API POST data
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"chdown"}
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            # sending post request and saving response as response object
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
 
 
     # seeking
@@ -578,48 +594,51 @@ class KukiSkill(MycroftSkill):
 
         global time_actual
 
-        self.log.debug("DEBUG CHANNEL SEEK")
-        
         init(self)
-        status_device(self)                                      # TODO solve API delay in fast seeking
+        power_on(self)                                          # TODO solve API delay in fast seeking                                        
 
-        if status_device(self) == "NOPLAY":
-            self.log.info("KUKI IS NOT PLAYING ANY VIDEO")
-            self.speak_dialog('shifting.no.play')
-            sys.exit() 
+        if status_power == "ON":
+            self.log.debug("DEBUG CHANNEL SEEK")                  
 
-        # check where actual video time is
-        time_now = datetime.now().timestamp()                 # actual time in UTC
+            if status_device(self) == "NOPLAY":
+                self.log.info("KUKI IS NOT PLAYING ANY VIDEO")
+                self.speak_dialog('shifting.no.play')
+                sys.exit()                                      # TODO need refactor
 
-        if time_actual == "":
-            time_actual = time_now - 5                        # set actual time right now minus 5 sec (one chunk protection)
-            self.log.info("USE UTC TIME")
+            # check where actual video time is
+            time_now = datetime.now().timestamp()               # actual time in UTC
+
+            if time_actual == "":
+                time_actual = time_now - 5                      # set actual time right now minus 5 sec (one chunk protection)
+                self.log.debug("USE UTC TIME")
         
-        else:
-            if time_actual / 1000 > time_now:
-                time_actual = time_now - 5
-                self.log.info("BACK FROM FUTURE")
-
             else:
-                actual_time_position = datetime.fromtimestamp(time_actual)
-                self.log.info("USE ACTUAL TIME POSITION")
+                if time_actual / 1000 > time_now:
+                    time_actual = time_now - 5
+                    self.log.debug("BACK FROM FUTURE")
 
-        # check if duration of datetime is present
-        duration = message.data.get('duration')
-        date_or_time = message.data.get('datetime')
+                else:
+                    actual_time_position = datetime.fromtimestamp(time_actual)
+                    self.log.debug("USE ACTUAL TIME POSITION")
 
-        if duration is not None:
-            self.log.info("DURATION FOUND")
-            move = extract_duration(message.data["utterance"])[1]       # seek direction
-            duration = duration.replace("-", " ")                       # some STT engines return "5-minutes" not "5 minutes"
-            time = extract_duration(duration)[0]                        # seek duration in seconds
-            time_clean = int(time.seconds)                              # duration like integer
+            # check if duration of datetime is present
+            duration = message.data.get('duration')
+            date_or_time = message.data.get('datetime')
 
-            # words of seek direction. TODO need refactor to detect locales and read data from localized files, self.lang etc.
-            self.move_word = {
+            if duration is not None:
+                self.log.debug("DURATION FOUND")
+                move = extract_duration(message.data["utterance"])[1]       # seek direction
+                duration = duration.replace("-", " ")                       # some STT engines return "5-minutes" not "5 minutes"
+                time = extract_duration(duration)[0]                        # seek duration in seconds
+                time_clean = int(time.seconds)                              # duration like integer
+
+                # words of seek direction. TODO need refactor to detect locales and read data from localized files, self.lang etc.
+                self.move_word = {
                               'zpět': "zpět",
                               'nazpět': "zpět",
                               'zpátky': "zpět",
+                              'dozadu': "zpět",
+                              'vrátit': "zpět",
                               'dopředu': "dopředu",
                               'vpřed': "dopředu",
                               'back': "back",
@@ -628,57 +647,59 @@ class KukiSkill(MycroftSkill):
                               'fast forward': "forward",
                               'ahead': "forward"}
 
-            move_direction = self.move_word[move]   # select move from word
+                move_direction = self.move_word[move]   # select move from word
  
-            if move_direction == "zpět" or "back":
-                self.log.info("SEEK BACK")
-                time_position = time_actual - time_clean
+                if move_direction == "zpět" or "back":
+                    self.log.debug("SEEK BACK")
+                    time_position = time_actual - time_clean
 
 
-            elif move_direction == "dopředu" or "forward":
-                self.log.info("SEEK FORWARD")
-                time_position = time_actual + time_clean
+                elif move_direction == "dopředu" or "forward":
+                    self.log.debug("SEEK FORWARD")
+                    time_position = time_actual + time_clean
                 
+                else:
+                    self.log.error("ERROR IN SEEKING")
+                    sys.exit() 
+
+
+            elif date_or_time is not None:
+                self.log.info("DATETIME FOUND")
+
+                when = message.data.get('utterance').lower()
+                when = extract_datetime(when)[0]
+                time_position = datetime.timestamp(when)
+                move_direction = ''
+        
             else:
-                self.log.error("ERROR IN SEEKING")
-                sys.exit() 
-
-
-        elif date_or_time is not None:
-            self.log.info("DATETIME FOUND")
-
-            when = message.data.get('utterance').lower()
-            when = extract_datetime(when)[0]
-            time_position = datetime.timestamp(when)
-            move_direction = ''
-        
-        else:
-            self.log.error("SEEK DATA NOT FOUND")
-            sys.exit()
+                self.log.error("SEEK DATA NOT FOUND")
+                sys.exit()
 
         
-        #API POST
-        self.api_headers = {'X-SessionKey': session} 
-        self.api_post = {'action':"seek",
-                        'position': time_position * 1000}   # Kuki platform needs milisecond
+            #API POST
+            self.api_headers = {'X-SessionKey': session} 
+            self.api_post = {'action':"seek",
+                             'position': time_position * 1000}   # Kuki platform needs milisecond
 
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
         
-        self.speak_dialog('shifting', data={'move': move_direction})
+            self.speak_dialog('shifting', data={'move': move_direction})
 
 
     # volume SET percent
-    @intent_handler(IntentBuilder("SetVolume").optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
+    @intent_handler(IntentBuilder('SetVolume.intent').optionally("Set").require("Kuki").require("Volume").optionally("To").require("VolumeNumbers").optionally("Percent"))
     
     def handle_set_volume_percent_intent(self, message):
         
         global status_volume
 
-        self.log.debug("DEBUG VOLUME PERCENT")
-
         init(self)
+        power_on(self)
 
-        self.volume_words = {                           # need to refactor to support locales
+        if status_power == "ON":
+            self.log.debug("DEBUG VOLUME PERCENT")
+
+            self.volume_words = {                           # need to refactor to support locales
                             'max': 100,
                             'maximum': 100,
                             'loud': 90,
@@ -696,89 +717,95 @@ class KukiSkill(MycroftSkill):
                             'ztlumit': 0,
                             'nula': 0}
 
-        default = None
-        level_word = message.data.get('VolumeNumbers', default)
+            default = None
+            level_word = message.data.get('VolumeNumbers', default)
             
-        try:    # try use word
-            percent = self.volume_words[level_word]
+            try:    # try use word
+                percent = self.volume_words[level_word]
         
-        except KeyError:    # if error try numbers
-            percent = extract_number(message.data['utterance'].replace('%', ''))
-            percent = int(percent)
+            except KeyError:    # if error try numbers
+                percent = extract_number(message.data['utterance'].replace('%', ''))
+                percent = int(percent)
         
-        # we have data from worlds or numbers
-        self.api_headers = {'X-SessionKey': session} 
+            # we have data from worlds or numbers
+            self.api_headers = {'X-SessionKey': session} 
 
-        # data to be sent to api 
-        self.api_post = {'action':"volset",
-                         'volume': percent}
+            # data to be sent to api 
+            self.api_post = {'action':"volset",
+                             'volume': percent}
 
-        # sending post request and saving response as response object
-        self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-        self.speak_dialog('set.volume.percent', data={'level': percent})
-        status_volume = percent
+            # sending post request and saving response as response object
+            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+            self.speak_dialog('set.volume.percent', data={'level': percent})
+            status_volume = percent
    
 
     # volume UP
-    @intent_handler(IntentBuilder('volup').require('Kuki').require('Volume').require('Up'))
+    @intent_handler(IntentBuilder('VolumeUp.intent').require('Kuki').optionally('Volume').require('Up'))
     def volume_up_intent(self, message):
 
         global status_volume
-        
-        self.log.debug("DEBUG VOLUME UP")
 
         init(self)
+        power_on(self)
+
+        if status_power == "ON":
+            self.log.debug("DEBUG VOLUME UP")
         
-        if status_volume == "":
-            status_device(self)     # reload status of device
-        else:
-          self.log.debug("USING CACHE VOLUME STATUS")    
+            if status_volume == "":
+                status_device(self)     # reload status of device
+            else:
+                self.log.debug("USING CACHE VOLUME STATUS")    
 
-        if status_volume == 100:
-            status_volume = 100
-            self.log.info("DEBUG VOLUME IS TOO HIGH")
-            self.speak_dialog('volume.max')
-            sys.exit()
-        else:
-            status_volume = status_volume + 10
+            if status_volume == 100:
+                status_volume = 100
+                self.log.info("DEBUG VOLUME IS TOO HIGH")
+                self.speak_dialog('volume.max')
+                sys.exit()
+        
+            else:
+                status_volume = status_volume + 10
 
-            # API POST data
-            self.api_headers = {'X-SessionKey': session} 
-            self.api_post = {'action':"volup"}
+                # API POST data
+                self.api_headers = {'X-SessionKey': session} 
+                self.api_post = {'action':"volup"}
       
-            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('volume.up')
+                self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+                self.speak_dialog('volume.up')
 
 
     # volume DOWN
-    @intent_handler(IntentBuilder('').require('Kuki').require('Volume').require('Down'))
+    @intent_handler(IntentBuilder('VolumeDown.intent').require('Kuki').optionally('Volume').require('Down'))
     def volume_down_intent(self, message):
 
         global status_volume
 
-        self.log.debug("DEBUG VOLUME DOWN")
-
         init(self)
+        power_on(self)
 
-        if status_volume == "":
-            status_device(self)     # reload status of device
-        else:
-          self.log.debug("USING CACHE VOLUME STATUS")  
-        
-        if status_volume == 0:
-            status_volume = 0
-            self.log.info("DEBUG VOLUME IS TOO LOW")
-            self.speak_dialog('volume.min')
-            sys.exit()
-        else:
-            status_volume = status_volume - 10
+        if status_power == "ON":
+            self.log.debug("DEBUG VOLUME DOWN")
 
-            # API POST data
-            self.api_headers = {'X-SessionKey': session} 
-            self.api_post = {'action':"voldown"}
+            if status_volume == "":
+                status_device(self)     # reload status of device
+            else:
+                self.log.debug("USING CACHE VOLUME STATUS")  
         
-            self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
-            self.speak_dialog('volume.down')
+            if status_volume == 0:
+                status_volume = 0
+                self.log.info("DEBUG VOLUME IS TOO LOW")
+                self.speak_dialog('volume.min')
+                sys.exit()
+        
+            else:
+                status_volume = status_volume - 10
+
+                # API POST data
+                self.api_headers = {'X-SessionKey': session} 
+                self.api_post = {'action':"voldown"}
+        
+                self.api_remote = requests.post(url = API_REMOTE_URL + preferred_device_id, headers = self.api_headers, data = self.api_post)
+                self.speak_dialog('volume.down')
 
 
     def stop(self):

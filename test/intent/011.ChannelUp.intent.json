@@ -1,0 +1,5 @@
+{
+  "utterance": "přepni na další kanál",
+  "intent_type": "ChannelUp.intent",
+  "expected_response": ".*([Kk]uki|).*"
+}

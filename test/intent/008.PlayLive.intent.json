@@ -1,0 +1,4 @@
+{
+  "utterance": "přehrej živou telku",
+  "expected_response": ".*([Kk]uki|živý přenos|).*"
+}

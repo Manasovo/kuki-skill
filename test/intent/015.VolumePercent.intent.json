@@ -1,0 +1,13 @@
+{
+  "utterance": "změň kuki hlasitost na 50 procent",
+  "intent_type": "SetVolume.intent",
+  "intent": {
+  	"Set": "změň",
+    "Kuki": "kuki",
+    "Volume": "hlasitost",
+	  "To": "na",
+	  "VolumeNumbers": "50",
+	  "Percent": "procent"	
+  },
+  "expected_response": ".*([Kk]uki).*"
+}

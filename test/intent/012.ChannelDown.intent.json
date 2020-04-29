@@ -1,0 +1,5 @@
+{
+  "utterance": "přepni na předchozí kanál",
+  "intent_type": "ChannelDown.intent",
+  "expected_response": ".*([Kk]uki|).*"
+}

@@ -1,0 +1,10 @@
+{
+  "utterance": "ztlumit kuki hlasitost",
+  "intent_type": "SetVolume.intent",
+  "intent": {
+    "VolumeNumbers": "ztlumit",
+    "Kuki": "kuki",
+    "Volume": "hlasitost"
+  },
+  "expected_response": ".*([Kk]uki).*"
+}
